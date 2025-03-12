@@ -15,9 +15,9 @@ The project will feature:
 
 ### Contributors
 
--> Jevan Wiltz - GitHub: WiltzJevan - Email: jewi1870@colorado.edu
--> Jane Smith - GitHub: janesmith456 - Email: janesmith@example.com
--> Alex Johnson - GitHub: alexj789 - Email: alexj@example.com
+- Jevan Wiltz - GitHub: WiltzJevan - Email: jewi1870@colorado.edu
+- Jane Smith - GitHub: janesmith456 - Email: janesmith@example.com
+- Alex Johnson - GitHub: alexj789 - Email: alexj@example.com
 
 ### Technology Stack
 
