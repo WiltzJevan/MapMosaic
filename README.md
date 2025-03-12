@@ -16,11 +16,11 @@ The project will feature:
 
 ### Contributors
 
-- Jevan Wiltz - GitHub: WiltzJevan - Email: jewi1870@colorado.edu
-- Treyanna Brown - GitHub: TreyannaBrown - Email: trbr3899@colorado.edu
-- Chandler Farnsworth - GitHub: chandlerfarnsworth - Email: chandler.farnsworth@colorado.edu
-- Johnny Sainbayar - GitHub: jsainbayar - Email: josa6092@colorado.edu
-- Ben Grumbles - GitHub: bengrumbles - Email: begr5146@colorado.edu
+- Jevan Wiltz - GitHub: *WiltzJevan* - Email: jewi1870@colorado.edu
+- Treyanna Brown - GitHub: *TreyannaBrown* - Email: trbr3899@colorado.edu
+- Chandler Farnsworth - GitHub: *chandlerfarnsworth* - Email: chandler.farnsworth@colorado.edu
+- Johnny Sainbayar - GitHub: *jsainbayar* - Email: josa6092@colorado.edu
+- Ben Grumbles - GitHub: *bengrumbles* - Email: begr5146@colorado.edu
 
 ### Technology Stack (WIP)
 
@@ -50,7 +50,7 @@ docker-compose build
 ### Start the application
 docker-compose up
 
-### Access the app at http://localhost:5000
+**Access the app at http://localhost:5000**
 
 ## Running Tests
   - Ensure the app is running in the Docker environment
