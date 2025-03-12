@@ -1,5 +1,5 @@
 # Stated - The only travel app you'll ever need!
-A team working in CSCI 3308 on (project idea)!
+A team - team 6 - working in CSCI 3308 on a travel vlogging app!
 
 ## Project Overview
 Stated is an innovative travel application designed to help users document and explore every U.S. state they visit. Through a user-friendly interface, travelers can log the states they’ve been to and access pertinent information about each location, including local landmarks, cultural highlights, and personal notes. By integrating API data sources like Google Maps and AllTrails, Stated enhances travel experiences by providing rich, location-based content. The app serves not only as a digital travel journal but also as a personalized reference tool, keeping users connected to their past journeys. Users can range from travel enthusiasts, students, and families who want to document their journeys and learn more about the places they visit. Whether you’re a frequent traveler mapping out your adventures or someone exploring states for the first time, Stated simplifies the process of tracking and recalling your experiences. The application is designed with accessibility in mind, ensuring it is user-friendly for people of all ages and technical backgrounds. Features like simple navigation, clear visual elements, and responsive design will make the app approachable and convenient.
