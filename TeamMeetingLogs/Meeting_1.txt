@@ -1,0 +1,26 @@
+Team Meeting Minutes
+Week [Insert Week Number]
+
+Date: 2/18/2025
+
+Attendees:
+[Team Member 1]
+[Team Member 2]
+[Team Member 3]
+
+[TA Name]
+
+*Directives*
+[List agenda items discussed during the meeting]
+
+*Decisions Made*
+[Summarize key decisions made by the team and TA]
+
+*Alternative Goals*
+[Detail any alternative approaches considered and why they were accepted or rejected]
+
+*Follow-Ups*
+[List any follow-up actions, assigned roles, and deadlines]
+
+*Miscellaneous*
+[Any other important observations or discussions]
