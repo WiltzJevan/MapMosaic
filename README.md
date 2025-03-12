@@ -1,5 +1,4 @@
-# Software-Dev.-Project-Group-6
-# Stated
+# Stated - The only travel app you'll ever need!
 A team working in CSCI 3308 on (project idea)!
 
 ## Project Overview
