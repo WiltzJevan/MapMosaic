@@ -1,5 +1,5 @@
 # Software-Dev.-Project-Group-6
-# Stated (TM)
+# Stated
 A team working in CSCI 3308 on (project idea)!
 
 ## Project Overview
