@@ -1,12 +1,9 @@
 # Node.js / NPM dependencies
 node_modules/
-package-lock.json
-yarn.lock
 
 # Build directories
 build/
 dist/
-coverage/
 /public/images/
 
 # Logs and debug files
@@ -23,12 +20,15 @@ yarn-error.log
 .DS_Store
 Thumbs.db
 
+#Docker files
+docker-compose.override.yml
+docker-compose.logs
+.docker/
+
 # Database
 *.sqlite
 *.sqlite3
 pgdata/
-*.swp
-*.swo
 
 # IDE/editor settings (VSCode, WebStorm, etc.)
 .vscode/
