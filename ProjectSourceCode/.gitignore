@@ -1,9 +1,12 @@
 # Node.js / NPM dependencies
 node_modules/
+package-lock.json
+yarn.lock
 
 # Build directories
-/build/
-/dist/
+build/
+dist/
+coverage/
 /public/images/
 
 # Logs and debug files
@@ -20,11 +23,19 @@ yarn-error.log
 .DS_Store
 Thumbs.db
 
+# Database
+*.sqlite
+*.sqlite3
+pgdata/
+*.swp
+*.swo
+
 # IDE/editor settings (VSCode, WebStorm, etc.)
 .vscode/
 .idea/
 *.sublime-workspace
 *.sublime-project
+
 
 # Package-lock and yarn-lock files (optional, but sometimes ignored for global setup consistency)
 package-lock.json
