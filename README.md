@@ -21,6 +21,7 @@ The project will feature:
 - Chandler Farnsworth - GitHub: *chandlerfarnsworth* - Email: chandler.farnsworth@colorado.edu
 - Johnny Sainbayar - GitHub: *jsainbayar* - Email: josa6092@colorado.edu
 - Ben Grumbles - GitHub: *bengrumbles* - Email: begr5146@colorado.edu
+- Juliana Garcia-Gallo - GitHub: *Julianag10* - Email: juga2381@colorado.edu
 
 ### Technology Stack (WIP)
 
