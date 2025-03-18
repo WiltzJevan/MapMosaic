@@ -1,0 +1,40 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres:latest
+    container_name: mapmosaic_db
+    restart: always
+    environment:
+      POSTGRES_USER: group6
+      POSTGRES_PASSWORD: MapMosaic
+      POSTGRES_DB: map_mosaic
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "9438:9438"
+
+  app:
+    build: .
+    container_name: mapmosaic_app
+    restart: always
+    depends_on:
+      - db
+    environment:
+      NODE_ENV: development
+      PORT: 5000
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: group6
+      DB_PASSWORD: MapMosaic
+      DB_NAME: map_mosaic
+      GOOGLE_MAPS_API_KEY: (your_google_maps_api_key)
+      ALLTRAILS_API_KEY: (your_alltrails_api_key)
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/usr/src/app
+    command: ["npm", "start"]
+
+volumes:
+  pgdata:
