@@ -53,9 +53,22 @@ services:
     working_dir: /home/node/app
     env_file: .env
     environment:
-      - NODE_ENV=development
+      POSTGRES_USER: group6
+      POSTGRES_PASSWORD: MapMosaic
+      POSTGRES_DB: map_mosaic
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  app:
+    build: .
+    container_name: mapmosaic_app
+    restart: always
     depends_on:
       - db
+    env_file:
+      - .env
     ports:
       - '3000:3000'
     volumes:
