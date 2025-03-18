@@ -1,82 +1,74 @@
-# version: "3.8"
-
-# services:
-#   db:
-#     image: postgres:latest
-#     container_name: mapmosaic_db
-#     restart: always
-#     environment:
-#       POSTGRES_USER: group6
-#       POSTGRES_PASSWORD: MapMosaic
-#       POSTGRES_DB: map_mosaic
-#     volumes:
-#       - pgdata:/var/lib/postgresql/data
-#     ports:
-#       - "9438:9438"
-
-#   app:
-#     build: .
-#     container_name: mapmosaic_app
-#     restart: always
-#     depends_on:
-#       - db
-#     environment:
-#       NODE_ENV: development
-#       PORT: 5000
-#       DB_HOST: db
-#       DB_PORT: 5432
-#       DB_USER: group6
-#       DB_PASSWORD: MapMosaic
-#       DB_NAME: map_mosaic
-#       GOOGLE_MAPS_API_KEY: (your_google_maps_api_key)
-#       ALLTRAILS_API_KEY: (your_alltrails_api_key)
-#     ports:
-#       - "5000:5000"
-#     volumes:
-#       - .:/usr/src/app
-#     command: ["npm", "start"]
-
-# volumes:
-#   pgdata:
 services:
-  db:
-    image: postgres:14
-    env_file: .env
-    expose:
-      - '5432'
-    volumes:
-      - lab-7-templating:/var/lib/postgresql/data
-      - ./init_data:/docker-entrypoint-initdb.d
-  web:
-    image: node:lts
-    user: 'node'
-    working_dir: /home/node/app
-    env_file: .env
-    environment:
-      POSTGRES_USER: group6
-      POSTGRES_PASSWORD: MapMosaic
-      POSTGRES_DB: map_mosaic
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
-
+  # Node.js Application
   app:
     build: .
-    container_name: mapmosaic_app
+    container_name: map-mosaic-app
     restart: always
+    ports:
+      - "5000:5000"
     depends_on:
       - db
     env_file:
       - .env
-    ports:
-      - '3000:3000'
     volumes:
-      - ./:/home/node/app
-    command: 'npm start'
+      - .:/usr/src/app
+    command: npm start  # Change if needed
+
+  # PostgreSQL Database
+  db:
+    image: postgres:latest
+    container_name: map-mosaic-db
+    restart: always
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
+#services:
+#  db:
+#    image: postgres:14
+#    env_file: .env
+#    expose:
+#      - '5432'
+#    volumes:
+#      - lab-7-templating:/var/lib/postgresql/data
+#      - ./init_data:/docker-entrypoint-initdb.d
+#  web:
+#    image: node:lts
+#    user: 'node'
+#    working_dir: /home/node/app
+#    env_file: .env
+#    environment:
+#      POSTGRES_USER: group6
+#      POSTGRES_PASSWORD: MapMosaic
+#      POSTGRES_DB: map_mosaic
+#    volumes:
+#      - pgdata:/var/lib/postgresql/data
+#    ports:
+#      - "5432:5432"
+
+#  app:
+#    build: .
+#    container_name: mapmosaic_app
+#    restart: always
+#    depends_on:
+#      - db
+#    env_file:
+#      - .env
+#    ports:
+#      - '3000:3000'
+#    volumes:
+#      - ./:/home/node/app
+#    command: 'npm start'
 # This defines our volume(s), which will persist throughout startups.
 # If you want to get rid of a hanging volume, e.g. to test your database init,
 # run `docker-compose rm -v`. Note that this will remove ALL of your data, so
 # be extra sure you've made a stable backup somewhere.
-volumes:
-  lab-7-templating:
+#volumes:
+#  lab-7-templating:
