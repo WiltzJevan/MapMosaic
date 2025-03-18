@@ -1,40 +1,69 @@
-version: "3.8"
+# version: "3.8"
 
+# services:
+#   db:
+#     image: postgres:latest
+#     container_name: mapmosaic_db
+#     restart: always
+#     environment:
+#       POSTGRES_USER: group6
+#       POSTGRES_PASSWORD: MapMosaic
+#       POSTGRES_DB: map_mosaic
+#     volumes:
+#       - pgdata:/var/lib/postgresql/data
+#     ports:
+#       - "9438:9438"
+
+#   app:
+#     build: .
+#     container_name: mapmosaic_app
+#     restart: always
+#     depends_on:
+#       - db
+#     environment:
+#       NODE_ENV: development
+#       PORT: 5000
+#       DB_HOST: db
+#       DB_PORT: 5432
+#       DB_USER: group6
+#       DB_PASSWORD: MapMosaic
+#       DB_NAME: map_mosaic
+#       GOOGLE_MAPS_API_KEY: (your_google_maps_api_key)
+#       ALLTRAILS_API_KEY: (your_alltrails_api_key)
+#     ports:
+#       - "5000:5000"
+#     volumes:
+#       - .:/usr/src/app
+#     command: ["npm", "start"]
+
+# volumes:
+#   pgdata:
 services:
   db:
-    image: postgres:latest
-    container_name: mapmosaic_db
-    restart: always
-    environment:
-      POSTGRES_USER: group6
-      POSTGRES_PASSWORD: MapMosaic
-      POSTGRES_DB: map_mosaic
+    image: postgres:14
+    env_file: .env
+    expose:
+      - '5432'
     volumes:
-      - pgdata:/var/lib/postgresql/data
-    ports:
-      - "9438:9438"
-
-  app:
-    build: .
-    container_name: mapmosaic_app
-    restart: always
+      - lab-7-templating:/var/lib/postgresql/data
+      - ./init_data:/docker-entrypoint-initdb.d
+  web:
+    image: node:lts
+    user: 'node'
+    working_dir: /home/node/app
+    env_file: .env
+    environment:
+      - NODE_ENV=development
     depends_on:
       - db
-    environment:
-      NODE_ENV: development
-      PORT: 5000
-      DB_HOST: db
-      DB_PORT: 5432
-      DB_USER: group6
-      DB_PASSWORD: MapMosaic
-      DB_NAME: map_mosaic
-      GOOGLE_MAPS_API_KEY: (your_google_maps_api_key)
-      ALLTRAILS_API_KEY: (your_alltrails_api_key)
     ports:
-      - "5000:5000"
+      - '3000:3000'
     volumes:
-      - .:/usr/src/app
-    command: ["npm", "start"]
-
+      - ./:/home/node/app
+    command: 'npm start'
+# This defines our volume(s), which will persist throughout startups.
+# If you want to get rid of a hanging volume, e.g. to test your database init,
+# run `docker-compose rm -v`. Note that this will remove ALL of your data, so
+# be extra sure you've made a stable backup somewhere.
 volumes:
-  pgdata:
+  lab-7-templating:
