@@ -1,26 +1,33 @@
-Team Meeting Minutes
-Week [Insert Week Number]
+Team 6 Meeting Minutes
+Lab Section 110
+Project Week 1
 
-Date: 2/18/2025
+Date: 3/18/2025
 
 Attendees:
-[Team Member 1]
-[Team Member 2]
-[Team Member 3]
-
-[TA Name]
+Jevan Wiltz 
+Treyanna Brown 
+Chandler Farnsworth 
+Ben Grumbles 
+Juliana Garcia-Gallo 
 
 *Directives*
-[List agenda items discussed during the meeting]
+  - Finish creating agenda on Asana with deadlines
+  - Establish a working model of the basic login, registration, and home page of the website
+  - Finish the wireframe functionality
+  - Dockerfile make or copy directory image over as done in labs from Node to ensure docker-compose works
+  - 
+  - 
 
 *Decisions Made*
-[Summarize key decisions made by the team and TA]
+  - Going to attempt Dockerfile creation then pull from the labs a working directory as needed
 
 *Alternative Goals*
-[Detail any alternative approaches considered and why they were accepted or rejected]
+  - N/A
+ 
 
 *Follow-Ups*
-[List any follow-up actions, assigned roles, and deadlines]
+  - N/A
 
 *Miscellaneous*
-[Any other important observations or discussions]
+  - N/A
