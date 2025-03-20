@@ -87,9 +87,6 @@ app.get('/login', (req, res) => {
 });
 
 
-
-
-
 app.post('/login', async (req, res) => {
     try {
         const username = req.body.username;
@@ -127,6 +124,10 @@ app.post('/login', async (req, res) => {
 
 app.get('/register', (req, res) => {
     res.render('pages/register');
+});
+
+app.get('/home', (req, res) => {
+  res.render('pages/home');
 });
 
 app.post('/register', async (req, res) => {
@@ -167,39 +168,13 @@ const auth = (req, res, next) => {
 
   app.get('/logout', (req, res) => {
     req.session.destroy(function(err) {
-      res.render('pages/logout', {
+      res.render('pages/login', {
         message: 'Logged out successfully.'
     });
     });
   });
 
 
-app.get('/discover', (req, res) => {
-    axios({
-        url: `https://app.ticketmaster.com/discovery/v2/events.json`,
-        method: 'GET',
-        headers: {
-            'Accept-Encoding': 'application/json',
-        },
-        params: {
-            apikey: process.env.API_KEY,
-            keyword: 'Lakers', //you can choose any artist/event here
-            size: 10, // you can choose the number of events you would like to return
-        },
-    })
-    .then(response => {
-        const results = response.data._embedded ? response.data._embedded.events : [];
-        res.render('pages/discover', { results });
-    })
-    .catch(error => {
-        console.error('Error fetching data from Ticketmaster:', error.message);
-        res.render('pages/discover', {
-            results: [],
-            error: true,
-            message: error.message,
-        });
-    });
-});
 
 // *****************************************************
 // <!-- Section 5 : Start Server-->
