@@ -42,8 +42,12 @@ Before running the application, ensure you have the following installed:
 ## Setup and Installation
 
 ### Clone the repository
-git clone (enter repo link)
+git clone (enter repo link)  
 cd MapMosaic
+
+### Navigate to src folder (ensures that docker runs correctly)
+cd ProjectSourceCode  
+cd src
 
 ### Build the Docker containers
 docker-compose build
