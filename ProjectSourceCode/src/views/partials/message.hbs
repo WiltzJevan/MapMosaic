@@ -1,5 +1,16 @@
 {{#if message}}
-  <div class="alert alert-{{#if error}}danger{{else}}success{{/if}}" role="alert">
-    {{ message }}
+  <div id="alert-message" class="alert alert-{{#if error}}danger{{else}}success{{/if}}" role="alert">
+    {{message}}
   </div>
+
+  <script>
+    setTimeout(() => {
+      const messageElement = document.getElementById("alert-message");
+      if (messageElement) {
+        messageElement.style.transition = "opacity 0.5s";
+        messageElement.style.opacity = "0";
+        setTimeout(() => messageElement.remove(), 500); // Remove after fade-out
+      }
+    }, 3000); // Message disappears after 3 seconds
+  </script>
 {{/if}}

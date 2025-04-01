@@ -78,9 +78,18 @@ app.use(
 // *****************************************************
 
 // TODO - Include your API routes here
-app.get('/', (req, res) => {
-    res.redirect('/login'); //this will call the /login route in the API
-  });
+// app.get('/', (req, res) => {
+//     res.render('pages/home');
+//   });
+
+app.get("/", (req, res) => {
+  if (!req.session.user) {
+    res.redirect("/login"); // Redirect to login if not logged in
+  }
+  else{
+    res.render("pages/home", { user: req.session.user }); // Pass user data
+  }
+});
   
 app.get('/login', (req, res) => {
     res.render('pages/login');
@@ -108,16 +117,21 @@ app.post('/login', async (req, res) => {
         if (match) {
             req.session.user = user;
             req.session.save(() => {
-                res.redirect('/home');
+                // res.redirect('/home');
+                res.render("pages/home", { user: req.session.user }); // Pass user data
             });
         } else {
             res.render('pages/login', {
-                message: 'Incorrect username or password.'
+                message: 'Incorrect username or password.',
+                error: true
             });
         }
     } catch (err) {
         console.error(err);
-        res.redirect('/register');
+        res.render('pages/login', {
+          message: 'Incorrect username or password.',
+          error: true
+        });
     }
 });
 
@@ -127,7 +141,7 @@ app.get('/register', (req, res) => {
 });
 
 app.get('/home', (req, res) => {
-  res.render('pages/home');
+  res.render("pages/home", { user: req.session.user }); // Pass user data
 });
 
 app.post('/register', async (req, res) => {
