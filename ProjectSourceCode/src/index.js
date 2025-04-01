@@ -18,7 +18,7 @@ const axios = require('axios'); // To make HTTP requests from our server. We'll 
 // *****************************************************
 // <!-- Section 2 : Connect to DB -->
 // *****************************************************
-
+app.use(express.static(__dirname + '/resources'));
 // create `ExpressHandlebars` instance and configure the layouts and partials dir.
 const hbs = handlebars.create({
   extname: 'hbs',
@@ -128,10 +128,7 @@ app.post('/login', async (req, res) => {
         }
     } catch (err) {
         console.error(err);
-        res.render('pages/login', {
-          message: 'Incorrect username or password.',
-          error: true
-        });
+        res.render('pages/login');
     }
 });
 
@@ -142,6 +139,24 @@ app.get('/register', (req, res) => {
 
 app.get('/home', (req, res) => {
   res.render("pages/home", { user: req.session.user }); // Pass user data
+});
+
+app.get('/profile', (req, res) => {
+  if (!req.session.user) {
+    res.redirect("/login"); // Redirect to login if not logged in
+  }
+  else{
+    res.render("pages/profile", { user: req.session.user }); // Pass user data
+  }
+});
+
+app.get('/trips', (req, res) => {
+  if (!req.session.user) {
+    res.redirect("/login"); // Redirect to login if not logged in
+  }
+  else{
+    res.render("pages/trips", { user: req.session.user }); // Pass user data
+  }
 });
 
 app.post('/register', async (req, res) => {

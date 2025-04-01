@@ -3,9 +3,15 @@
     <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
       <a class="navbar-brand" href="/"></a>
       <ul class="navbar-nav mr-auto">
-        <li class="nav-item">
-          <!-- TODO: For 'Home', Add a <a> tag with class="nav-link" and href='/' API that navigates to home page if logged in, or login page if not -->
-            <a class="nav-link" href="/">Home</a>
+        <li class="nav-item dropdown">
+          <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown">
+            <img src="/images/menubars.jpg" alt="Menu Icon" width="50" height="50">
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="/">Home</a></li>
+            <li><a class="dropdown-item" href="/trips">Trips</a></li>
+            <li><a class="dropdown-item" href="/profile">Profile</a></li>
+          </ul>
         </li>
         <li class="nav-item">
             <a style="font-size:2em">Map Mosaic</a>
