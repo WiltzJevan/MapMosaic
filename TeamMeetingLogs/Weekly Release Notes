@@ -1,0 +1,5 @@
+March 21, 2024
+Created a basic code skeleton with login page, registration page, and home page, with a basic navigation bar.
+User login information is properly hashed and stored in the database.
+User receives a message and returned to login page when logged out.
+Started working to integrate an interactive globe.
