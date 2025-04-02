@@ -82,6 +82,12 @@ app.use(
 //     res.render('pages/home');
 //   });
 
+
+// API endpoint to fetch the Google Maps API key
+app.get('/config', (req, res) => {
+  res.json({ apiKey: process.env.GOOGLE_MAPS_API_KEY });
+});
+
 app.get("/", (req, res) => {
   if (!req.session.user) {
     res.redirect("/login"); // Redirect to login if not logged in
