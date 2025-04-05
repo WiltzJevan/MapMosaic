@@ -1,0 +1,32 @@
+Team 6 Meeting Minutes
+Lab Section 110
+Project Week 2
+
+Date: 4/1/2025
+
+Attendees:
+Jevan Wiltz 
+Treyanna Brown 
+Chandler Farnsworth 
+Ben Grumbles 
+Juliana Garcia-Gallo 
+Johnny Sainbayar
+
+*Directives*
+  - add interactive globe to main page
+  - clicking a marker on the globe redirects to a trip page using the coordinates as the primary key
+  - make branches with names of specific pages and have different team members work on different branches
+  - have each team member make commits to their respective branch a few times a week as to track progress
+
+*Decisions Made*
+  - 
+
+*Alternative Goals*
+  - N/A
+ 
+
+*Follow-Ups*
+  - N/A
+
+*Miscellaneous*
+  - N/A
