@@ -3,3 +3,9 @@ Created a basic code skeleton with login page, registration page, and home page,
 User login information is properly hashed and stored in the database.
 User receives a message and returned to login page when logged out.
 Started working to integrate an interactive globe.
+
+March 31, 2024
+Created dropdown menu for vari0us pages in the nav bar. 
+Continuing to work on interactive globe functionality.
+Fixed some routes in index.js so everything redirects to the correct pages.
+Starting work on allowing user to upload images to database and allowiung them to access trip pages using coordinates as the primary key.
