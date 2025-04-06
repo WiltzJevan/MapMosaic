@@ -1,1 +1,92 @@
-(WIP)
+/* style.css */
+
+/* GENERAL */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* NAVBAR */
+  .navbar {
+    background-color: #ffffff;
+    border-bottom: 1px solid #e0e0e0;
+    padding: 0.5rem 1rem;
+  }
+  
+  .navbar-brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  
+  .nav-item .nav-link, .navbar button {
+    font-size: 1.1rem;
+    margin-left: 1rem;
+    cursor: pointer;
+  }
+  
+  .nav-item a {
+    color: #333;
+  }
+  
+  .nav-item a:hover {
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  /* DROPDOWN MENU */
+  .dropdown-menu {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+  }
+  
+  .dropdown-item:hover {
+    background-color: #f0f0f0;
+  }
+  
+  /* PAGE CONTENT */
+  .container {
+    padding: 2rem;
+  }
+  
+  /* ALERT MESSAGES */
+  .alert {
+    margin: 1rem auto;
+    width: 90%;
+    max-width: 800px;
+    font-size: 1rem;
+    border-radius: 5px;
+  }
+  
+  /* FORMS */
+  form {
+    max-width: 500px;
+    margin: auto;
+    padding: 2rem;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  }
+  
+  form input, form button {
+    margin-top: 1rem;
+  }
+  
+  /* TITLES & HEADINGS */
+  h1, h2, h3 {
+    color: #333;
+    margin-bottom: 1rem;
+  }
+  
+  /* FOOTER (if added later) */
+  footer {
+    text-align: center;
+    padding: 1rem;
+    margin-top: auto;
+    background-color: #f1f1f1;
+    font-size: 0.9rem;
+    color: #555;
+  }
+  
