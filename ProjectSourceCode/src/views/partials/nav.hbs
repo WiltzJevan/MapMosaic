@@ -8,6 +8,15 @@
           <!-- ✅ No dropdown arrow -->
           <button class="btn p-0 me-3 border-0 bg-transparent" type="button" id="menuDropdown" data-bs-toggle="dropdown" aria-expanded="false">
             <img src="/images/menubars.png" alt="Menu Icon" width="40" height="40">
+=======
+  <nav class="navbar navbar-expand-lg navbar-light bg-light px-3">
+    <div class="d-flex align-items-center w-100 justify-content-between">
+
+      <!-- Left section: Dropdown + Brand -->
+      <div class="d-flex align-items-center">
+        <div class="dropdown">
+          <button class="btn p-0 me-3 dropdown-toggle border-0 bg-transparent" type="button" id="menuDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="/images/menubars.jpg" alt="Menu Icon" width="40" height="40">
           </button>
           <ul class="dropdown-menu" aria-labelledby="menuDropdown">
             <li><a class="dropdown-item" href="/">Home</a></li>
@@ -24,6 +33,17 @@
           <button class="btn logout-btn" onclick="window.location.href='/logout'">Logout</button>
         {{else}}
           <button class="btn login-btn" onclick="window.location.href='/login'">Login</button>
+=======
+
+        <a class="navbar-brand mb-0 h1 fs-3" href="/">Map Mosaic</a>
+      </div>
+
+      <!-- Right section: Login/Logout -->
+      <div>
+        {{#if user}}
+          <button class="btn btn-outline-secondary" onclick="window.location.href='/logout'">Logout</button>
+        {{else}}
+          <button class="btn btn-outline-primary" onclick="window.location.href='/login'">Login</button>
         {{/if}}
       </div>
     </div>
