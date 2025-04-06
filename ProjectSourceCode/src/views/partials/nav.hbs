@@ -1,4 +1,14 @@
 <header>
+  <nav class="navbar navbar-expand-lg">
+    <div class="d-flex align-items-center w-100 justify-content-between">
+
+      <!-- Left section: Icon dropdown + brand -->
+      <div class="d-flex align-items-center">
+        <div class="dropdown">
+          <!-- ✅ No dropdown arrow -->
+          <button class="btn p-0 me-3 border-0 bg-transparent" type="button" id="menuDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="/images/menubars.png" alt="Menu Icon" width="40" height="40">
+=======
   <nav class="navbar navbar-expand-lg navbar-light bg-light px-3">
     <div class="d-flex align-items-center w-100 justify-content-between">
 
@@ -14,6 +24,16 @@
             <li><a class="dropdown-item" href="/profile">Profile</a></li>
           </ul>
         </div>
+        <a class="navbar-brand mb-0 h1 fs-3" href="/">Map Mosaic</a>
+      </div>
+
+      <!-- Right section: login/logout -->
+      <div>
+        {{#if user}}
+          <button class="btn logout-btn" onclick="window.location.href='/logout'">Logout</button>
+        {{else}}
+          <button class="btn login-btn" onclick="window.location.href='/login'">Login</button>
+=======
 
         <a class="navbar-brand mb-0 h1 fs-3" href="/">Map Mosaic</a>
       </div>

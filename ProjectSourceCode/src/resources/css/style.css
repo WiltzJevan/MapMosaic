@@ -1,3 +1,114 @@
+/* General Reset & Typography */
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+/* NAVBAR STYLING */
+.navbar {
+    background: linear-gradient(to right, #d0eaff, #3399ff); /* light blue to blue */
+    border-bottom: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 0.75rem 1.5rem;
+  }
+  
+  .navbar-brand {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: #333;
+    text-decoration: none;
+  }
+  
+  .navbar-brand:hover {
+    color: #007bff;
+  }
+  
+  .dropdown .btn {
+    transition: transform 0.2s ease;
+  }
+  
+  .dropdown .btn:hover {
+    transform: scale(1.05);
+  }
+  
+  .dropdown-menu {
+    border-radius: 8px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    padding: 0.5rem 0;
+    animation: fadeIn 0.2s ease-in-out;
+  }
+  
+  .dropdown-item {
+    padding: 0.5rem 1.25rem;
+    transition: background 0.2s;
+  }
+  
+  .dropdown-item:hover {
+    background-color: #f0f0f000;
+  }
+  
+  .btn-outline-primary,
+  .btn-outline-secondary {
+    border-radius: 25px;
+    padding: 0.4rem 1rem;
+    font-size: 1rem;
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .btn-outline-primary:hover,
+  .btn-outline-secondary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .logout-btn {
+    background-color: #000 !important;   /* Black background */
+    color: #fff !important;              /* White text */
+    border: none;
+    border-radius: 25px;
+    padding: 0.4rem 1.2rem;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .logout-btn:hover,
+  .logout-btn:focus {
+    background-color: #222 !important;   /* Slightly lighter black on hover */
+    color: #fff !important;              /* Keep text white */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    text-decoration: none;               /* Prevent link-style underline */
+  }
+  
+  .login-btn {
+    background-color: #000 !important;   /* Black background */
+    color: #fff !important;              /* White text */
+    border: none;
+    border-radius: 25px;
+    padding: 0.4rem 1.2rem;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .login-btn:hover,
+  .login-btn:focus {
+    background-color: #222 !important;   /* Slightly lighter black on hover */
+    color: #fff !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    text-decoration: none;
+  }
+  
+  
+  /* ANIMATIONS */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+=======
 /* style.css */
 
 /* GENERAL */
@@ -89,4 +200,3 @@ body {
     font-size: 0.9rem;
     color: #555;
   }
-  
