@@ -5,7 +5,7 @@ services:
     container_name: map-mosaic-app
     restart: always
     ports:
-      - "3000:3000"
+      - "5000:5000"
     depends_on:
       - db
     env_file:
