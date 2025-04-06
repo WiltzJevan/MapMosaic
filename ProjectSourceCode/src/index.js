@@ -197,13 +197,9 @@ const auth = (req, res, next) => {
 
   app.get('/logout', (req, res) => {
     req.session.destroy(function(err) {
-      res.render('pages/login', {
-        message: 'Logged out successfully.'
-    });
+      res.render('pages/logout'); // ✅ layout will be used (main.hbs)
     });
   });
-
-
 
 // *****************************************************
 // <!-- Section 5 : Start Server-->
