@@ -1,4 +1,5 @@
 {{> message}}
+{{! TO- do's written in comments }}
 <header>
     <h1 style="font: size 2em;">
         Your Account
@@ -6,26 +7,39 @@
 </header>
 
 <div class="row d-flex">
+
     <div class="col-md-4 mb-4">
         <div class="card" style="display: flex;">
             <div class="card-body">
                 <h3 class="card-title" style="text-align: center;">Account Information</h3>
-                <h5 class="card-title mt-2">Name: </h5>
+                <h5 class="card-title mt-2">Name: {{username}}</h5>
                 <h5 class="card-title">Email: </h5>
-                <h5 class="card-title">Password: </h5>
+                <h5 class="card-title">Password: {{password}} </h5>
             </div>
         </div>
     </div>
 
-        <div class="col-md-4 mb-4">
-            <div class="card" style="display: flex;">
-                <h3 class="card-title mt-3"  style="text-align: center;" >Your Most Recent Trip!</h3>
-                <img src=" " class="card-img-top" alt="Image of Most Recent Trip">
-                <div class="card-body">
-                    <h5 class="card-title">Location</h5>
-                    <h5 class="card-title">Date</h5>
-                </div>
+    <div class="col-md-4 mb-4">
+        <div class="card" style="display: flex;">
+            <div class="card-body">
+                <h3 class="card-title" style="text-align: center;">Your Stats!</h3>
+                <h5 class="card-title mt-2">You have visted {{! states count}}  states!</h5>
+                <h5 class="card-title">You have visited {{! country count }}   countries!</h5>
+                <h5 class="card-title">You have a total of {{! trips count }}   trips!  </h5>
             </div>
         </div>
+    </div>
+
+
+    <div class="col-md-4 mb-4">
+        <div class="card" style="display: flex;">
+            <h3 class="card-title mt-3"  style="text-align: center;" >Your Most Recent Trip!</h3>
+            <img src=" " class="card-img-top" alt="Image of Most Recent Trip">
+            <div class="card-body">
+                <h5 class="card-title">Location</h5>
+                <h5 class="card-title">Date</h5>
+            </div>
+        </div>
+    </div>
 
 </div>
