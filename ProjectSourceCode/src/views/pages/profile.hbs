@@ -9,40 +9,49 @@
       <div class="profile-card">
         <h4>Account Information</h4>
 
-        <!-- Username -->
+        <!-- Username (non-editable) -->
         <div class="profile-field">
-            <input
-                type="text"
-                value="{{user.username}}"
-                readonly
-            />
+          <input type="text" value="{{user.username}}" readonly />
         </div>
 
-
-        <!-- Password Update -->
-        <div class="profile-field password-field">
+        <!-- Password Update Section -->
+        <div class="profile-field password-field position-relative">
           <div class="password-edit-wrapper">
-            <input
-              type="password"
-              class="current-password-input mb-2"
-              placeholder="Current password"
-              style="display: none;"
-            />
-            <input
-              type="password"
-              class="editable-field mb-2"
-              placeholder="New password"
-              readonly
-              data-field="password"
-            />
-            <input
-              type="password"
-              class="confirm-password-input mb-2"
-              placeholder="Confirm new password"
-              style="display: none;"
-            />
+
+            <!-- Current Password (has eye icon that controls all fields) -->
+            <div class="position-relative password-input-wrapper mb-2" style="display: none;">
+              <input
+                type="password"
+                class="current-password-input"
+                placeholder="Current password"
+              />
+              <i class="fa-solid fa-eye eye-icon toggle-password" style="display: none;" title="Show/Hide Passwords"></i>
+            </div>
+
+            <!-- New Password -->
+            <div class="position-relative password-input-wrapper mb-2">
+              <input
+                type="password"
+                class="editable-field"
+                placeholder="New password"
+                readonly
+                data-field="password"
+              />
+            </div>
+
+            <!-- Confirm Password -->
+            <div class="position-relative password-input-wrapper mb-2" style="display: none;">
+              <input
+                type="password"
+                class="confirm-password-input"
+                placeholder="Confirm new password"
+              />
+            </div>
+
           </div>
-          <i class="fa-solid fa-pen-to-square edit-icon"></i>
+
+          <!-- ✏️ Edit Icon -->
+          <i class="fa-solid fa-pen-to-square edit-icon" title="Edit Password"></i>
         </div>
       </div>
     </div>
