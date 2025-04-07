@@ -141,6 +141,42 @@ app.get('/home', (req, res) => {
   res.render("pages/home", { user: req.session.user }); // Pass user data
 });
 
+app.post('/profile/update', async (req, res) => {
+  if (!req.session.user) {
+    return res.status(401).json({ success: false, message: "Unauthorized" });
+  }
+
+  const { field, value } = req.body;
+  const allowedFields = ['username', 'email', 'password'];
+
+  if (!allowedFields.includes(field)) {
+    return res.status(400).json({ success: false, message: "Invalid field" });
+  }
+
+  try {
+    let updateQuery = '';
+    let updateValues = [];
+
+    if (field === 'password') {
+      const hashed = await bcrypt.hash(value, 10);
+      updateQuery = 'UPDATE users SET password = $1 WHERE username = $2';
+      updateValues = [hashed, req.session.user.username];
+    } else {
+      updateQuery = `UPDATE users SET ${field} = $1 WHERE username = $2`;
+      updateValues = [value, req.session.user.username];
+
+      // Optional: update session value for username/email if changed
+      req.session.user[field] = value;
+    }
+
+    await db.none(updateQuery, updateValues);
+    res.json({ success: true });
+  } catch (error) {
+    console.error('Profile update error:', error);
+    res.status(500).json({ success: false, message: "Something went wrong." });
+  }
+});
+
 app.get('/profile', (req, res) => {
   if (!req.session.user) {
     res.redirect("/login"); // Redirect to login if not logged in
@@ -205,5 +241,5 @@ const auth = (req, res, next) => {
 // <!-- Section 5 : Start Server-->
 // *****************************************************
 // starting the server and keeping the connection open to listen for more requests
-app.listen(5000);
-console.log('Server is listening on port 5000');
+app.listen(3000);
+console.log('Server is listening on port 3000');

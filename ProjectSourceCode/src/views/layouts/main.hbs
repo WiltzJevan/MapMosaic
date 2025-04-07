@@ -5,5 +5,87 @@
 
 <!-- ✅ Bootstrap JS for dropdowns (must come last) -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- ✅ JS for editable profile fields -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const editIcons = document.querySelectorAll(".edit-icon");
+
+    editIcons.forEach((icon) => {
+      icon.addEventListener("click", function () {
+        const input = this.previousElementSibling;
+
+        input.removeAttribute("readonly");
+        input.focus();
+        input.select();
+        input.classList.add("editing");
+
+        // Create Save (✅) and Cancel (❌) buttons
+        const saveBtn = document.createElement("i");
+        saveBtn.className = "fa-solid fa-check save-icon";
+        const cancelBtn = document.createElement("i");
+        cancelBtn.className = "fa-solid fa-xmark cancel-icon";
+
+        // Insert buttons
+        this.parentNode.appendChild(saveBtn);
+        this.parentNode.appendChild(cancelBtn);
+        this.style.display = "none"; // hide pencil icon
+
+        // Cancel action
+        cancelBtn.addEventListener("click", () => {
+          input.value = input.defaultValue;
+          input.setAttribute("readonly", true);
+          resetEditUI();
+        });
+
+        // Save action
+        saveBtn.addEventListener("click", () => {
+          const newValue = input.value;
+          const field = input.getAttribute("data-field");
+
+          fetch('/profile/update', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ field, value: newValue })
+          })
+          .then(res => res.json())
+          .then(data => {
+            if (data.success) {
+              input.setAttribute("readonly", true);
+              input.defaultValue = newValue;
+              showToast("Saved!");
+            } else {
+              showToast("Error saving field.", true);
+            }
+            resetEditUI();
+          })
+          .catch(() => {
+            showToast("Server error.", true);
+            resetEditUI();
+          });
+        });
+
+        function resetEditUI() {
+          saveBtn.remove();
+          cancelBtn.remove();
+          icon.style.display = "inline";
+          input.classList.remove("editing");
+          input.style.border = "2px solid #333";
+        }
+
+        function showToast(msg, isError = false) {
+          const toast = document.createElement("div");
+          toast.textContent = msg;
+          toast.className = isError ? "toast-error" : "toast-success";
+          document.body.appendChild(toast);
+          setTimeout(() => toast.remove(), 2000);
+        }
+      });
+    });
+  });
+</script>
+
 </body>
 </html>

@@ -1,6 +1,76 @@
 {{> message}}
-<header>
-    <h1 style="font: size 2em;">
-        Your Account
-    </h1>
-</header>
+
+<div class="container mt-5">
+  <h1 class="mb-4 text-center">Your Account</h1>
+
+  <div class="row g-4">
+    <!-- Account Info -->
+<div class="col-md-4">
+  <div class="profile-card">
+    <h4>Account Information</h4>
+
+    <div class="profile-field">
+      <input
+        type="text"
+        class="editable-field"
+        value="Username"
+        readonly
+        data-field="username"
+      />
+      <i class="fa-solid fa-pen-to-square edit-icon"></i>
+    </div>
+
+    <div class="profile-field">
+      <input
+        type="email"
+        class="editable-field"
+        value="Email"
+        readonly
+        data-field="email"
+      />
+      <i class="fa-solid fa-pen-to-square edit-icon"></i>
+    </div>
+
+    <div class="profile-field">
+      <input
+        type="password"
+        class="editable-field"
+        value="Password"
+        readonly
+        data-field="password"
+      />
+      <i class="fa-solid fa-pen-to-square edit-icon"></i>
+    </div>
+  </div>
+</div>
+
+    <!-- Stats -->
+    <div class="col-md-4">
+      <div class="profile-card">
+        <h4>Your Stats</h4>
+
+        <div class="profile-field">
+          <input type="text" value="You’ve visited __ countries!" readonly />
+        </div>
+
+        <div class="profile-field">
+          <input type="text" value="You’ve visited __ states!" readonly />
+        </div>
+
+        <div class="profile-field">
+          <input type="text" value="You’ve a total of __ trips!" readonly />
+        </div>
+      </div>
+    </div>
+
+    <!-- Most Recent Trip -->
+    <div class="col-md-4">
+      <div class="profile-card text-center">
+        <h4>Your Most Recent Trip</h4>
+        <img src="/images/sample-trip.jpg" alt="Recent Trip" class="img-fluid rounded mb-3" />
+        <p class="fw-bold">Nashville, Tennessee</p>
+        <a href="/trips/new" class="btn login-btn">Post a new trip!</a>
+      </div>
+    </div>
+  </div>
+</div>
