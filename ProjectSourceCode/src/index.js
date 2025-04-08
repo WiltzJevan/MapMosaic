@@ -197,12 +197,63 @@ app.get('/trips', (req, res) => {
   res.render("pages/trips", { user: req.session.user });
 });
 
+app.get('/viewtrip', (req, res) => {
+  if (!req.session.user) {
+    return res.redirect("/login");
+  }
+  res.render("pages/viewtrip", { user: req.session.user });
+});
+
 app.get('/logout', (req, res) => {
   req.session.destroy(function(err) {
     res.render('pages/logout');
   });
 });
 
+
+app.get('/upload', (req, res) => {
+  if (!req.session.user) {
+    return res.redirect("/login");
+  }
+  res.render("pages/upload", { user: req.session.user });
+});
+
+app.post('/viewtrip', async (req, res) => {
+  const username = req.body.username;
+  const latitude = req.body.latitude;
+  const longitude = req.body.longitude;
+  const query = 'SELECT * FROM trips WHERE username = $1 AND latitude = $2 AND longitude = $3';
+  const values = [username, latitude, longitude]; 
+
+  db.one(query, values)
+    .then(trip => {
+      console.log('Viewing trip:');
+      res.render('pages/viewtrip', { trip });
+    })
+    .catch(error => {
+      console.error('Error viewing trip:', error);
+      res.render('pages/viewtrip', { error: 'Trip not found.' });
+    });
+});
+
+app.post('/upload', async (req, res) => {
+  const username = req.body.username;
+  const latitude = req.body.latitude;
+  const longitude = req.body.longitude;
+  const location_name = req.body.location_name;
+  const query = 'INSERT INTO trips (username, latitude, longitude, location_name) VALUES ($1, $2, $3,$4) RETURNING *';
+  const values = [username, latitude, longitude, location_name];
+
+  db.one(query, values)
+    .then(trip => {
+      console.log('Inserted trip:', trip);
+      res.redirect('/upload');
+    })
+    .catch(error => {
+      console.error('Error inserting trip:', error);
+      res.redirect('/upload');
+    });
+});
 // *****************************************************
 // <!-- Section 5 : Auth Middleware + Start Server -->
 // *****************************************************

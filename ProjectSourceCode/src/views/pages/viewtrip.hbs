@@ -1,0 +1,53 @@
+{{> message}}
+<div class="auth-container">
+  <div class="auth-card">
+    <h2>View Trip</h2>
+
+    {{#if message}}
+      <div class="form-error">
+        {{message}}
+      </div>
+    {{/if}}
+
+    <form method="post" action="/viewtrip">
+      <div class="form-group">
+        <label for="username">Email</label>
+        <input type="text" name="username" id="username" placeholder="Email" required />
+      </div>
+
+      <div class="form-group">
+        <label for="latitude">Latitude</label>
+        <input type="text" name="latitude" id="latitude" placeholder="Latitude" required />
+      </div>
+
+      <div class="form-group">
+        <label for="longitude">Longitude</label>
+        <input type="text" name="longitude" id="longitude" placeholder="Longitude" required />
+      </div>
+      <button type="submit" class="login-btn w-100">View Trip</button>
+    </form>
+    
+  </div>
+</div>
+
+<div class="container mt-5">
+  <h1 class="mb-4 text-center"></h1>
+
+  <div class="row g-4">
+    <!-- Trip Info -->
+    <div class="col-md-4">
+      <div class="profile-card">
+        <h4>Trip Information</h4>
+
+        <!-- Username (non-editable) -->
+        <div class="profile-field">
+          <input type="text" value="{{trip.username}}" readonly />
+        </div>
+
+        <div class="profile-field">
+          <input type="text" value="{{trip.location_name}}" readonly />
+        </div>       
+      </div>
+    </div>
+  </div>
+</div>
