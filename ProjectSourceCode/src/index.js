@@ -197,6 +197,16 @@ app.get('/trips', (req, res) => {
   res.render("pages/trips", { user: req.session.user });
 });
 
+app.get('/trips/new', (req, res) => {
+  if (!req.session.user) {
+    return res.redirect("/login");
+  }
+  else{
+    res.render('pages/trips_new', { user: req.session.user });
+  }
+});
+
+
 app.get('/logout', (req, res) => {
   req.session.destroy(function(err) {
     res.render('pages/logout');

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Upload a Trip</title>
+  <style>
+    /* Base page styling */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f0f4f8;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Upload container */
+    .upload-container {
+      padding: 2rem 1rem;
+      max-width: 600px;
+      margin: 4rem auto; /* Centers it on the page below the nav */
+    }
+
+    /* Upload card */
+    .upload-card {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+      padding: 2rem;
+      transition: box-shadow 0.3s ease;
+    }
+
+    .upload-card:hover {
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Heading */
+    .upload-card h2 {
+      margin-top: 0;
+      margin-bottom: 1.5rem;
+      font-size: 1.8rem;
+      color: #2c3e50;
+    }
+
+    /* Form elements */
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      color: #34495e;
+    }
+
+    input[type="text"],
+    textarea,
+    input[type="file"] {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1px solid #dcdfe6;
+      border-radius: 8px;
+      font-size: 1rem;
+      background-color: #f9fbfc;
+      transition: border-color 0.2s ease;
+    }
+
+    input:focus,
+    textarea:focus {
+      border-color: #3498db;
+      outline: none;
+      background-color: #fff;
+    }
+
+    /* Submit button */
+    .form-actions {
+      text-align: right;
+    }
+
+    .submit-btn {
+      background-color: #3498db;
+      color: white;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .submit-btn:hover {
+      background-color: #2980b9;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Your existing navbar would be here -->
+
+  <div class="upload-container">
+    <div class="upload-card">
+      <h2>Upload a Trip</h2>
+
+      <form method="POST" action="/upload" enctype="multipart/form-data">
+        <!-- Location Input -->
+        <div class="form-group">
+          <label for="location">Location</label>
+          <input type="text" name="location" id="location" placeholder="Where did you go?" required />
+        </div>
+
+        <!-- Image Upload -->
+        <div class="form-group">
+          <label for="images">Upload Photos</label>
+          <input type="file" name="images" id="images" multiple accept="image/*" />
+        </div>
+
+        <!-- Description -->
+        <div class="form-group">
+          <label for="description">Trip Description</label>
+          <textarea name="description" id="description" rows="5" placeholder="Tell us about your trip..." required></textarea>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="form-actions">
+          <button type="submit" class="submit-btn">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+</html>
