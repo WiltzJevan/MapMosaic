@@ -15,8 +15,14 @@ Johnny Sainbayar
 *Directives*
   - 
 
-*Decisions Made*
-  - 
+*Achievement*
+  - Chandler worked on the front end and styling of the website
+  - Jevan is continuing to work on the globe
+  - Ben worked on a form for users to upload their trip
+  - Treyanna worked on the profile page and an FAQ page
+  - Johnny is working on a page for users to contact the Map Mosaic team
+  - Juliana worked on the settings and customization page
+
 
 *Alternative Goals*
   - N/A
