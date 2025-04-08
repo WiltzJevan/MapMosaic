@@ -72,6 +72,7 @@ app.use(
 //     res.render('pages/home');
 //   });
 
+app.use('/resources', express.static(path.join(__dirname, 'resources')));
 
 // API endpoint to fetch the Google Maps API key
 app.get('/config', (req, res) => {
