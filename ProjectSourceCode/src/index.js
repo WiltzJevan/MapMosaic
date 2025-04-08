@@ -112,6 +112,10 @@ app.get('/register', (req, res) => {
   res.render('pages/register');
 });
 
+app.get('/faq', (req, res) => {
+  res.render('pages/faq');
+});
+
 app.post('/register', async (req, res) => {
   const hash = await bcrypt.hash(req.body.password, 10);
   const username = req.body.username;
@@ -216,5 +220,5 @@ const auth = (req, res, next) => {
 
 app.use(auth);
 
-app.listen(5000);
+app.listen(3000);
 console.log('Server is listening on port 5000');
