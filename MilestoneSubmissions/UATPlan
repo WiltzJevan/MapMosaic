@@ -1,0 +1,19 @@
+Feature 1: User Registration
+Allow a user to register by filling out a form with their Name, Email, Password, and Confirm Password.
+
+Acceptance Criteria:
+- All required fields must be completed.
+- The email must follow proper format.
+- Password and Confirm Password must match.
+- On success, the user is added to the database.
+
+Test Case:
+Test Step:                             Input                                                                          Expected Outcome
+1) Submit form with valid values       1) Name: Alice, Email: alice@test.com, Password: pass123, Confirm: pass123     1) "Registration successful", redirect to login
+2) Submit form with missing fields     2) Email only                                                                  2) "Please fill out all required fields" error
+3) Mismatched passwords                3) Password: pass123, Confirm: pass124                                         3) "Passwords do not match" error
+
+Test Data:
+- Valid: alice@test.com, pass123
+- Invalid: alice@test, pass123, pass124
+- test test

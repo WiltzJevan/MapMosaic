@@ -1,12 +1,28 @@
-{{> message}}
-<form method="post" action="/login">
-    <label for="username">Username</label>
-    <br/>
-    <input type="username" name="username" /><br />
-    <label for="password">Password</label>
-    <br/>
-    <input type="password" name="password" /><br />
-    <input type="submit" value = "Login"/>
-    <p>New to Map Mosaic? </p>
-    <a href="/register">Register</a>
-</form>
+<div class="auth-container">
+  <div class="auth-card">
+    <h2>Sign in</h2>
+    <p>Your journeys, your memories, your map.</p>
+
+    {{#if message}}
+      <div class="form-error">
+        {{message}}
+      </div>
+    {{/if}}
+
+    <form method="post" action="/login">
+      <div class="form-group">
+        <label for="username">Email</label>
+        <input type="text" name="username" id="username" placeholder="Email" required />
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" name="password" id="password" placeholder="Password" required />
+      </div>
+
+      <button type="submit" class="login-btn w-100">Sign in</button>
+    </form>
+
+    <p class="text-center mt-3">New to Map Mosaic? <a href="/register">Register</a></p>
+  </div>
+</div>
