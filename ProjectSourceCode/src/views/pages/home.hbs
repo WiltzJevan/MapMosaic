@@ -1,85 +1,30 @@
 {{> message}}
+<header>
+    <h1 style="font: size 3em;">
+        Welcome to Map Mosaic! 
+    </h1>
+    <h2>
+        --This page is where the globe will be integrated
+        <!--<div id="map" style="width: 100%; height: 500px;"></div>
+        <script src="/js/globe.js"></script>-->
 
-<!-- 🌟 Hero Section -->
-<section class="hero-section text-center py-5">
-  <div class="container">
-    <h1 class="display-4 fw-bold mb-3">Welcome to Map Mosaic</h1>
-    <p class="lead text-muted">Your adventures, beautifully mapped across the globe.</p>
-  </div>
-</section>
+        <div id="globeViz" style="position: relative; width: 100vw; height: 100vh;">
+            <script type="module" src="/resources/js/globe2.js"></script>
 
-<!-- 🌍 Mapbox Globe -->
-<section class="globe-wrapper bg-light py-5">
-  <div class="container text-center">
-    <h2 class="mb-4">Explore Your Global Adventures</h2>
-    <div id="map" style="height: 600px; width: 100%; max-width: 1000px; margin: 0 auto; border-radius: 8px; overflow: hidden;"></div>
-  </div>
-</section>
+            <!-- Coordinates display -->
+            <div id="live-coords" style="position: absolute; bottom: 10px; left: 10px; background: rgba(255,255,255,0.8); padding: 5px; z-index: 1000;">
+                Lat: --, Lon: --
+            </div>
+            <!-- Form to add marker manually -->
+            <div id="coord-ui" style="position: absolute; bottom: 10px; right: 10px; background: rgba(255,255,255,0.8); padding: 5px; z-index: 1000;">
+                <input id="lat-input" type="text" placeholder="Latitude">
+                <input id="lon-input" type="text" placeholder="Longitude">
+                <br>
+                <button onclick="addMarkerFromInput()">Add Marker</button>
+            </div>
+        </div>
 
-<!-- 🧭 Mapbox CSS & JS -->
-<link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet" />
-<script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
+        <div id="popup"></div>
 
-<style>
-  .trip-marker {
-    background-size: cover;
-    border-radius: 50%;
-    width: 60px;
-    height: 60px;
-    border: 2px solid white;
-    box-shadow: 0 0 6px rgba(0,0,0,0.5);
-    cursor: pointer;
-  }
-</style>
-
-<!-- 🧠 Interactive Globe Script -->
-<script>
-  mapboxgl.accessToken = 'pk.eyJ1IjoiY2hhbmRsZXJmYXJuc3dvcnRoIiwiYSI6ImNtOTlxYzlvZzBncXgydnBvNTNidDQ4ZjEifQ.eS8dzvYBlDFE8WJhgGR3Xg'; // 🔑 Replace this
-
-  const map = new mapboxgl.Map({
-    container: 'map',
-    style: 'mapbox://styles/mapbox/dark-v10',
-    projection: 'globe',
-    center: [0, 20],
-    zoom: 1.2
-  });
-
-  map.on('style.load', () => {
-    map.setFog({}); // atmosphere on globe
-  });
-
-  // 👇 Server-provided trip data
-  const trips = {{{json trips}}};
-
-  // 👉 Fallback country -> coordinates mapping
-  const countryCoords = {
-    "France": [2.2137, 46.2276],
-    "United States": [-95.7129, 37.0902],
-    "Canada": [-106.3468, 56.1304],
-    "Mexico": [-102.5528, 23.6345],
-    "Japan": [138.2529, 36.2048],
-    "Brazil": [-51.9253, -14.2350],
-    "Australia": [133.7751, -25.2744],
-    "India": [78.9629, 20.5937],
-    "United Kingdom": [-3.435973, 55.378051],
-    "Germany": [10.4515, 51.1657]
-    // Add more as needed
-  };
-
-  // 📍 Create markers from trip data
-  trips.forEach(trip => {
-    const country = trip.country_name || trip.location;
-    const coords = countryCoords[country];
-
-    if (coords && trip.image_path) {
-      const el = document.createElement('div');
-      el.className = 'trip-marker';
-      el.style.backgroundImage = `url('${trip.image_path}')`;
-
-      new mapboxgl.Marker(el)
-        .setLngLat(coords)
-        .setPopup(new mapboxgl.Popup({ offset: 25 }).setText(trip.title || country))
-        .addTo(map);
-    }
-  });
-</script>
+    </h2>
+</header>
