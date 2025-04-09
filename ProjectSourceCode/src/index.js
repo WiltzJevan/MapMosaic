@@ -1,5 +1,6 @@
 require('dotenv').config(); // Ensures that .env variables are loaded before initialization
 
+
 // *****************************************************
 // <!-- Section 1 : Import Dependencies -->
 // *****************************************************
@@ -66,6 +67,18 @@ app.use(
 // *****************************************************
 // <!-- Section 4 : Routes -->
 // *****************************************************
+
+// TODO - Include your API routes here
+// app.get('/', (req, res) => {
+//     res.render('pages/home');
+//   });
+
+app.use('/resources', express.static(path.join(__dirname, 'resources')));
+
+// API endpoint to fetch the Google Maps API key
+app.get('/config', (req, res) => {
+  res.json({ apiKey: process.env.GOOGLE_MAPS_API_KEY });
+});
 
 app.get("/", (req, res) => {
   if (!req.session.user) {

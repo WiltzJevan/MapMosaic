@@ -8,9 +8,12 @@
         "dotenv": "^16.4.7",
         "express": "^4.6.1",
         "express-handlebars": "^7.1.2",
-        "express-session": "1.17.3",
         "handlebars": "^4.7.8",
-        "pg-promise": "^10.11.1"
+        "pg-promise": "^10.11.1",
+        "express-session": "^1.18.1",
+        "nodemon": "^3.1.9",
+        "three": "^0.161.0",
+        "three-globe": "^2.42.3"
     },
     "devDependencies": {
         "chai": "^4.2.0",
