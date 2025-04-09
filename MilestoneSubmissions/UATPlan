@@ -42,3 +42,26 @@ Test Data:
 - Valid: ben, 20.222, -15.328, city name, description, image.jpg
 - Invalid: ben, 50.389, location name
 - Invalid: ben, 40.0190° N, 105.2747° W
+
+
+
+Feature 2: Change password
+Allow a user to change their password.
+
+Acceptance Criteria:
+- User must be logged in
+- User must enter current password correctly
+- New password must be entered twice to ensure correctness, then it is hashed and stored in the database in place of the old password
+
+Test Environment: Running the website on localhost and viewing messages that are sent to the terminal
+
+Test Case:
+Test Step:                             Input                                                                                                                           Expected Outcome
+1) Submit form with valid values       1) Old password: correctpassword, New password: matchingpassword, Re-enter new password: matchingpassword                       1) "password changed", update db, reset form
+2) New password doesn't match          2) Old password: correctpassword, New password: matchingpassword, Re-enter new password: nomatch                                2) "passwords must match", reset form
+3) Old password is wrong               3) Old password: wrongpassword, New password: matchingpassword, Re-enter new password: matchingpassword                         3) "incorrect password", reset form
+
+Test Data:
+- Valid: correctpassword, newpassword, newpassword
+- Invalid: correctpassword, newpassword, neWpAssWord
+- Invalid: incorrectpassword, newpassword, newpassword
