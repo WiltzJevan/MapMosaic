@@ -79,8 +79,23 @@ describe('Testing Profile Page', () => {
 // ********************************************************************************
 // Jevan's Testcases 
 
+//Positive
+it('should return 200 and contain the globe visualization container', async () => {
+  const res = await request(app).get('/globe');
+  expect(res.statusCode).toBe(200);
+  expect(res.text).toContain('id="globeViz"'); // This checks the <div id="globeViz"> exists
+});
 
 
+//Negative
+it('should return 404 for a non-existent globe route', async () => {
+  const res = await request(app).get('/globee'); // incorrect route
+  expect(res.statusCode).toBe(404);
+});
+
+//**Note: as the globe work is an on-going frontend canvas with some backend scripty work, tests are
+//includes as console logs instead for each area of the globe's creation. Another easy tests is to put in
+//the localhost url route to the images or the like!**
 
 
 // ********************************************************************************
