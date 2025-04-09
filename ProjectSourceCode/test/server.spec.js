@@ -1,6 +1,5 @@
 // ********************** Initialize server **********************************
-
-const server = require('../source/index.js'); //TODO: Make sure the path to your index.js is correctly added
+const server = require('../src/index.js'); //TODO: Make sure the path to your index.js is correctly added
 
 // ********************** Import Libraries ***********************************
 
@@ -29,7 +28,30 @@ describe('Server!', () => {
 
 // *********************** TODO: WRITE 2 UNIT TESTCASES **************************
 // Ben's TestCases 
-
+describe('Testing Register API', () => {
+  it('positive : /register', done => {
+    chai
+      .request(server)
+      .post('/register')
+      .send({username: 'ben', password: 'benpassword'})
+      .end((err, res) => {
+        expect(res).to.have.status(200);
+        expect(res.body.message).to.equals('Success');
+        done();
+      });
+  });
+  it('Negative : /register', done => {
+    chai
+      .request(server)
+      .post('/register')
+      .send({name: 10, password: "password"})
+      .end((err, res) => {
+        expect(res).to.have.status(400);
+        expect(res.body.message).to.equals('Fail');
+        done();
+      });
+  });
+});
 
 
 
@@ -80,11 +102,3 @@ describe('Server!', () => {
 
 
 // ********************************************************************************
-
-
-
-
-
-
-
-
