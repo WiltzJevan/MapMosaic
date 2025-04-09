@@ -19,6 +19,8 @@ const axios = require('axios');
 // <!-- Section 2 : Connect to DB -->
 // *****************************************************
 app.use(express.static(__dirname + '/resources'));
+app.use('/data', express.static(path.join(__dirname, 'resources/data')));
+
 
 const hbs = handlebars.create({
   extname: 'hbs',
@@ -216,5 +218,5 @@ const auth = (req, res, next) => {
 
 app.use(auth);
 
-app.listen(5000);
-console.log('Server is listening on port 5000');
+app.listen(3000);
+console.log('Server is listening on port 3000');
