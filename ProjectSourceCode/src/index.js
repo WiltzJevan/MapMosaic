@@ -121,12 +121,10 @@ app.post('/register', async (req, res) => {
 
   db.one(query, values)
     .then(user => {
-      console.log('Inserted user:', user);
-      res.redirect('/login');
+      return res.status(200).json({ success: true, message: "Success" });
     })
     .catch(error => {
-      console.error('Error inserting user:', error);
-      res.redirect('/register');
+      return res.status(400).json({ success: false, message: "Fail" });
     });
 });
 
@@ -203,6 +201,10 @@ app.get('/logout', (req, res) => {
   });
 });
 
+app.get('/welcome', (req, res) => {
+  res.json({status: 'success', message: 'Welcome!'});
+});
+
 // *****************************************************
 // <!-- Section 5 : Auth Middleware + Start Server -->
 // *****************************************************
@@ -216,5 +218,5 @@ const auth = (req, res, next) => {
 
 app.use(auth);
 
-app.listen(5000);
+module.exports = app.listen(3000);
 console.log('Server is listening on port 5000');
