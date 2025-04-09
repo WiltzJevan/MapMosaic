@@ -53,7 +53,26 @@ describe('Testing Register API', () => {
   });
 });
 
-
+describe('Testing Profile Page', () => {
+  it('positive : /profile should redirect to profile page when user is logged in', (done) => {
+    chai.request(server)
+      .get('/profile')
+      .set('Cookie', 'connect.sid=<valid_session_id>') 
+      .end((err, res) => {
+        expect(res).to.have.status(200);  
+        expect(res).to.be.html;  
+        done();
+      });
+  });
+  it('negative : /profile should redirect to /login when no user is logged in', (done) => {
+    chai.request(server)
+      .get('/profile')
+      .end((err, res) => {
+        expect(res.redirects[0]).to.match(/\/login$/);  
+        done();
+      });
+  });
+});
 
 
 
