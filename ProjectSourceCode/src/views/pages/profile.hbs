@@ -1,6 +1,85 @@
 {{> message}}
-<header>
-    <h1 style="font: size 2em;">
-        Your Account
-    </h1>
-</header>
+
+<div class="container mt-5">
+  <h1 class="mb-4 text-center">Your Account</h1>
+
+  <div class="row g-4">
+    <!-- Account Info -->
+    <div class="col-md-4">
+      <div class="profile-card">
+        <h4>Account Information</h4>
+
+        <!-- Username (non-editable) -->
+        <div class="profile-field">
+          <input type="text" value="{{user.username}}" readonly />
+        </div>
+
+        <!-- Password Update Section -->
+        <div class="profile-field password-field position-relative">
+          <div class="password-edit-wrapper">
+
+            <!-- Current Password (has eye icon that controls all fields) -->
+            <div class="position-relative password-input-wrapper mb-2" style="display: none;">
+              <input
+                type="password"
+                class="current-password-input"
+                placeholder="Current password"
+              />
+              <i class="fa-solid fa-eye eye-icon toggle-password" style="display: none;" title="Show/Hide Passwords"></i>
+            </div>
+
+            <!-- New Password -->
+            <div class="position-relative password-input-wrapper mb-2">
+              <input
+                type="password"
+                class="editable-field"
+                placeholder="New password"
+                readonly
+                data-field="password"
+              />
+            </div>
+
+            <!-- Confirm Password -->
+            <div class="position-relative password-input-wrapper mb-2" style="display: none;">
+              <input
+                type="password"
+                class="confirm-password-input"
+                placeholder="Confirm new password"
+              />
+            </div>
+
+          </div>
+
+          <!-- ✏️ Edit Icon -->
+          <i class="fa-solid fa-pen-to-square edit-icon" title="Edit Password"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="col-md-4">
+      <div class="profile-card">
+        <h4>Your Stats</h4>
+        <div class="profile-field">
+          <input type="text" value="You’ve visited __ countries!" readonly />
+        </div>
+        <div class="profile-field">
+          <input type="text" value="You’ve visited __ states!" readonly />
+        </div>
+        <div class="profile-field">
+          <input type="text" value="You’ve a total of __ trips!" readonly />
+        </div>
+      </div>
+    </div>
+
+    <!-- Most Recent Trip -->
+    <div class="col-md-4">
+      <div class="profile-card text-center">
+        <h4>Your Most Recent Trip</h4>
+        <img src="/images/sample-trip.jpg" alt="Recent Trip" class="img-fluid rounded mb-3" />
+        <p class="fw-bold">Nashville, Tennessee</p>
+        <a href="/trips/new" class="btn login-btn">Post a new trip!</a>
+      </div>
+    </div>
+  </div>
+</div>

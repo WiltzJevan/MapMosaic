@@ -1,0 +1,35 @@
+Team 6 Meeting Minutes
+Lab Section 110
+Project Week 3
+
+Date: 4/8/2025
+
+Attendees:
+Jevan Wiltz 
+Treyanna Brown 
+Chandler Farnsworth 
+Ben Grumbles 
+Juliana Garcia-Gallo 
+Johnny Sainbayar
+
+*Directives*
+  - 
+
+*Achievement*
+  - Chandler worked on the front end and styling of the website
+  - Jevan is continuing to work on the globe
+  - Ben worked on a form for users to upload their trip
+  - Treyanna worked on the profile page and an FAQ page
+  - Johnny is working on a page for users to contact the Map Mosaic team
+  - Juliana worked on the settings and customization page
+
+
+*Alternative Goals*
+  - N/A
+ 
+
+*Follow-Ups*
+  - N/A
+
+*Miscellaneous*
+  - N/A

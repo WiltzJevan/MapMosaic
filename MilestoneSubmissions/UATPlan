@@ -1,0 +1,67 @@
+Feature 1: User Registration
+Allow a user to register by filling out a form with their Name, Email, Password, and Confirm Password.
+
+Acceptance Criteria:
+- All required fields must be completed.
+- The email must follow proper format.
+- Password and Confirm Password must match.
+- On success, the user is added to the database.
+
+Test Environment: Running the website on localhost and viewing messages that are sent to the terminal
+
+Test Case:
+Test Step:                             Input                                                                          Expected Outcome
+1) Submit form with valid values       1) Name: Alice, Email: alice@test.com, Password: pass123, Confirm: pass123     1) "Registration successful", redirect to login
+2) Submit form with missing fields     2) Email only                                                                  2) "Please fill out all required fields" error
+3) Mismatched passwords                3) Password: pass123, Confirm: pass124                                         3) "Passwords do not match" error
+
+Test Data:
+- Valid: alice@test.com, pass123
+- Invalid: alice@test, pass123, pass124
+- test test
+
+
+Feature 2: Upload Trip
+Allow a user to upload a trip by entering a location name, description, and image. The website should automatically fill in coordinates and username.
+
+Acceptance Criteria:
+- Coordinates and username fields must be completed, with other fields able to be filled in optionally.
+- Coordinates must be entered in decimal format, without degree symbols or letters such as "n,s,e,w" representing directions
+- On success, the trip is added to the database.
+
+Test Environment: Running the website on localhost and viewing messages that are sent to the terminal
+
+Test Case:
+Test Step:                             Input                                                                                                                           Expected Outcome
+1) Submit form with valid values       1) Name: Alice, latitude: 40.020, longitude: 20.010, location_name: Chicago, description: this is my trip, image: image1.jpg    1) "trip added", redirect to globe
+2) Missing non-required fields         2) Username, latitude and longitude only                                                                                        2) "trip added", redirect to globe
+3) Missing required field              3) Username, latitude, no longitude                                                                                             3) "missing coordinates", redirect to add trip page
+
+Test Data:
+- Valid: ben, 40.013, 10.022
+- Valid: ben, 20.222, -15.328, city name, description, image.jpg
+- Invalid: ben, 50.389, location name
+- Invalid: ben, 40.0190° N, 105.2747° W
+
+
+
+Feature 3: Change password
+Allow a user to change their password.
+
+Acceptance Criteria:
+- User must be logged in
+- User must enter current password correctly
+- New password must be entered twice to ensure correctness, then it is hashed and stored in the database in place of the old password
+
+Test Environment: Running the website on localhost and viewing messages that are sent to the terminal
+
+Test Case:
+Test Step:                             Input                                                                                                                           Expected Outcome
+1) Submit form with valid values       1) Old password: correctpassword, New password: matchingpassword, Re-enter new password: matchingpassword                       1) "password changed", update db, reset form
+2) New password doesn't match          2) Old password: correctpassword, New password: matchingpassword, Re-enter new password: nomatch                                2) "passwords must match", reset form
+3) Old password is wrong               3) Old password: wrongpassword, New password: matchingpassword, Re-enter new password: matchingpassword                         3) "incorrect password", reset form
+
+Test Data:
+- Valid: correctpassword, newpassword, newpassword
+- Invalid: correctpassword, newpassword, neWpAssWord
+- Invalid: incorrectpassword, newpassword, newpassword

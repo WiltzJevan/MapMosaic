@@ -1,0 +1,28 @@
+{{> message}}
+
+
+{{!-- 
+  To Do: Contact Page Structure
+
+  - Display a form with fields like name, email, and message.
+  - Add a submit button.
+  - Handle form submission via POST to a /contact route (NOT set up yet).
+  - For now, just design the layout – backend handling will be added later.
+  - Make sure this page is styled consistently with the rest of the app.
+--}}
+
+<h1>Contact Us</h1>
+<form action="/contact" method="POST">
+  <label for="name">Name:</label>
+  <input type="text" id="name" name="name" required>
+
+  <label for="email">Email:</label>
+  <input type="email" id="email" name="email" required>
+
+  <label for="message">Message:</label>
+  <textarea id="message" name="message" required></textarea>
+
+  <button type="submit">Send</button>
+</form>
+
+{{> footer}}
