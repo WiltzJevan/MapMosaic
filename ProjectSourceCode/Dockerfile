@@ -10,6 +10,8 @@ COPY package*.json ./
 # Install dependencies
 RUN npm install
 
+RUN npm install multer
+
 # Copy the rest of the app's code
 COPY . .
 

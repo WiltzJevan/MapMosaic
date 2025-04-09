@@ -8,83 +8,78 @@
   </div>
 </section>
 
-<!-- 🌍 Globe Section -->
+<!-- 🌍 Mapbox Globe -->
 <section class="globe-wrapper bg-light py-5">
   <div class="container text-center">
     <h2 class="mb-4">Explore Your Global Adventures</h2>
-    <div id="globeViz" style="height: 600px; width: 100%; max-width: 1000px; margin: 0 auto;"></div>
+    <div id="map" style="height: 600px; width: 100%; max-width: 1000px; margin: 0 auto; border-radius: 8px; overflow: hidden;"></div>
   </div>
 </section>
 
-<!-- 🌐 Dependencies -->
-<script src="https://unpkg.com/three@0.150.1/build/three.min.js"></script>
-<script src="https://unpkg.com/globe.gl"></script>
+<!-- 🧭 Mapbox CSS & JS -->
+<link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet" />
+<script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
 
-<!-- 🌐 Globe Script -->
+<style>
+  .trip-marker {
+    background-size: cover;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    border: 2px solid white;
+    box-shadow: 0 0 6px rgba(0,0,0,0.5);
+    cursor: pointer;
+  }
+</style>
+
+<!-- 🧠 Interactive Globe Script -->
 <script>
-  document.addEventListener("DOMContentLoaded", async function () {
-    const container = document.getElementById('globeViz');
-    const Globe = window.Globe;
+  mapboxgl.accessToken = 'pk.eyJ1IjoiY2hhbmRsZXJmYXJuc3dvcnRoIiwiYSI6ImNtOTlxYzlvZzBncXgydnBvNTNidDQ4ZjEifQ.eS8dzvYBlDFE8WJhgGR3Xg'; // 🔑 Replace this
 
-    const world = Globe()
-      (container)
-      .globeImageUrl('//unpkg.com/three-globe/example/img/earth-night.jpg')
-      .backgroundImageUrl('//unpkg.com/three-globe/example/img/night-sky.png')
-      .showGlobe(true)
-      .showAtmosphere(true)
-      .atmosphereColor('#3a228a')
-      .atmosphereAltitude(0.25)
-      .polygonAltitude(0.01)
-      .polygonCapColor(() => 'rgba(0, 0, 0, 0)') // Transparent unvisited countries
-      .polygonSideColor(() => 'rgba(0,0,0,0.1)')
-      .polygonStrokeColor(() => 'rgba(255,255,255,0.2)');
+  const map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/dark-v10',
+    projection: 'globe',
+    center: [0, 20],
+    zoom: 1.2
+  });
 
-    // Load GeoJSON country shapes
-    const res = await fetch('/data/world.geojson');
-    const geo = await res.json();
+  map.on('style.load', () => {
+    map.setFog({}); // atmosphere on globe
+  });
 
-    // Temporary hardcoded images per country — later pulled from DB
-    const countryImages = {
-      "France": "/images/sample-paris.jpg",
-      "United States of America": "../ProjectSourceCode/src/resources/images/sample-trip.jpg"
-    };
+  // 👇 Server-provided trip data
+  const trips = {{{json trips}}};
 
-    // Set polygon data
-    world.polygonsData(geo.features)
-      .polygonLabel(d => `
-        <b>${d.properties.ADMIN}</b><br/>
-        ${countryImages[d.properties.ADMIN] ? "Trip Uploaded!" : "No trip yet."}
-      `)
-      .onPolygonClick(d => {
-        const img = countryImages[d.properties.ADMIN];
-        if (img) window.open(img, '_blank');
-      });
+  // 👉 Fallback country -> coordinates mapping
+  const countryCoords = {
+    "France": [2.2137, 46.2276],
+    "United States": [-95.7129, 37.0902],
+    "Canada": [-106.3468, 56.1304],
+    "Mexico": [-102.5528, 23.6345],
+    "Japan": [138.2529, 36.2048],
+    "Brazil": [-51.9253, -14.2350],
+    "Australia": [133.7751, -25.2744],
+    "India": [78.9629, 20.5937],
+    "United Kingdom": [-3.435973, 55.378051],
+    "Germany": [10.4515, 51.1657]
+    // Add more as needed
+  };
 
-    // Create overlay images only for visited countries
-    const visited = geo.features
-      .filter(f => countryImages[f.properties.ADMIN])
-      .map(f => {
-        const coords = f.geometry.coordinates[0][0];
-        const [lng, lat] = coords[Math.floor(coords.length / 2)];
-        return {
-          lat,
-          lng,
-          title: f.properties.ADMIN,
-          image: countryImages[f.properties.ADMIN]
-        };
-      });
+  // 📍 Create markers from trip data
+  trips.forEach(trip => {
+    const country = trip.country_name || trip.location;
+    const coords = countryCoords[country];
 
-    world
-      .htmlElementsData(visited)
-      .htmlElement(d => {
-        const el = document.createElement('div');
-        el.innerHTML = `
-          <img src="${d.image}" style="width:60px;height:60px;border-radius:8px;object-fit:cover;box-shadow:0 0 8px rgba(0,0,0,0.5);" />
-        `;
-        el.style.pointerEvents = 'auto';
-        el.style.cursor = 'pointer';
-        el.onclick = () => alert("Visited " + d.title);
-        return el;
-      });
+    if (coords && trip.image_path) {
+      const el = document.createElement('div');
+      el.className = 'trip-marker';
+      el.style.backgroundImage = `url('${trip.image_path}')`;
+
+      new mapboxgl.Marker(el)
+        .setLngLat(coords)
+        .setPopup(new mapboxgl.Popup({ offset: 25 }).setText(trip.title || country))
+        .addTo(map);
+    }
   });
 </script>

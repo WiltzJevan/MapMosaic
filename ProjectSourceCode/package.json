@@ -9,11 +9,21 @@
         "express": "^4.6.1",
         "express-handlebars": "^7.1.2",
         "express-session": "^1.18.1",
+        "multer": "^1.4.5-lts.2",
         "nodemon": "^3.1.9",
-        "pg-promise": "^10.11.1"
+        "pg-promise": "^10.11.1",
+        "three": "^0.175.0"
     },
     "scripts": {
         "prestart": "npm install",
         "start": "nodemon src/index.js"
-    }
+    },
+    "version": "1.0.0",
+    "directories": {
+        "test": "test"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "description": ""
 }

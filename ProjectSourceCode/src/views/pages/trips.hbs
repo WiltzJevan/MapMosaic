@@ -1,29 +1,31 @@
 {{> message}}
 
 <div class="container mt-5">
+  <h1 class="mb-4 fw-bold">My Trips</h1>
+
   <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2>Your Trips</h2>
-    <a href="/trips/new" class="btn login-btn">+ New Trip</a>
+    <h4>{{user.username}}'s Travels</h4>
+    <a href="/trips/new" class="btn btn-dark">➕ Add New Trip</a>
   </div>
 
   {{#if trips.length}}
-    <div class="row g-4">
+    <div class="row row-cols-1 row-cols-md-3 g-4">
       {{#each trips}}
-        <div class="col-md-4">
+        <div class="col">
           <div class="card h-100 shadow-sm">
-            <img src="{{this.image_path}}" class="card-img-top" alt="{{this.title}}" style="height: 200px; object-fit: cover;" />
+            {{#if image_path}}
+              <img src="{{image_path}}" class="card-img-top" alt="{{title}}" style="height: 200px; object-fit: cover;" />
+            {{/if}}
             <div class="card-body">
-              <h5 class="card-title">{{this.title}}</h5>
-              <p class="card-text"><strong>Location:</strong> {{this.location}}</p>
-              {{#if this.description}}
-                <p class="card-text">{{this.description}}</p>
-              {{/if}}
+              <h5 class="card-title">{{title}}</h5>
+              <p class="card-subtitle text-muted">{{location}}</p>
+              <p class="card-text mt-2">{{description}}</p>
             </div>
           </div>
         </div>
       {{/each}}
     </div>
   {{else}}
-    <p class="text-muted">No trips posted yet. Hit the “New Trip” button to start documenting your adventures!</p>
+    <p>No trips posted yet. <a href="/trips/new">Create your first trip!</a></p>
   {{/if}}
 </div>
