@@ -1,9 +1,90 @@
 {{> message}}
-<header>
-    <h1 style="font: size 3em;">
-        Welcome to Map Mosaic! 
-    </h1>
-    <h2>
-        --This page is where the globe will be integrated
-    </h2>
-</header>
+
+<!-- 🌟 Hero Section -->
+<section class="hero-section text-center py-5">
+  <div class="container">
+    <h1 class="display-4 fw-bold mb-3">Welcome to Map Mosaic</h1>
+    <p class="lead text-muted">Your adventures, beautifully mapped across the globe.</p>
+  </div>
+</section>
+
+<!-- 🌍 Globe Section -->
+<section class="globe-wrapper bg-light py-5">
+  <div class="container text-center">
+    <h2 class="mb-4">Explore Your Global Adventures</h2>
+    <div id="globeViz" style="height: 600px; width: 100%; max-width: 1000px; margin: 0 auto;"></div>
+  </div>
+</section>
+
+<!-- 🌐 Dependencies -->
+<script src="https://unpkg.com/three@0.150.1/build/three.min.js"></script>
+<script src="https://unpkg.com/globe.gl"></script>
+
+<!-- 🌐 Globe Script -->
+<script>
+  document.addEventListener("DOMContentLoaded", async function () {
+    const container = document.getElementById('globeViz');
+    const Globe = window.Globe;
+
+    const world = Globe()
+      (container)
+      .globeImageUrl('//unpkg.com/three-globe/example/img/earth-night.jpg')
+      .backgroundImageUrl('//unpkg.com/three-globe/example/img/night-sky.png')
+      .showGlobe(true)
+      .showAtmosphere(true)
+      .atmosphereColor('#3a228a')
+      .atmosphereAltitude(0.25)
+      .polygonAltitude(0.01)
+      .polygonCapColor(() => 'rgba(0, 0, 0, 0)') // Transparent unvisited countries
+      .polygonSideColor(() => 'rgba(0,0,0,0.1)')
+      .polygonStrokeColor(() => 'rgba(255,255,255,0.2)');
+
+    // Load GeoJSON country shapes
+    const res = await fetch('/data/world.geojson');
+    const geo = await res.json();
+
+    // Temporary hardcoded images per country — later pulled from DB
+    const countryImages = {
+      "France": "/images/sample-paris.jpg",
+      "United States of America": "../ProjectSourceCode/src/resources/images/sample-trip.jpg"
+    };
+
+    // Set polygon data
+    world.polygonsData(geo.features)
+      .polygonLabel(d => `
+        <b>${d.properties.ADMIN}</b><br/>
+        ${countryImages[d.properties.ADMIN] ? "Trip Uploaded!" : "No trip yet."}
+      `)
+      .onPolygonClick(d => {
+        const img = countryImages[d.properties.ADMIN];
+        if (img) window.open(img, '_blank');
+      });
+
+    // Create overlay images only for visited countries
+    const visited = geo.features
+      .filter(f => countryImages[f.properties.ADMIN])
+      .map(f => {
+        const coords = f.geometry.coordinates[0][0];
+        const [lng, lat] = coords[Math.floor(coords.length / 2)];
+        return {
+          lat,
+          lng,
+          title: f.properties.ADMIN,
+          image: countryImages[f.properties.ADMIN]
+        };
+      });
+
+    world
+      .htmlElementsData(visited)
+      .htmlElement(d => {
+        const el = document.createElement('div');
+        el.innerHTML = `
+          <img src="${d.image}" style="width:60px;height:60px;border-radius:8px;object-fit:cover;box-shadow:0 0 8px rgba(0,0,0,0.5);" />
+        `;
+        el.style.pointerEvents = 'auto';
+        el.style.cursor = 'pointer';
+        el.onclick = () => alert("Visited " + d.title);
+        return el;
+      });
+  });
+</script>
