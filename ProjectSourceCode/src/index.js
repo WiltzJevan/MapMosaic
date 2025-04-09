@@ -1,7 +1,6 @@
 
 require('dotenv').config(); // Ensures that .env variables are loaded before initialization
 
-
 // *****************************************************
 // <!-- Section 1 : Import Dependencies -->
 // *****************************************************
@@ -83,18 +82,6 @@ app.use(
 // <!-- Section 4 : Routes -->
 // *****************************************************
 
-// TODO - Include your API routes here
-// app.get('/', (req, res) => {
-//     res.render('pages/home');
-//   });
-
-app.use('/resources', express.static(path.join(__dirname, 'resources')));
-
-// API endpoint to fetch the Google Maps API key
-app.get('/config', (req, res) => {
-  res.json({ apiKey: process.env.GOOGLE_MAPS_API_KEY });
-});
-
 app.get("/", (req, res) => {
   res.redirect("/home");
 });
@@ -136,10 +123,6 @@ app.post('/login', async (req, res) => {
 
 app.get('/register', (req, res) => {
   res.render('pages/register');
-});
-
-app.get('/faq', (req, res) => {
-  res.render('pages/faq');
 });
 
 app.post('/register', async (req, res) => {
@@ -330,4 +313,4 @@ const auth = (req, res, next) => {
 app.use(auth);
 
 app.listen(3000);
-console.log('Server is listening on port 5000');
+console.log('Server is listening on port 3000');
