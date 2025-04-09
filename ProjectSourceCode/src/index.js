@@ -1,5 +1,5 @@
-require('dotenv').config(); // Ensures that .env variables are loaded before initialization
 
+require('dotenv').config(); // Ensures that .env variables are loaded before initialization
 
 // *****************************************************
 // <!-- Section 1 : Import Dependencies -->
@@ -14,17 +14,24 @@ const pgp = require('pg-promise')();
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const bcrypt = require('bcryptjs');
-const axios = require('axios');
+const multer = require('multer');
+const fs = require('fs');
 
 // *****************************************************
 // <!-- Section 2 : Connect to DB -->
 // *****************************************************
 app.use(express.static(__dirname + '/resources'));
+app.use('/data', express.static(path.join(__dirname, 'resources/data')));
+app.use('/node_modules', express.static(path.join(__dirname, 'node_modules')));
 
 const hbs = handlebars.create({
   extname: 'hbs',
-  layoutsDir: __dirname + '/views/layouts',
-  partialsDir: __dirname + '/views/partials',
+  layoutsDir: path.join(__dirname, 'views', 'layouts'),
+  partialsDir: path.join(__dirname, 'views', 'partials'),
+});
+
+hbs.handlebars.registerHelper('json', function (context) {
+  return JSON.stringify(context);
 });
 
 const dbConfig = {
@@ -36,6 +43,13 @@ const dbConfig = {
 };
 
 const db = pgp(dbConfig);
+
+const uploadDir = path.join(__dirname, "resources/images");
+
+// Ensure upload directory exists
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir, { recursive: true });
+}
 
 db.connect()
   .then(obj => {
@@ -68,23 +82,8 @@ app.use(
 // <!-- Section 4 : Routes -->
 // *****************************************************
 
-// TODO - Include your API routes here
-// app.get('/', (req, res) => {
-//     res.render('pages/home');
-//   });
-
-app.use('/resources', express.static(path.join(__dirname, 'resources')));
-
-// API endpoint to fetch the Google Maps API key
-app.get('/config', (req, res) => {
-  res.json({ apiKey: process.env.GOOGLE_MAPS_API_KEY });
-});
-
 app.get("/", (req, res) => {
-  if (!req.session.user) {
-    return res.redirect("/login");
-  }
-  res.render("pages/home", { user: req.session.user });
+  res.redirect("/home");
 });
 
 app.get('/login', (req, res) => {
@@ -98,6 +97,7 @@ app.post('/login', async (req, res) => {
     const data = await db.one(query, [username]);
 
     const user = {
+      id: data.id,
       username: data.username,
       password: data.password
     };
@@ -143,9 +143,24 @@ app.post('/register', async (req, res) => {
     });
 });
 
-app.get('/home', (req, res) => {
-  res.render("pages/home", { user: req.session.user });
+app.get("/home", async (req, res) => {
+  if (!req.session.user) return res.redirect("/login");
+
+  try {
+    const trips = await db.any(
+      `SELECT title, location, description, country_name, image_path
+       FROM trips
+       WHERE user_id = (SELECT id FROM users WHERE username = $1)`,
+      [req.session.user.username]
+    );
+
+    res.render("pages/home", { user: req.session.user, trips });
+  } catch (err) {
+    console.error("Error loading trips for globe:", err);
+    res.render("pages/home", { user: req.session.user, trips: [] });
+  }
 });
+
 
 app.get('/profile', (req, res) => {
   if (!req.session.user) {
@@ -190,8 +205,7 @@ app.post('/profile/update', async (req, res) => {
     } else {
       updateQuery = `UPDATE users SET ${field} = $1 WHERE username = $2`;
       updateValues = [value, req.session.user.username];
-
-      req.session.user[field] = value; // Keep session in sync
+      req.session.user[field] = value;
     }
 
     await db.none(updateQuery, updateValues);
@@ -203,12 +217,81 @@ app.post('/profile/update', async (req, res) => {
   }
 });
 
-app.get('/trips', (req, res) => {
+app.get('/trips', async (req, res) => {
   if (!req.session.user) {
     return res.redirect("/login");
   }
-  res.render("pages/trips", { user: req.session.user });
+
+  try {
+    const trips = await db.any(
+      `SELECT * FROM trips 
+       WHERE user_id = $1 
+       ORDER BY created_at DESC`,
+      [req.session.user.id]
+    );
+
+    console.log("Trips uploaded:", trips);
+    res.render("pages/trips", { user: req.session.user, trips });
+  } catch (err) {
+    console.error("Error loading trips:", err);
+    res.render("pages/trips", { user: req.session.user, trips: [] });
+  }
 });
+
+// File Upload Setup
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "./resources/images");
+  },
+  filename: (req, file, cb) => {
+    const uniqueName = Date.now() + path.extname(file.originalname);
+    cb(null, uniqueName);
+  },
+});
+
+const upload = multer({
+  storage: multer.diskStorage({
+    destination: (req, file, cb) => {
+      cb(null, uploadDir); // Already created above
+    },
+    filename: (req, file, cb) => {
+      const uniqueName = Date.now() + path.extname(file.originalname);
+      cb(null, uniqueName);
+    }
+  })
+});
+
+app.get("/trips/new", (req, res) => {
+  if (!req.session.user) return res.redirect("/login");
+  res.render("pages/new", { user: req.session.user });
+});
+
+app.post("/trips/new", upload.single("image"), async (req, res) => {
+  if (!req.session.user) return res.redirect("/login");
+
+  const { title, location, country_name, description } = req.body;
+  const imagePath = req.file ? "/images/" + req.file.filename : null;
+
+  console.log("Trip submission received:");
+  console.log("Title:", title);
+  console.log("Location:", location);
+  console.log("Country:", country_name);
+  console.log("Image:", imagePath);
+
+  try {
+    await db.none(
+      `INSERT INTO trips (user_id, title, location, country_name, description, image_path)
+       VALUES ($1, $2, $3, $4, $5, $6)`,
+      [req.session.user.id, title, location, country_name, description, imagePath]
+    );
+
+    res.redirect("/trips");
+  } catch (err) {
+    console.error("❌ Error saving trip:", err);
+    res.status(500).send("Failed to create trip.");
+  }
+});
+
 
 app.get('/logout', (req, res) => {
   req.session.destroy(function(err) {

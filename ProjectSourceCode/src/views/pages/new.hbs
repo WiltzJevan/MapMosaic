@@ -1,0 +1,39 @@
+{{> message}}
+
+<div class="container mt-5">
+  <h1 class="mb-4 text-center">Create a New Trip</h1>
+
+  <form action="/trips/new" method="POST" enctype="multipart/form-data" class="trip-form">
+    <div class="mb-3">
+      <label for="title" class="form-label">Trip Title</label>
+      <input type="text" class="form-control" id="title" name="title" required />
+    </div>
+
+    <div class="mb-3">
+      <label for="location" class="form-label">Location Name</label>
+      <input type="text" class="form-control" id="location" name="location" required />
+    </div>
+
+    <div class="mb-3">
+      <label for="latitude" class="form-label">Latitude</label>
+      <input type="number" step="any" class="form-control" id="latitude" name="latitude" required />
+    </div>
+
+    <div class="mb-3">
+      <label for="longitude" class="form-label">Longitude</label>
+      <input type="number" step="any" class="form-control" id="longitude" name="longitude" required />
+    </div>
+
+    <div class="mb-3">
+      <label for="description" class="form-label">Description</label>
+      <textarea class="form-control" id="description" name="description" rows="4"></textarea>
+    </div>
+
+    <div class="mb-3">
+      <label for="image" class="form-label">Upload an Image</label>
+      <input class="form-control" type="file" id="image" name="image" accept="image/*" />
+    </div>
+
+    <button type="submit" class="btn login-btn w-100">Save Trip</button>
+  </form>
+</div>
