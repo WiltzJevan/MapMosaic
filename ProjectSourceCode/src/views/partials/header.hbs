@@ -28,15 +28,19 @@
 
         <!-- Auth Buttons -->
         <ul class="navbar-nav ms-auto">
-          <li class="nav-item">
-            {{#if user}}
+          {{#if user}}
+            <li class="nav-item">
               <button class="nav-link" onclick="window.location.href='/logout'">Logout</button>
-            {{else}}
+            </li>
+          {{else}}
+            <li class="nav-item">
               <button class="nav-link" onclick="window.location.href='/login'">Login</button>
-            {{/if}}
-          </li>
+            </li>
+          {{/if}}
         </ul>
       </div>
     </div>
   </nav>
 </header>
+
+
