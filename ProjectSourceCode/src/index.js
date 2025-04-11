@@ -162,12 +162,47 @@ app.get("/home", async (req, res) => {
 });
 
 
-app.get('/profile', (req, res) => {
+app.get('/profile', async (req, res) => {
   if (!req.session.user) {
     return res.redirect("/login");
   }
-  res.render("pages/profile", { user: req.session.user });
+
+  try {
+    const trips = await db.any(
+      'SELECT country_name, location FROM trips WHERE user_id = $1',
+      [req.session.user.id]
+    );
+
+    const totalTrips = trips.length || 0;
+
+    const countriesVisited = new Set(
+      trips.map(t => t.country_name).filter(Boolean)
+    ).size || 0;
+
+    const statesVisited = new Set(
+      trips
+        .map(t => t.location?.split(',')[0]?.trim())
+        .filter(Boolean)
+    ).size || 0;
+
+    res.render("pages/profile", {
+      user: req.session.user,
+      totalTrips,
+      countriesVisited,
+      statesVisited
+    });
+  } catch (err) {
+    console.error("Error loading profile stats:", err);
+    res.render("pages/profile", {
+      user: req.session.user,
+      totalTrips: 0,
+      countriesVisited: 0,
+      statesVisited: 0
+    });
+  }
 });
+
+
 
 app.post('/profile/update', async (req, res) => {
   if (!req.session.user) {
@@ -312,5 +347,5 @@ const auth = (req, res, next) => {
 
 app.use(auth);
 
-app.listen(5000);
+app.listen(3000);
 console.log('Server is listening on port 5000');
