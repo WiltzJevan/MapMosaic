@@ -135,7 +135,7 @@ app.post('/register', async (req, res) => {
   db.one(query, values)
     .then(user => {
       console.log('Inserted user:', user);
-      res.redirect('/login');
+      res.redirect('pages/login');
     })
     .catch(error => {
       console.error('Error inserting user:', error);
