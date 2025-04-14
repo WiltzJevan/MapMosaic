@@ -107,7 +107,7 @@ app.post('/login', async (req, res) => {
     if (match) {
       req.session.user = user;
       req.session.save(() => {
-        res.render("pages/home", { user: req.session.user });
+        res.redirect("/home");
       });
     } else {
       res.render('pages/login', {
@@ -117,7 +117,9 @@ app.post('/login', async (req, res) => {
     }
   } catch (err) {
     console.error(err);
-    res.render('pages/login');
+    res.render('pages/login',{
+      message: 'User not found.',
+    });
   }
 });
 
