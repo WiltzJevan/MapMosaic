@@ -291,20 +291,23 @@ app.get("/trips/new", (req, res) => {
 app.post("/trips/new", upload.single("image"), async (req, res) => {
   if (!req.session.user) return res.redirect("/login");
 
-  const { title, location, country_name, description } = req.body;
+  const { title, location, country_name, description, created_at } = req.body;
   const imagePath = req.file ? "/images/" + req.file.filename : null;
+
+  const tripDate = created_at && created_at.trim() !== "" ? created_at : null;
 
   console.log("Trip submission received:");
   console.log("Title:", title);
   console.log("Location:", location);
   console.log("Country:", country_name);
   console.log("Image:", imagePath);
+  console.log("Date:", tripDate);
 
   try {
     await db.none(
-      `INSERT INTO trips (user_id, title, location, country_name, description, image_path)
-       VALUES ($1, $2, $3, $4, $5, $6)`,
-      [req.session.user.id, title, location, country_name, description, imagePath]
+      `INSERT INTO trips (user_id, title, location, country_name, description, image_path, created_at)
+       VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+      [req.session.user.id, title, location, country_name, description, imagePath, tripDate]
     );
 
     res.redirect("/trips");
