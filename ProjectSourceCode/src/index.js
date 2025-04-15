@@ -159,6 +159,11 @@ app.get('/trips', (req, res) => {
   }
 });
 
+
+app.get('/aboutus', (req, res) => {
+  res.render("pages/aboutus", { user: req.session.user });
+});
+
 app.post('/register', async (req, res) => {
     //hash the password using bcrypt library
     const hash = await bcrypt.hash(req.body.password, 10);
