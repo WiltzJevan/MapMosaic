@@ -154,10 +154,18 @@ app.get("/home", async (req, res) => {
       [req.session.user.username]
     );
 
-    res.render("pages/home", { user: req.session.user, trips });
+    res.render("pages/home", {
+      user: req.session.user,
+      trips,
+      mapboxToken: process.env.MAPBOX_ACCESS_TOKEN
+    });
   } catch (err) {
     console.error("Error loading trips for globe:", err);
-    res.render("pages/home", { user: req.session.user, trips: [] });
+    res.render("pages/home", {
+      user: req.session.user,
+      trips: trips || [],
+      mapboxToken: process.env.MAPBOX_ACCESS_TOKEN
+    });
   }
 });
 

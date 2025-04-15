@@ -34,7 +34,8 @@
 
 <!-- 🧠 Interactive Globe Script -->
 <script>
-  mapboxgl.accessToken = 'pk.eyJ1IjoiY2hhbmRsZXJmYXJuc3dvcnRoIiwiYSI6ImNtOTlxYzlvZzBncXgydnBvNTNidDQ4ZjEifQ.eS8dzvYBlDFE8WJhgGR3Xg'; // 🔑 Replace this
+  //mapboxgl.accessToken = 'pk.eyJ1IjoiY2hhbmRsZXJmYXJuc3dvcnRoIiwiYSI6ImNtOTlxYzlvZzBncXgydnBvNTNidDQ4ZjEifQ.eS8dzvYBlDFE8WJhgGR3Xg'; 
+  mapboxgl.accessToken = '{{mapboxToken}}';
 
   const map = new mapboxgl.Map({
     container: 'map',
@@ -49,7 +50,7 @@
   });
 
   // 👇 Server-provided trip data
-  const trips = {{{json trips}}};
+  //const trips = {{{json trips}}} || [];
 
   // 👉 Fallback country -> coordinates mapping
   //Coor. format = [Lon, Lat] 
