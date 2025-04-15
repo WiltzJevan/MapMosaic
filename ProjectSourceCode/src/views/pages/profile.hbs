@@ -76,9 +76,21 @@
     <div class="col-md-4">
       <div class="profile-card text-center">
         <h4>Your Most Recent Trip</h4>
-        <img src="/images/sample-trip.jpg" alt="Recent Trip" class="img-fluid rounded mb-3" />
-        <p class="fw-bold">Nashville, Tennessee</p>
-        <a href="/trips/new" class="btn login-btn">Post a new trip!</a>
+
+        {{#if mostRecentTrip}}
+          {{#if mostRecentTrip.image_path}}
+            <img src="{{mostRecentTrip.image_path}}" alt="{{mostRecentTrip.title}}" class="img-fluid rounded mb-3" style="height: 200px; object-fit: cover;" />
+          {{else}}
+            <img src="/images/placeholder.jpg" alt="No Image" class="img-fluid rounded mb-3" style="height: 200px; object-fit: cover;" />
+          {{/if}}
+
+          <p class="fw-bold">{{mostRecentTrip.title}}, {{mostRecentTrip.location}}</p>
+          <p class="text-muted">{{mostRecentTrip.description}}</p>
+        {{else}}
+          <p>No trips posted yet.</p>
+        {{/if}}
+
+        <a href="/trips/new" class="btn login-btn mt-2">Post a new trip!</a>
       </div>
     </div>
   </div>

@@ -164,11 +164,31 @@ app.get("/home", async (req, res) => {
 });
 
 
-app.get('/profile', (req, res) => {
+app.get('/profile', async (req, res) => {
   if (!req.session.user) {
     return res.redirect("/login");
   }
-  res.render("pages/profile", { user: req.session.user });
+
+  try {
+    const mostRecentTrip = await db.oneOrNone(
+      `SELECT * FROM trips 
+       WHERE user_id = $1 
+       ORDER BY created_at DESC 
+       LIMIT 1`,
+      [req.session.user.id]
+    );
+
+    res.render("pages/profile", {
+      user: req.session.user,
+      mostRecentTrip
+    });
+  } catch (err) {
+    console.error("Error loading most recent trip:", err);
+    res.render("pages/profile", {
+      user: req.session.user,
+      mostRecentTrip: null
+    });
+  }
 });
 
 app.post('/profile/update', async (req, res) => {
