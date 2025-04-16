@@ -1,5 +1,7 @@
 
 require('dotenv').config(); // Ensures that .env variables are loaded before initialization
+console.log("✅ MAPBOX_ACCESS_TOKEN from .env:", process.env.MAPBOX_ACCESS_TOKEN);
+
 
 // *****************************************************
 // <!-- Section 1 : Import Dependencies -->
@@ -119,7 +121,37 @@ app.post('/login', async (req, res) => {
   } catch (err) {
     console.error(err);
     res.render('pages/login');
-  }
+  } 
+
+  /*if (match) {
+    req.session.user = user;
+  
+    try {
+      const trips = await db.any(
+        `SELECT title, location, description, country_name, image_path
+         FROM trips
+         WHERE user_id = $1`,
+        [user.id]
+      );
+  
+      req.session.save(() => {
+        res.render("pages/home", {
+          user: req.session.user,
+          trips,
+          mapboxToken: process.env.MAPBOX_ACCESS_TOKEN
+        });
+      });
+    } catch (err) {
+      console.error("Login trip fetch error:", err);
+      req.session.save(() => {
+        res.render("pages/home", {
+          user: req.session.user,
+          trips: [],
+          mapboxToken: process.env.MAPBOX_ACCESS_TOKEN
+        });
+      });
+    }
+  }*/
 });
 
 app.get('/register', (req, res) => {

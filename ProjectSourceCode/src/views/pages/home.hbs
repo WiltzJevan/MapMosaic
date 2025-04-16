@@ -1,88 +1,240 @@
 {{> message}}
 
-<!-- 🌟 Hero Section -->
-<section class="hero-section text-center py-5">
-  <div class="container">
-    <h1 class="display-4 fw-bold mb-3">Welcome to Map Mosaic</h1>
-    <p class="lead text-muted">Your adventures, beautifully mapped across the globe.</p>
-  </div>
+<!-- 🌟 Hero Banner -->
+<section class="hero-banner text-white py-4 mb-4">
+ <div class="container text-center">
+   <h1 class="display-5 fw-bold mb-1">Welcome to Map Mosaic</h1>
+   <p class="lead mb-0">Your global adventures, beautifully visualized.</p>
+ </div>
 </section>
 
-<!-- 🌍 Mapbox Globe -->
-<section class="globe-wrapper bg-light py-5">
-  <div class="container text-center">
-    <h2 class="mb-4">Explore Your Global Adventures</h2>
-    <div id="map" style="height: 600px; width: 100%; max-width: 1000px; margin: 0 auto; border-radius: 8px; overflow: hidden;"></div>
-  </div>
-</section>
 
-<!-- 🧭 Mapbox CSS & JS -->
+<!-- 🌍 Globe Tools -->
+<div class="container mb-4 d-flex justify-content-between align-items-center flex-wrap gap-3">
+ <div class="d-flex align-items-center gap-2">
+   <label for="countrySelect" class="form-label fw-semibold mb-0 me-2">Jump to Country:</label>
+   <select id="countrySelect" class="form-select animated-dropdown" style="width: 300px;">
+     <option disabled selected>-- Choose Country --</option>
+   </select>
+ </div>
+
+
+ <a href="/trips/new" class="btn btn-light d-flex align-items-center px-4 py-2 shadow-sm">
+   ➕&nbsp; Add Trip
+ </a>
+</div>
+
+
+<!-- 🗺 Map Container -->
+<div class="container mb-5">
+ <div id="map" class="globe-container"></div>
+</div>
+
+
+<!-- 🌍 Mapbox & Select2 Dependencies -->
 <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet" />
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@turf/turf@6/turf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
 
 <style>
-  .trip-marker {
-    background-size: cover;
-    border-radius: 50%;
-    width: 60px;
-    height: 60px;
-    border: 2px solid white;
-    box-shadow: 0 0 6px rgba(0,0,0,0.5);
-    cursor: pointer;
-  }
+ body {
+   background: radial-gradient(circle at top, #1a1a1a, #0d0d0d 85%);
+   color: #eaeaea;
+ }
+
+
+ .hero-banner {
+   background-color: #111;
+ }
+
+
+ .globe-container {
+   height: 600px;
+   width: 100%;
+   border-radius: 12px;
+   overflow: hidden;
+   box-shadow: 0 0 15px rgba(0, 0, 0, 0.25);
+ }
+
+
+ .trip-marker {
+   background-size: cover;
+   border-radius: 50%;
+   width: 60px;
+   height: 60px;
+   border: 2px solid white;
+   box-shadow: 0 0 6px rgba(0,0,0,0.5);
+   cursor: pointer;
+ }
+
+
+ .select2-container .select2-selection--single {
+   height: 38px;
+   padding: 6px 12px;
+   border-radius: 6px;
+   background-color: #222;
+   color: #fff;
+   border: 1px solid #444;
+ }
+
+
+ .select2-container--default .select2-results__option--highlighted {
+   background-color: #333;
+   color: #fff;
+ }
+
+
+ .animated-dropdown {
+   animation: slideFade 0.4s ease-in-out;
+ }
+
+
+ @keyframes slideFade {
+   from {
+     opacity: 0;
+     transform: translateY(-10px);
+   }
+   to {
+     opacity: 1;
+     transform: translateY(0);
+   }
+ }
 </style>
 
-<!-- 🧠 Interactive Globe Script -->
+
 <script>
-  //mapboxgl.accessToken = 'pk.eyJ1IjoiY2hhbmRsZXJmYXJuc3dvcnRoIiwiYSI6ImNtOTlxYzlvZzBncXgydnBvNTNidDQ4ZjEifQ.eS8dzvYBlDFE8WJhgGR3Xg'; 
-  mapboxgl.accessToken = '{{mapboxToken}}';
+ mapboxgl.accessToken = 'pk.eyJ1IjoiY2hhbmRsZXJmYXJuc3dvcnRoIiwiYSI6ImNtOTlxYzlvZzBncXgydnBvNTNidDQ4ZjEifQ.eS8dzvYBlDFE8WJhgGR3Xg';
+/*const mapboxToken = "{{{mapboxToken}}}";
+  console.log("🧪 mapboxToken:", mapboxToken);
+  mapboxgl.accessToken = mapboxToken;*/
 
-  const map = new mapboxgl.Map({
-    container: 'map',
-    style: 'mapbox://styles/mapbox/dark-v10',
-    projection: 'globe',
-    center: [0, 20],
-    zoom: 1.2
-  });
+ const trips = {{{json trips}}};
 
-  map.on('style.load', () => {
-    map.setFog({}); // atmosphere on globe
-  });
 
-  // 👇 Server-provided trip data
-  const trips = {{{json trips}}};
+ const countries = [
+   { name: "United States", code: "🇺🇸" },
+   { name: "Canada", code: "🇨🇦" },
+   { name: "Mexico", code: "🇲🇽" },
+   { name: "France", code: "🇫🇷" },
+   { name: "Germany", code: "🇩🇪" },
+   { name: "United Kingdom", code: "🇬🇧" },
+   { name: "Italy", code: "🇮🇹" },
+   { name: "Spain", code: "🇪🇸" },
+   { name: "Portugal", code: "🇵🇹" },
+   { name: "Australia", code: "🇦🇺" },
+   { name: "New Zealand", code: "🇳🇿" },
+   { name: "Japan", code: "🇯🇵" },
+   { name: "South Korea", code: "🇰🇷" },
+   { name: "China", code: "🇨🇳" },
+   { name: "India", code: "🇮🇳" },
+   { name: "Brazil", code: "🇧🇷" },
+   { name: "Argentina", code: "🇦🇷" },
+   { name: "South Africa", code: "🇿🇦" },
+   { name: "Egypt", code: "🇪🇬" },
+   { name: "Morocco", code: "🇲🇦" },
+   { name: "Thailand", code: "🇹🇭" },
+   { name: "Vietnam", code: "🇻🇳" },
+   { name: "Indonesia", code: "🇮🇩" },
+   { name: "Russia", code: "🇷🇺" },
+   { name: "Norway", code: "🇳🇴" },
+   { name: "Sweden", code: "🇸🇪" },
+   { name: "Finland", code: "🇫🇮" },
+   { name: "Netherlands", code: "🇳🇱" },
+   { name: "Belgium", code: "🇧🇪" },
+   { name: "Switzerland", code: "🇨🇭" },
+   { name: "Austria", code: "🇦🇹" },
+   { name: "Poland", code: "🇵🇱" },
+   { name: "Czech Republic", code: "🇨🇿" },
+   { name: "Greece", code: "🇬🇷" },
+   { name: "Turkey", code: "🇹🇷" },
+   { name: "UAE", code: "🇦🇪" },
+   { name: "Saudi Arabia", code: "🇸🇦" }
+ ];
 
-  // 👉 Fallback country -> coordinates mapping
-  //Coor. format = [Lon, Lat] 
-  const countryCoords = {
-    "France": [2.2137, 46.2276],
-    "United States": [-95.7129, 37.0902],
-    "Canada": [-106.3468, 56.1304],
-    "Mexico": [-102.5528, 23.6345],
-    "Japan": [138.2529, 36.2048],
-    "Brazil": [-51.9253, -14.2350],
-    "Australia": [133.7751, -25.2744],
-    "India": [78.9629, 20.5937],
-    "United Kingdom": [-3.435973, 55.378051],
-    "Germany": [10.4515, 51.1657]
-    // Add more as needed
-  };
 
-  // 📍 Create markers from trip data
-  trips.forEach(trip => {
-    const country = trip.country_name || trip.location;
-    const coords = countryCoords[country];
+ const map = new mapboxgl.Map({
+   container: 'map',
+   style: 'mapbox://styles/mapbox/dark-v10',
+   projection: 'globe',
+   center: [0, 20],
+   zoom: 1.3
+ });
 
-    if (coords && trip.image_path) {
-      const el = document.createElement('div');
-      el.className = 'trip-marker';
-      el.style.backgroundImage = `url('${trip.image_path}')`;
 
-      new mapboxgl.Marker(el)
-        .setLngLat(coords)
-        .setPopup(new mapboxgl.Popup({ offset: 25 }).setText(trip.title || country))
-        .addTo(map);
-    }
-  });
+ map.on('style.load', () => {
+   map.setFog({});
+   renderTripMarkers();
+ });
+
+
+ const geocodeCountry = async (country) => {
+   const url = `https://nominatim.openstreetmap.org/search?country=${encodeURIComponent(country)}&format=json&limit=1`;
+   try {
+     const res = await fetch(url);
+     const data = await res.json();
+     if (data.length > 0) return [parseFloat(data[0].lon), parseFloat(data[0].lat)];
+   } catch (err) {
+     console.error("Geocoding failed:", err);
+   }
+   return null;
+ };
+
+
+ async function renderTripMarkers() {
+   for (const trip of trips) {
+     const coords = await geocodeCountry(trip.country_name || trip.location);
+     if (coords && trip.image_path) {
+       const el = document.createElement('div');
+       el.className = 'trip-marker';
+       el.style.backgroundImage = `url('${trip.image_path}')`;
+
+
+       new mapboxgl.Marker(el)
+         .setLngLat(coords)
+         .setPopup(new mapboxgl.Popup({ offset: 25 }).setText(trip.title || trip.country_name))
+         .addTo(map);
+     }
+   }
+ }
+
+
+ document.addEventListener("DOMContentLoaded", () => {
+   const $select = $('#countrySelect');
+   countries.forEach(c => {
+     $select.append(new Option(c.name, c.name)); // only the country name
+   });
+
+
+   $select.select2({
+     placeholder: "Search for a country...",
+     allowClear: true,
+     width: 'resolve',
+     templateResult: (state) => {
+       if (!state.id) return state.text;
+       const flag = countries.find(c => c.name === state.id)?.code || '';
+       return $('<span>' + flag + ' ' + state.text + '</span>');
+     },
+     templateSelection: (state) => {
+       const flag = countries.find(c => c.name === state.id)?.code || '';
+       return $('<span>' + flag + ' ' + state.text + '</span>');
+     }
+   });
+
+
+   $select.on('change', async function () {
+     const selected = $(this).val();
+     if (selected) {
+       const coords = await geocodeCountry(selected);
+       if (coords) {
+         map.flyTo({ center: coords, zoom: 4.2, speed: 1.3, curve: 1.1 });
+       } else {
+         alert("Couldn't find that location.");
+       }
+     }
+   });
+ });
+
 </script>
