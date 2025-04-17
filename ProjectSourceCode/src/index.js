@@ -35,8 +35,8 @@ hbs.handlebars.registerHelper('json', function (context) {
 });
 
 const dbConfig = {
-  host: 'db',
-  port: 5432,
+  host: process.env.POSTGRES_HOST,
+  port: process.env.POSTGRES_PORT,
   database: process.env.POSTGRES_DB,
   user: process.env.POSTGRES_USER,
   password: process.env.POSTGRES_PASSWORD,
@@ -299,6 +299,10 @@ app.get('/logout', (req, res) => {
   });
 });
 
+app.get('/contact', (req, res) => {
+  res.render('pages/contact', { user: req.session.user });
+});
+
 // *****************************************************
 // <!-- Section 5 : Auth Middleware + Start Server -->
 // *****************************************************
@@ -312,5 +316,5 @@ const auth = (req, res, next) => {
 
 app.use(auth);
 
-app.listen(5000);
+app.listen(3000);
 console.log('Server is listening on port 5000');
