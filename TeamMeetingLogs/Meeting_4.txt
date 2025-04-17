@@ -1,0 +1,33 @@
+Team 6 Meeting Minutes
+Lab Section 110
+Project Week 3
+
+Date: 4/15/2025
+
+Attendees:
+Jevan Wiltz 
+Treyanna Brown 
+Chandler Farnsworth 
+Ben Grumbles 
+Juliana Garcia-Gallo 
+
+*Directives*
+  - Continue working on 
+
+*Achievement*
+  - Chandler worked on integrating trips and the globe
+  - Jevan is continuing to work on the globe
+  - Ben worked on entering a trip date and sorting trips by recent
+  - Treyanna worked on the backend, displaying user stats and fixing some routes
+  - Juliana worked on the nav bar and the staff page
+
+
+*Alternative Goals*
+  - N/A
+ 
+
+*Follow-Ups*
+  - N/A
+
+*Miscellaneous*
+  - N/A

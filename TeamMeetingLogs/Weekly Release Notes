@@ -9,3 +9,13 @@ Created dropdown menu for vari0us pages in the nav bar.
 Continuing to work on interactive globe functionality.
 Fixed some routes in index.js so everything redirects to the correct pages.
 Starting work on allowing user to upload images to database and allowiung them to access trip pages using coordinates as the primary key.
+
+April 9, 2024
+Added globe functionality to the homepage.
+Updated the style of the website for a clean look.
+
+April 15, 2024
+Added the ability to choose the date of the trip and display the most recent trip on the homepage
+Starting to display trips on the globe in certain countries
+Added staff page
+Profile page now properly displays user statistics

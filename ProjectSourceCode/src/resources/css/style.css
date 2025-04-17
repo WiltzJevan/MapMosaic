@@ -1,30 +1,124 @@
-/* General Reset & Typography */
+/* ========================================
+   🌐 GLOBAL STYLES & TYPOGRAPHY RESET
+======================================== */
 body {
   margin: 0;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f4f4f4;
-  color: #333;
+  background-color: #0f0f0f;
+  color: #eaeaea;
 }
 
-/* NAVBAR STYLING */
+/* ========================================
+   🧭 NAVBAR STYLING (GLOW STYLE)
+======================================== */
 .navbar {
-  background: linear-gradient(to right, #d0eaff, #3399ff);
-  border-bottom: none;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(to right, #222, #111);
+  border-bottom: 1px solid #333;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
   padding: 0.75rem 1.5rem;
 }
 
-.navbar-brand {
-  font-size: 1.75rem;
-  font-weight: 600;
-  color: #333;
-  text-decoration: none;
+/* 🖼 Logo Image */
+.navbar-brand img {
+  height: 36px;
+  object-fit: contain;
+  filter: brightness(1.15);
+  transition: transform 0.2s ease;
 }
 
-.navbar-brand:hover {
-  color: #007bff;
+.navbar-brand img:hover {
+  transform: scale(1.05);
 }
 
+/* 🔗 Navigation Links with Glow */
+.navbar .nav {
+  gap: 1.25rem;
+}
+
+.navbar .nav-link {
+  color: #eaeaea;
+  font-weight: 500;
+  font-size: 1rem;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+  padding: 0.25rem 0;
+  border-bottom: 2px solid transparent;
+}
+
+.navbar .nav-link:hover {
+  color: #00bfff;
+  text-shadow: 0 0 8px rgba(0, 191, 255, 0.6), 0 0 12px rgba(0, 191, 255, 0.5);
+  border-color: #00bfff;
+}
+
+/* ✅ Active Page Glow */
+.navbar .nav-link.active {
+  color: #00bfff;
+  text-shadow: 0 0 6px rgba(0, 191, 255, 0.6);
+  border-color: #00bfff;
+}
+
+/* ================================
+   ✨ Logo Styling & Animation
+================================= */
+.logo-img {
+  height: 42px;
+  transition: transform 0.3s ease, filter 0.3s ease;
+  filter: drop-shadow(0 0 0.4rem rgba(0, 191, 255, 0.35));
+}
+
+.logo-img:hover {
+  transform: scale(1.05) rotate(-2deg);
+  filter: drop-shadow(0 0 0.6rem rgba(0, 191, 255, 0.7));
+}
+
+/* ========================================
+   👤 PROFILE ICON DROPDOWN
+======================================== */
+.profile-dropdown {
+  position: relative;
+}
+
+.profile-icon {
+  color: #f1f1f1;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.profile-icon:hover {
+  color: #00bfff;
+}
+
+.profile-dropdown .dropdown-menu {
+  position: absolute;
+  top: 110%;
+  right: 0;
+  background: #1e1e1e;
+  border: 1px solid #444;
+  border-radius: 8px;
+  padding: 0.5rem 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  display: none;
+  min-width: 160px;
+  z-index: 1000;
+}
+
+.profile-dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+.dropdown-item {
+  color: #ddd;
+  padding: 0.5rem 1.25rem;
+  transition: background 0.2s;
+}
+
+.dropdown-item:hover {
+  background-color: #2a2a2a;
+}
+
+/* ========================================
+   📂 DROPDOWN & BUTTON STYLING
+======================================== */
 .dropdown .btn {
   transition: transform 0.2s ease;
 }
@@ -34,8 +128,10 @@ body {
 }
 
 .dropdown-menu {
+  background-color: #1e1e1e;
+  color: #eee;
   border-radius: 8px;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
   padding: 0.5rem 0;
   animation: fadeIn 0.2s ease-in-out;
 }
@@ -46,27 +142,151 @@ body {
 }
 
 .dropdown-item:hover {
-  background-color: #f0f0f000;
+  background-color: #333;
 }
 
-.btn-outline-primary,
-.btn-outline-secondary {
-  border-radius: 25px;
-  padding: 0.4rem 1rem;
+/* ========================================
+   🎯 AUTH / LOGIN / REGISTER PAGES
+======================================== */
+.auth-container {
+  min-height: calc(100vh - 80px);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 4rem;
+  background: linear-gradient(to bottom, #1c1c1c, #0d0d0d);
+}
+
+.auth-card {
+  background: #1e1e1e;
+  padding: 2.5rem 2rem;
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  max-width: 400px;
+  width: 100%;
+  color: #f1f1f1;
+}
+
+.auth-card h2 {
+  font-size: 1.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.auth-card p {
   font-size: 1rem;
-  transition: all 0.2s ease-in-out;
+  color: #ccc;
 }
 
-.btn-outline-primary:hover,
-.btn-outline-secondary:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+/* ========================================
+   🧾 FORM STYLES & INPUT FIELDS
+======================================== */
+.form-group {
+  margin-bottom: 1rem;
 }
 
-/* Buttons */
+.form-error {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid #f5c6cb;
+  border-radius: 5px;
+  font-size: 0.95rem;
+}
+
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  height: 56px;
+  padding: 0.6rem 2.75rem 0.6rem 0.75rem;
+  border: 2px solid #555;
+  border-radius: 5px;
+  font-size: 1rem;
+  background-color: #2a2a2a;
+  color: #f1f1f1;
+  box-sizing: border-box;
+  display: block;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+  outline: none;
+  border-color: #00bfff;
+}
+
+/* ---------------------- */
+/* 👤 Profile Page Styles */
+/* ---------------------- */
+.profile-card {
+  background: #1e1e1e;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  height: 100%;
+  color: #f1f1f1;
+}
+
+.profile-card h4 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.profile-field {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.profile-field input {
+  width: 100%;
+  height: 52px;
+  padding: 0.6rem 2.75rem 0.6rem 0.75rem;
+  border: 2px solid #444;
+  border-radius: 8px;
+  font-size: 1rem;
+  background-color: #2a2a2a;
+  color: #f1f1f1;
+  box-sizing: border-box;
+}
+
+.edit-icon,
+.save-icon,
+.cancel-icon,
+.eye-icon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.2rem;
+  z-index: 2;
+}
+
+.edit-icon {
+  right: 1rem;
+  color: #00bfff;
+}
+
+.save-icon {
+  right: 2.5rem;
+  color: green;
+}
+
+.cancel-icon {
+  right: 1rem;
+  color: #dc3545;
+}
+
+.eye-icon {
+  right: 1rem;
+  color: #bbb;
+  cursor: pointer;
+}
+
+/* ========================================
+   🚪 LOGIN / LOGOUT BUTTONS
+======================================== */
 .logout-btn,
 .login-btn {
-  background-color: #000 !important;
+  background-color: #111 !important;
   color: #fff !important;
   border: none;
   border-radius: 25px;
@@ -82,147 +302,13 @@ body {
 .login-btn:hover,
 .login-btn:focus {
   background-color: #222 !important;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 6px rgba(255, 255, 255, 0.1);
   text-decoration: none;
 }
 
-/* Auth Layout */
-.auth-container {
-  min-height: calc(100vh - 80px);
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  padding-top: 4rem;
-  background: linear-gradient(to bottom, #d1d1d1, #a5a5a5);
-}
-
-.auth-card {
-  background: #fff;
-  padding: 2.5rem 2rem;
-  border-radius: 10px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-  max-width: 400px;
-  width: 100%;
-}
-
-.auth-card h2 {
-  font-size: 1.75rem;
-  margin-bottom: 0.5rem;
-}
-
-.auth-card p {
-  font-size: 1rem;
-  color: #555;
-}
-
-.form-group {
-  margin-bottom: 1rem;
-}
-
-.form-error {
-  background-color: #f8d7da;
-  color: #721c24;
-  padding: 0.75rem 1rem;
-  margin-bottom: 1rem;
-  border: 1px solid #f5c6cb;
-  border-radius: 5px;
-  font-size: 0.95rem;
-}
-
-/* Input Fields */
-input[type="text"],
-input[type="password"] {
-  width: 100%;
-  height: 56px;
-  padding: 0.6rem 2.75rem 0.6rem 0.75rem; /* room for icons on right */
-  border: 2px solid #ccc;
-  border-radius: 5px;
-  font-size: 1rem;
-  box-sizing: border-box;
-  display: block;
-}
-
-input[type="text"]:focus,
-input[type="password"]:focus {
-  outline: none;
-  border-color: #007bff;
-}
-
-/* Centering helpers */
-.text-center {
-  text-align: center;
-}
-
-/* Profile layout */
-.profile-field {
-  position: relative;
-  margin-bottom: 1rem;
-}
-
-.profile-field input {
-  width: 100%;
-  height: 56px; /* Match username height */
-  padding: 0.6rem 2.75rem 0.6rem 0.75rem;
-  border: 2px solid #333;
-  border-radius: 5px;
-  font-size: 1rem;
-  background-color: #fff;
-  box-sizing: border-box;
-}
-/* Icons */
-.edit-icon {
-  position: absolute;
-  top: 50%;
-  right: 1.25rem; /* closer to the edge, but not touching */
-  transform: translateY(-50%);
-  color: #007bff;
-  cursor: pointer;
-  font-size: 1.2rem;
-  z-index: 2;
-}
-
-.eye-icon {
-  position: absolute;
-  top: 50%;
-  right: 1.2rem;
-  transform: translateY(-50%);
-  font-size: 1.2rem;
-  color: #666;
-  cursor: pointer;
-  z-index: 2;
-}
-
-.save-icon,
-.cancel-icon {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 1.1rem;
-  cursor: pointer;
-  z-index: 2;
-}
-
-.save-icon {
-  right: 2.2rem;
-  color: green;
-}
-
-.cancel-icon {
-  right: 1rem;
-  color: #dc3545;
-}
-
-.password-input-wrapper {
-  position: relative;
-  width: 100%; /* 🔧 Ensures it matches the text field */
-  margin-bottom: 1rem;
-}
-
-.password-edit-wrapper {
-  width: 100%; /* 🔧 Ensures full width of the wrapper */
-}
-
-/* Toast Alerts */
+/* ========================================
+   🌈 TOAST NOTIFICATIONS
+======================================== */
 .toast-success,
 .toast-error {
   position: fixed;
@@ -232,7 +318,7 @@ input[type="password"]:focus {
   padding: 0.75rem 1.25rem;
   border-radius: 6px;
   font-weight: 500;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   animation: fadeIn 0.3s ease-in-out;
 }
 
@@ -248,11 +334,16 @@ input[type="password"]:focus {
   border: 1px solid #f5c2c7;
 }
 
+/* ========================================
+   🌍 MAP / TRIP MARKERS
+======================================== */
 .trip-marker {
   cursor: pointer;
 }
 
-/* Animations */
+/* ========================================
+   🎬 ANIMATIONS
+======================================== */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -262,4 +353,41 @@ input[type="password"]:focus {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+.delete-btn:hover {
+  animation: shake 0.3s ease-in-out;
+}
+
+@keyframes shake {
+  0% { transform: translateX(0px); }
+  25% { transform: translateX(-3px); }
+  50% { transform: translateX(3px); }
+  75% { transform: translateX(-3px); }
+  100% { transform: translateX(0px); }
+}
+
+/* ========================================
+   📦 MODAL TRANSITIONS
+======================================== */
+.modal.fade .modal-dialog {
+  transform: scale(0.95);
+  opacity: 0;
+  transition: all 0.3s ease-out;
+}
+
+.modal.fade.show .modal-dialog {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.modal,
+.modal-backdrop {
+  z-index: 2000 !important;
+}
+
+.modal-backdrop.show {
+  opacity: 0.75;
+  background-color: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(2px);
 }

@@ -1,26 +1,78 @@
 {{> message}}
 
-<!-- 🌟 Hero Section -->
-<section class="hero-section text-center py-5">
-  <div class="container">
-    <h1 class="display-4 fw-bold mb-3">Welcome to Map Mosaic</h1>
-    <p class="lead text-muted">Your adventures, beautifully mapped across the globe.</p>
-  </div>
-</section>
+<!-- 🎥 Fullscreen Video Background -->
+<video autoplay muted loop playsinline class="bg-video">
+  <source src="/videos/background.mp4" type="video/mp4" />
+  Your browser does not support the video tag.
+</video>
 
-<!-- 🌍 Mapbox Globe -->
-<section class="globe-wrapper bg-light py-5">
-  <div class="container text-center">
-    <h2 class="mb-4">Explore Your Global Adventures</h2>
-    <div id="map" style="height: 600px; width: 100%; max-width: 1000px; margin: 0 auto; border-radius: 8px; overflow: hidden;"></div>
-  </div>
-</section>
+<!-- 🏷️ Title Overlay -->
+<div class="text-center position-relative z-2 py-5">
+  <h1 class="display-5 fw-bold mb-4 text-glow-green">Welcome to Map Mosaic</h1>
+</div>
 
-<!-- 🧭 Mapbox CSS & JS -->
+<!-- 🌍 Globe Tools -->
+<div class="container mb-5 d-flex justify-content-center align-items-center gap-3 flex-wrap">
+  <div class="position-relative d-flex align-items-center" style="min-width: 320px;">
+    <i class="fa-solid fa-magnifying-glass search-icon-inside"></i>
+    <select id="countrySelect" class="form-select select2 styled-search-select ps-5">
+      <option disabled selected value="">🌎 Select a destination...</option>
+    </select>
+  </div>
+
+  <a href="/trips/new" class="btn btn-add-trip d-flex align-items-center px-4 py-2 shadow-sm">
+    <i class="fas fa-plus-circle me-2"></i>New Trip
+  </a>
+</div>
+
+<!-- 🗺 Map Container -->
+<div class="container mb-5">
+  <div id="map" class="globe-container"></div>
+</div>
+
+<!-- 🌍 Dependencies -->
 <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet" />
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
 
 <style>
+  body {
+    background: #0f0f0f;
+    color: #eaeaea;
+  }
+
+  .bg-video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    z-index: -1;
+    filter: blur(10px) brightness(0.4);
+    opacity: 0.85;
+    pointer-events: none;
+  }
+
+  .text-glow-green {
+    color: #eaffea;
+    text-shadow: 0 0 15px rgba(56, 239, 125, 0.6);
+  }
+
+  .globe-container {
+    height: 600px;
+    width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.05);
+    border: 1px solid #333;
+    position: relative;
+    z-index: 1;
+  }
+
   .trip-marker {
     background-size: cover;
     border-radius: 50%;
@@ -30,57 +82,227 @@
     box-shadow: 0 0 6px rgba(0,0,0,0.5);
     cursor: pointer;
   }
+
+  .styled-search-select {
+    background-color: #1e1e1e;
+    border: 1px solid #555;
+    color: #fff;
+    border-radius: 2rem;
+    padding: 0.4rem 1rem 0.4rem 2.25rem;
+    font-size: 0.95rem;
+    height: 40px;
+    width: 100%;
+    box-shadow: 0 0 8px rgba(56, 239, 125, 0.15);
+  }
+
+  .search-icon-inside {
+    position: absolute;
+    top: 50%;
+    left: 16px;
+    transform: translateY(-50%);
+    color: #38ef7d;
+    font-size: 1rem;
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  .select2-container--default .select2-selection--single {
+    background-color: #1e1e1e;
+    border: 1px solid #555;
+    height: 40px;
+    border-radius: 2rem;
+    display: flex;
+    align-items: center;
+    padding-left: 2.25rem;
+    padding-right: 2rem;
+    color: #fff;
+    box-shadow: 0 0 8px rgba(56, 239, 125, 0.15);
+    transition: all 0.3s ease;
+  }
+
+  .select2-container--default .select2-selection--single .select2-selection__rendered {
+    color: #fff;
+    line-height: 40px;
+    padding-left: 0;
+  }
+
+  .select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 40px;
+    top: 0;
+    right: 10px;
+  }
+
+  .select2-container--default .select2-dropdown {
+    background-color: #1a1a1a;
+    border: 1px solid #444;
+    border-radius: 10px;
+    box-shadow: 0 6px 16px rgba(0, 255, 170, 0.1);
+    padding: 0.25rem 0;
+    z-index: 9999;
+    font-size: 0.95rem;
+  }
+
+  .select2-container--default .select2-results__option {
+    padding: 0.6rem 1rem;
+    color: #eaeaea;
+    background-color: transparent;
+    transition: background 0.2s ease, color 0.2s ease;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  }
+
+  .select2-container--default .select2-results__option:last-child {
+    border-bottom: none;
+  }
+
+  .select2-container--default .select2-results__option--highlighted {
+    background: linear-gradient(to right, #38ef7d, #11998e);
+    color: #000;
+    font-weight: 600;
+  }
+
+  /* Updated Button Styling to Match Trips Page */
+  .btn-add-trip {
+    background: linear-gradient(to right, #38ef7d, #11998e);
+    border: none;
+    color: #000000;
+    font-weight: 600;
+    padding: 0.5rem 1.2rem;
+    border-radius: 2rem;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 2px 8px rgba(56, 239, 125, 0.15);
+    display: flex;
+    align-items: center;
+  }
+
+  .btn-add-trip:hover {
+    background: linear-gradient(to right, #11998e, #38ef7d);
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(56, 239, 125, 0.3);
+    color: #000000;
+  }
+
+  .btn-add-trip i {
+    font-size: 1.1rem;
+  }
 </style>
 
-<!-- 🧠 Interactive Globe Script -->
 <script>
-  mapboxgl.accessToken = 'pk.eyJ1IjoiY2hhbmRsZXJmYXJuc3dvcnRoIiwiYSI6ImNtOTlxYzlvZzBncXgydnBvNTNidDQ4ZjEifQ.eS8dzvYBlDFE8WJhgGR3Xg'; // 🔑 Replace this
+  mapboxgl.accessToken = 'pk.eyJ1IjoiY2hhbmRsZXJmYXJuc3dvcnRoIiwiYSI6ImNtOTlxYzlvZzBncXgydnBvNTNidDQ4ZjEifQ.eS8dzvYBlDFE8WJhgGR3Xg';
+
+  const trips = {{{json trips}}};
+
+  const countries = [
+    { name: "United States", code: "🇺🇸" },
+    { name: "Canada", code: "🇨🇦" },
+    { name: "Mexico", code: "🇲🇽" },
+    { name: "France", code: "🇫🇷" },
+    { name: "Germany", code: "🇩🇪" },
+    { name: "United Kingdom", code: "🇬🇧" },
+    { name: "Italy", code: "🇮🇹" },
+    { name: "Spain", code: "🇪🇸" },
+    { name: "Portugal", code: "🇵🇹" },
+    { name: "Australia", code: "🇦🇺" },
+    { name: "New Zealand", code: "🇳🇿" },
+    { name: "Japan", code: "🇯🇵" },
+    { name: "South Korea", code: "🇰🇷" },
+    { name: "China", code: "🇨🇳" },
+    { name: "India", code: "🇮🇳" },
+    { name: "Brazil", code: "🇧🇷" },
+    { name: "Argentina", code: "🇦🇷" },
+    { name: "South Africa", code: "🇿🇦" },
+    { name: "Egypt", code: "🇪🇬" },
+    { name: "Morocco", code: "🇲🇦" },
+    { name: "Thailand", code: "🇹🇭" },
+    { name: "Vietnam", code: "🇻🇳" },
+    { name: "Indonesia", code: "🇮🇩" },
+    { name: "Russia", code: "🇷🇺" },
+    { name: "Norway", code: "🇳🇴" },
+    { name: "Sweden", code: "🇸🇪" },
+    { name: "Finland", code: "🇫🇮" },
+    { name: "Netherlands", code: "🇳🇱" },
+    { name: "Belgium", code: "🇧🇪" },
+    { name: "Switzerland", code: "🇨🇭" },
+    { name: "Austria", code: "🇦🇹" },
+    { name: "Poland", code: "🇵🇱" },
+    { name: "Czech Republic", code: "🇨🇿" },
+    { name: "Greece", code: "🇬🇷" },
+    { name: "Turkey", code: "🇹🇷" },
+    { name: "UAE", code: "🇦🇪" },
+    { name: "Saudi Arabia", code: "🇸🇦" }
+  ];
 
   const map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/mapbox/dark-v10',
     projection: 'globe',
     center: [0, 20],
-    zoom: 1.2
+    zoom: 1.3
   });
 
   map.on('style.load', () => {
-    map.setFog({}); // atmosphere on globe
+    map.setFog({});
+    renderTripMarkers();
   });
 
-  // 👇 Server-provided trip data
-  const trips = {{{json trips}}};
-
-  // 👉 Fallback country -> coordinates mapping
-  //Coor. format = [Lon, Lat] 
-  const countryCoords = {
-    "France": [2.2137, 46.2276],
-    "United States": [-95.7129, 37.0902],
-    "Canada": [-106.3468, 56.1304],
-    "Mexico": [-102.5528, 23.6345],
-    "Japan": [138.2529, 36.2048],
-    "Brazil": [-51.9253, -14.2350],
-    "Australia": [133.7751, -25.2744],
-    "India": [78.9629, 20.5937],
-    "United Kingdom": [-3.435973, 55.378051],
-    "Germany": [10.4515, 51.1657]
-    // Add more as needed
+  const geocodeCountry = async (country) => {
+    const url = `https://nominatim.openstreetmap.org/search?country=${encodeURIComponent(country)}&format=json&limit=1`;
+    try {
+      const res = await fetch(url);
+      const data = await res.json();
+      if (data.length > 0) return [parseFloat(data[0].lon), parseFloat(data[0].lat)];
+    } catch (err) {
+      console.error("Geocoding failed:", err);
+    }
+    return null;
   };
 
-  // 📍 Create markers from trip data
-  trips.forEach(trip => {
-    const country = trip.country_name || trip.location;
-    const coords = countryCoords[country];
-
-    if (coords && trip.image_path) {
-      const el = document.createElement('div');
-      el.className = 'trip-marker';
-      el.style.backgroundImage = `url('${trip.image_path}')`;
-
-      new mapboxgl.Marker(el)
-        .setLngLat(coords)
-        .setPopup(new mapboxgl.Popup({ offset: 25 }).setText(trip.title || country))
-        .addTo(map);
+  async function renderTripMarkers() {
+    for (const trip of trips) {
+      const coords = await geocodeCountry(trip.country_name || trip.location);
+      if (coords && trip.image_path) {
+        const el = document.createElement('div');
+        el.className = 'trip-marker';
+        el.style.backgroundImage = `url('${trip.image_path}')`;
+        new mapboxgl.Marker(el)
+          .setLngLat(coords)
+          .setPopup(new mapboxgl.Popup({ offset: 25 }).setText(trip.title || trip.country_name))
+          .addTo(map);
+      }
     }
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const $select = $('#countrySelect');
+    countries.forEach(c => {
+      $select.append(new Option(c.name, c.name));
+    });
+
+    $select.select2({
+      placeholder: "Search for a country...",
+      allowClear: true,
+      width: 'resolve',
+      templateResult: (state) => {
+        if (!state.id) return state.text;
+        const flag = countries.find(c => c.name === state.id)?.code || '';
+        return $('<span>' + flag + ' ' + state.text + '</span>');
+      },
+      templateSelection: (state) => {
+        const flag = countries.find(c => c.name === state.id)?.code || '';
+        return $('<span>' + flag + ' ' + state.text + '</span>');
+      }
+    });
+
+    // 🧭 Move map to selected country
+    $select.on('change', async function () {
+      const selected = $(this).val();
+      if (selected) {
+        const coords = await geocodeCountry(selected);
+        if (coords) {
+          map.flyTo({ center: coords, zoom: 4.2, speed: 1.3, curve: 1.1 });
+        } else {
+          alert("Couldn't find that location.");
+        }
+      }
+    });
   });
 </script>

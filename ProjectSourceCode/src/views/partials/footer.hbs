@@ -1,8 +1,47 @@
-<footer class="text-center text-muted w-100 mt-auto fixed-bottom bg-light py-3">
-  <div>
-    <a href="/" class="mx-2 text-decoration-none text-muted">Home</a>
-    <a href="/about" class="mx-2 text-decoration-none text-muted">About Us</a>
-    <a href="/contact" class="mx-2 text-decoration-none text-muted">Contact</a>
-    <a href="/faq" class="mx-2 text-decoration-none text-muted">FAQ</a>
+
+<footer class="site-footer text-white pt-4 pb-3 px-3" style="background: linear-gradient(to right, #1a1a1a, #0f0f0f); border-top: 1px solid rgba(255,255,255,0.06); font-size: 0.95rem;">
+  <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
+
+    <!-- 📄 Navigation + Copyright -->
+    <div class="text-md-start text-center">
+      <ul class="list-unstyled d-flex flex-wrap gap-3 mb-2 mb-md-1 justify-content-center justify-content-md-start">
+        <li><a href="/" class="footer-link">Home</a></li>
+        <li><a href="/trips" class="footer-link">Trips</a></li>
+        <li><a href="/faq" class="footer-link">FAQ</a></li>
+        <li><a href="/contact" class="footer-link">Contact</a></li>
+      </ul>
+      <div class="small fw-light" style="color: #ccc; font-size: 0.85rem;">
+        &copy; {{year}} <span class="fw-semibold text-light">Map Mosaic</span>. All rights reserved.
+      </div>
+    </div>
+
+    <!-- 📸 Social Icon -->
+    <div>
+      <a href="https://instagram.com/yourprofile" target="_blank" class="footer-link fs-5">
+        <i class="fab fa-instagram"></i>
+      </a>
+    </div>
+
   </div>
 </footer>
+
+<style>
+  .footer-link {
+    color: #bbb;
+    text-decoration: none;
+    transition: all 0.25s ease;
+    font-weight: 500;
+    letter-spacing: 0.4px;
+  }
+
+  .footer-link:hover {
+    color: #fff;
+    text-shadow: 0 0 4px rgba(255, 255, 255, 0.3);
+  }
+
+  .site-footer {
+    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 400;
+  }
+</style>
+

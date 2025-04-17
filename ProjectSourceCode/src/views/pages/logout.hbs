@@ -1,7 +1,152 @@
-<div class="auth-container">
-  <div class="auth-card text-center">
-    <h2>You’ve been logged out</h2>
-    <p>Thanks for visiting Map Mosaic.</p>
-    <a href="/login" class="btn login-btn mt-3">Log back in</a>
+<!-- 🎥 Fullscreen Video Background -->
+<video autoplay muted loop playsinline class="bg-video">
+  <source src="/videos/background.mp4" type="video/mp4" />
+  Your browser does not support the video tag.
+</video>
+
+<!-- 🚪 Logout Message Container -->
+<div class="main-content">
+  <div class="login-container">
+    <div class="auth-card text-center">
+      <div class="auth-logo-header">
+        <div class="logo-container">
+          <i class="fas fa-globe-americas"></i>
+        </div>
+        <h2 class="welcome-text">You’ve been logged out</h2>
+        <p class="auth-subtitle">Thanks for exploring with Map Mosaic</p>
+      </div>
+
+      <div class="auth-card-body">
+        <a href="/login" class="btn-add-trip w-100 mt-2">
+          <i class="fas fa-sign-in-alt me-2"></i>Log back in
+        </a>
+      </div>
+    </div>
   </div>
 </div>
+
+<style>
+  .bg-video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    z-index: -1;
+    filter: blur(10px) brightness(0.4);
+    opacity: 0.85;
+    pointer-events: none;
+  }
+
+  .main-content {
+    min-height: calc(100vh - 60px);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    padding: 2rem 1rem;
+    position: relative;
+    z-index: 3;
+  }
+
+  .auth-card {
+    background: rgba(25, 25, 25, 0.85);
+    border-radius: 1.5rem;
+    overflow: hidden;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(56, 239, 125, 0.1);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(56, 239, 125, 0.1);
+    width: 100%;
+    max-width: 450px;
+    animation: fadeInUp 0.8s ease-out forwards;
+  }
+
+  .auth-logo-header {
+    background: linear-gradient(135deg, rgba(31, 31, 31, 0.95), rgba(17, 17, 17, 0.95));
+    padding: 3rem 1.5rem 2rem;
+    text-align: center;
+    border-bottom: 1px solid rgba(56, 239, 125, 0.1);
+    border-radius: 1.5rem 1.5rem 0 0;
+    position: relative;
+  }
+
+  .auth-logo-header::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(to right, #38ef7d, #11998e);
+    border-radius: 1.5rem 1.5rem 0 0;
+  }
+
+  .logo-container {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(56, 239, 125, 0.1), rgba(17, 153, 142, 0.1));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.25rem;
+    border: 1px solid rgba(56, 239, 125, 0.2);
+    box-shadow: 0 0 20px rgba(56, 239, 125, 0.3);
+  }
+
+  .auth-logo-header i {
+    font-size: 2.8rem;
+    background: linear-gradient(to right, #38ef7d, #11998e);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 10px rgba(56, 239, 125, 0.4));
+  }
+
+  .welcome-text {
+    color: #eaffea;
+    font-weight: 600;
+    font-size: 1.75rem;
+    margin: 0 0 0.5rem;
+    text-shadow: 0 0 15px rgba(56, 239, 125, 0.4);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  .auth-subtitle {
+    color: #aaa;
+    margin-bottom: 0;
+    font-size: 0.95rem;
+    opacity: 0.9;
+    font-style: italic;
+  }
+
+  .auth-card-body {
+    padding: 2rem;
+  }
+
+  .btn-add-trip {
+    background: linear-gradient(to right, #38ef7d, #11998e);
+    border: none;
+    color: #000000;
+    font-weight: 600;
+    padding: 0.7rem 1.2rem;
+    border-radius: 2rem;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 2px 8px rgba(56, 239, 125, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+  }
+
+  .btn-add-trip:hover {
+    background: linear-gradient(to right, #11998e, #38ef7d);
+    transform: scale(1.02);
+    box-shadow: 0 4px 12px rgba(56, 239, 125, 0.3);
+  }
+</style>

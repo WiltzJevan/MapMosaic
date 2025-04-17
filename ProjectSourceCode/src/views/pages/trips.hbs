@@ -1,31 +1,432 @@
 {{> message}}
 
-<div class="container mt-5">
-  <h1 class="mb-4 fw-bold">My Trips</h1>
+<!-- 🎥 Fullscreen Video Background -->
+<video autoplay muted loop playsinline class="bg-video">
+  <source src="/videos/background.mp4" type="video/mp4" />
+  Your browser does not support the video tag.
+</video>
 
-  <div class="d-flex justify-content-between align-items-center mb-4">
-    <h4>{{user.username}}'s Travels</h4>
-    <a href="/trips/new" class="btn btn-dark">➕ Add New Trip</a>
+<!-- 🌍 Trips Page -->
+<section class="container my-5 pb-5 position-relative z-3">
+  <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-4">
+    <div>
+      <h1 class="fw-bold text-glow-green mb-1">My Trips</h1>
+      <p class="page-subtitle mb-0 fs-6 subtitle-highlight">{{user.username}}'s Adventures Around the World</p>
+    </div>
+    <div class="d-flex align-items-center gap-3 mt-3 mt-md-0">
+      <a href="/trips/new" class="btn btn-add-trip px-3 py-2">
+        <i class="fas fa-plus-circle me-2"></i>New Trip
+      </a>
+      <div class="position-relative filter-container">
+        <select id="filterSelect" class="form-select bg-dark text-light border-secondary filter-select">
+          <option value="">All Trips</option>
+          <option value="recent">Most Recent</option>
+          <option value="oldest">Oldest First</option>
+          <option value="az">A to Z</option>
+          <option value="za">Z to A</option>
+        </select>
+        <i class="fas fa-filter filter-icon"></i>
+      </div>
+    </div>
   </div>
 
   {{#if trips.length}}
-    <div class="row row-cols-1 row-cols-md-3 g-4">
+    <div id="tripList" class="row row-cols-1 row-cols-md-3 g-4 mb-5">
       {{#each trips}}
-        <div class="col">
-          <div class="card h-100 shadow-sm">
+        <div class="col trip-card" data-title="{{title}}" data-date="{{created_at}}">
+          <div class="card bg-dark text-light h-100 border-0 rounded-4 shadow-lg">
             {{#if image_path}}
-              <img src="{{image_path}}" class="card-img-top" alt="{{title}}" style="height: 200px; object-fit: cover;" />
+              <img src="{{image_path}}" alt="{{title}}" class="card-img-top rounded-top" style="height: 200px; object-fit: cover;">
             {{/if}}
-            <div class="card-body">
-              <h5 class="card-title">{{title}}</h5>
-              <p class="card-subtitle text-muted">{{location}}</p>
-              <p class="card-text mt-2">{{description}}</p>
+            <div class="card-body d-flex flex-column">
+              <h5 class="fw-bold mb-1">{{title}}</h5>
+              <p class="small mb-2 trip-location"><i class="fas fa-map-marker-alt me-1"></i>{{location}}</p>
+              {{#if created_at}}
+                <p class="small trip-date mb-2"><i class="fas fa-calendar-alt me-1"></i>{{formatDate created_at 'MMMM D, YYYY'}} <span class="text-timeago">({{timeAgo created_at}})</span></p>
+              {{/if}}
+              <p class="card-text flex-grow-1">{{description}}</p>
+              <div class="d-flex justify-content-between gap-2 mt-3">
+                <button class="btn btn-outline-light btn-sm w-100" data-bs-toggle="modal" data-bs-target="#detailsModal-{{id}}"><i class="fas fa-eye me-1"></i>View</button>
+              </div>
             </div>
           </div>
         </div>
       {{/each}}
     </div>
   {{else}}
-    <p>No trips posted yet. <a href="/trips/new">Create your first trip!</a></p>
+    <div class="empty-trips-container mb-5">
+      <div class="empty-trips-content">
+        <i class="fas fa-globe-americas empty-icon"></i>
+        <h3 class="mt-4 mb-3">No Adventures Yet</h3>
+        <p class="mb-4">Start documenting your travels by creating your first trip</p>
+        <a href="/trips/new" class="btn btn-add-trip px-4 py-2">
+          <i class="fas fa-plus-circle me-2"></i>Create Your First Trip
+        </a>
+      </div>
+    </div>
   {{/if}}
-</div>
+</section>
+
+<!-- 📦 Modals moved outside the section -->
+{{#each trips}}
+  <!-- 🔍 View Modal -->
+  <div class="modal fade" id="detailsModal-{{id}}" tabindex="-1" aria-labelledby="detailsModalLabel-{{id}}" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content bg-dark text-light rounded-4 shadow-lg border border-secondary">
+        <div class="modal-header border-0">
+          <h5 class="modal-title" id="detailsModalLabel-{{id}}"><i class="fas fa-map-marked-alt me-2"></i>{{title}}</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body px-4">
+          {{#if image_path}}
+            <div class="mb-4">
+              <img src="{{image_path}}" class="img-fluid rounded shadow-sm border border-dark" alt="{{title}}" style="height: 250px; object-fit: cover;">
+            </div>
+          {{/if}}
+          <div class="mb-3">
+            <small class="text-uppercase text-muted">Location</small>
+            <div class="trip-location fs-6 fw-semibold"><i class="fas fa-map-marker-alt me-1"></i>{{location}}</div>
+          </div>
+          {{#if created_at}}
+            <div class="mb-3">
+              <small class="text-uppercase text-muted">Trip Date</small>
+              <div class="d-flex align-items-center gap-2 mt-1">
+                <span class="trip-date"><i class="fas fa-calendar-alt me-1"></i>{{formatDate created_at 'MMMM D, YYYY'}}</span>
+                <span class="text-timeago">({{timeAgo created_at}})</span>
+              </div>
+            </div>
+          {{/if}}
+          <div class="mb-1">
+            <small class="text-uppercase text-muted">Description</small>
+            <p class="mt-1 text-light fw-normal lh-base">{{description}}</p>
+          </div>
+        </div>
+        <div class="modal-footer border-0 d-flex justify-content-between">
+          <div>
+            <button class="btn btn-outline-warning" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#editModal-{{id}}"><i class="fas fa-edit me-1"></i>Edit</button>
+            <form action="/trips/delete/{{id}}" method="POST" class="d-inline">
+              <button class="btn btn-outline-danger"><i class="fas fa-trash-alt me-1"></i>Delete</button>
+            </form>
+          </div>
+          <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ✏️ Edit Modal -->
+  <div class="modal fade" id="editModal-{{id}}" tabindex="-1" aria-labelledby="editModalLabel-{{id}}" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content bg-dark text-light rounded-4 shadow-lg border border-secondary">
+        <div class="modal-header border-0">
+          <h5 class="modal-title" id="editModalLabel-{{id}}"><i class="fas fa-edit me-2"></i>Edit Trip</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form action="/trips/edit/{{id}}" method="POST">
+          <div class="modal-body px-4">
+            <div class="mb-3">
+              <label for="title-{{id}}" class="form-label">Trip Title</label>
+              <input type="text" class="form-control" id="title-{{id}}" name="title" value="{{title}}" required>
+            </div>
+            <div class="mb-3">
+              <label for="location-{{id}}" class="form-label">Location</label>
+              <input type="text" class="form-control" id="location-{{id}}" name="location" value="{{location}}" required>
+            </div>
+            <div class="mb-3">
+              <label for="description-{{id}}" class="form-label">Description</label>
+              <textarea class="form-control" id="description-{{id}}" name="description" rows="4" required>{{description}}</textarea>
+            </div>
+            <div class="mb-3">
+              <label for="trip-date-{{id}}" class="form-label">Trip Date</label>
+              <input type="date" class="form-control" id="trip-date-{{id}}" name="trip_date" value="{{formatDate created_at 'YYYY-MM-DD'}}">
+            </div>
+            {{#if image_path}}
+              <div class="mb-3">
+                <label class="form-label">Trip Image</label>
+                <div class="d-flex align-items-center">
+                  <img src="{{image_path}}" class="img-thumbnail me-3" style="height: 80px; width: auto;">
+                  <span class="text-muted fst-italic">Images cannot be changed after creation</span>
+                </div>
+              </div>
+            {{/if}}
+          </div>
+          <div class="modal-footer border-0 d-flex justify-content-between">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-success"><i class="fas fa-save me-1"></i>Save Changes</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{{/each}}
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const select = document.getElementById("filterSelect");
+    const tripList = document.getElementById("tripList");
+
+    select.addEventListener("change", function () {
+      const value = select.value;
+      const cards = Array.from(tripList.querySelectorAll(".trip-card"));
+
+      let sorted = [...cards];
+
+      if (value === "recent") {
+        sorted.sort((a, b) => new Date(b.dataset.date) - new Date(a.dataset.date));
+      } else if (value === "oldest") {
+        sorted.sort((a, b) => new Date(a.dataset.date) - new Date(b.dataset.date));
+      } else if (value === "az") {
+        sorted.sort((a, b) => a.dataset.title.localeCompare(b.dataset.title));
+      } else if (value === "za") {
+        sorted.sort((a, b) => b.dataset.title.localeCompare(a.dataset.title));
+      }
+
+      tripList.innerHTML = "";
+      sorted.forEach(card => tripList.appendChild(card));
+    });
+    
+    // Fix for modal stacking issue
+    const modalElements = document.querySelectorAll('.modal');
+    modalElements.forEach(modal => {
+      modal.addEventListener('show.bs.modal', function () {
+        const openModals = document.querySelectorAll('.modal.show');
+        openModals.forEach(openModal => {
+          if (openModal !== this) {
+            const bsModal = bootstrap.Modal.getInstance(openModal);
+            if (bsModal) {
+              bsModal.hide();
+            }
+          }
+        });
+      });
+    });
+  });
+</script>
+
+<style>
+  .bg-video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    z-index: -1;
+    filter: blur(10px) brightness(0.4);
+    opacity: 0.85;
+    pointer-events: none;
+  }
+
+  .text-glow-green {
+    color: #eaffea;
+    text-shadow: 0 0 15px rgba(56, 239, 125, 0.6);
+  }
+
+  .page-subtitle {
+    color: #e1e1e1;
+    text-shadow: 0 0 4px rgba(255, 255, 255, 0.1);
+  }
+
+  .trip-location {
+    color: #d8f2e0;
+    font-weight: 500;
+  }
+
+  .trip-date {
+    color: #ddd;
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+
+  .text-timeago {
+    color: #a8d8c5;
+    font-size: 0.85rem;
+    font-style: italic;
+  }
+
+  /* Improved Button Styling with BLACK text */
+  .btn-add-trip {
+    background: linear-gradient(to right, #38ef7d, #11998e);
+    border: none;
+    color: #000000;
+    font-weight: 600;
+    padding: 0.5rem 1.2rem;
+    border-radius: 2rem;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 2px 8px rgba(56, 239, 125, 0.15);
+    display: flex;
+    align-items: center;
+  }
+
+  .btn-add-trip:hover {
+    background: linear-gradient(to right, #11998e, #38ef7d);
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(56, 239, 125, 0.3);
+    color: #000000;
+  }
+
+  .btn-add-trip i {
+    font-size: 1.1rem;
+  }
+
+  /* Empty Trips Styling */
+  .empty-trips-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 400px;
+    margin: 2rem 0;
+  }
+
+  .empty-trips-content {
+    background: rgba(24, 26, 27, 0.7);
+    border-radius: 1.5rem;
+    padding: 3rem;
+    text-align: center;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(56, 239, 125, 0.2);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    max-width: 500px;
+    width: 100%;
+  }
+
+  .empty-trips-content h3 {
+    color: #eaffea;
+    font-weight: 600;
+    text-shadow: 0 0 10px rgba(56, 239, 125, 0.4);
+  }
+
+  .empty-trips-content p {
+    color: #d8d8d8;
+    font-size: 1.1rem;
+  }
+
+  .empty-icon {
+    font-size: 4rem;
+    color: #38ef7d;
+    text-shadow: 0 0 20px rgba(56, 239, 125, 0.6);
+  }
+
+  /* Filter Styling */
+  .filter-container {
+    position: relative;
+    width: 160px;
+  }
+
+  .filter-select {
+    padding-right: 2rem;
+    border-radius: 1rem;
+    padding: 0.5rem 2rem 0.5rem 1rem;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    cursor: pointer;
+    background: rgba(33, 37, 41, 0.8);
+    transition: all 0.2s ease-in-out;
+  }
+
+  .filter-select:focus {
+    border-color: #38ef7d;
+    box-shadow: 0 0 0 0.2rem rgba(56, 239, 125, 0.25);
+  }
+
+  .filter-icon {
+    position: absolute;
+    top: 50%;
+    right: 0.75rem;
+    transform: translateY(-50%);
+    color: #a8d8c5;
+    pointer-events: none;
+    font-size: 0.9rem;
+  }
+
+  /* 🧱 Modal styling */
+  .modal {
+    z-index: 1056 !important;
+  }
+  
+  .modal-backdrop {
+    z-index: 1055 !important;
+  }
+
+  .modal-backdrop.show {
+    opacity: 0.5;
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(1px);
+  }
+
+  .modal-content {
+    background-color: #1b1b1b;
+  }
+
+  .modal-header .modal-title {
+    font-weight: 600;
+    font-size: 1.2rem;
+  }
+
+  .modal-body small.text-muted {
+    color: #cfd8dc !important;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    font-size: 0.8rem;
+  }
+
+  .modal-body p,
+  .modal-body .trip-date,
+  .modal-body .trip-location {
+    color: #eaeaea;
+  }
+
+  .btn-outline-warning,
+  .btn-outline-danger {
+    font-weight: 500;
+  }
+
+  .form-label {
+    color: #ccc;
+    font-size: 0.9rem;
+  }
+
+  .form-control {
+    background-color: #2a2a2a;
+    color: #fff;
+    border: 1px solid #444;
+  }
+
+  .form-control:focus {
+    border-color: #38ef7d;
+    box-shadow: 0 0 0 0.2rem rgba(56, 239, 125, 0.25);
+  }
+
+  .btn-secondary {
+    background-color: #444;
+    border: none;
+    color: #fff;
+  }
+
+  .btn-secondary:hover {
+    background-color: #555;
+  }
+  
+  .btn-success {
+    background: linear-gradient(to right, #38ef7d, #11998e);
+    border: none;
+    font-weight: 500;
+    color: #000000;
+  }
+  
+  .btn-success:hover {
+    background: linear-gradient(to right, #11998e, #38ef7d);
+    color: #000000;
+  }
+
+  .img-thumbnail {
+    background-color: #333;
+    border: 1px solid #444;
+  }
+  
+  /* Fix for modal transition issues */
+  .modal-backdrop + .modal-backdrop {
+    z-index: 1056 !important;
+  }
+</style>

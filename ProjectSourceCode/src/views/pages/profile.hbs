@@ -1,85 +1,490 @@
 {{> message}}
 
-<div class="container mt-5">
-  <h1 class="mb-4 text-center">Your Account</h1>
+<!-- 🎥 Fullscreen Video Background -->
+<video autoplay muted loop playsinline class="bg-video">
+  <source src="/videos/background.mp4" type="video/mp4" />
+  Your browser does not support the video tag.
+</video>
 
-  <div class="row g-4">
+<div class="container my-5 pb-5 position-relative z-2">
+  <h1 class="text-center fw-bold text-glow-green mb-4">Your Profile</h1>
+  <p class="text-center subtitle-highlight mb-5">Manage your account and review your travel stats</p>
+
+  <div class="row g-4 mb-5">
     <!-- Account Info -->
     <div class="col-md-4">
       <div class="profile-card">
-        <h4>Account Information</h4>
-
-        <!-- Username (non-editable) -->
-        <div class="profile-field">
-          <input type="text" value="{{user.username}}" readonly />
+        <div class="profile-card-header">
+          <i class="fas fa-user-circle me-2"></i>
+          <h4>Account Information</h4>
         </div>
-
-        <!-- Password Update Section -->
-        <div class="profile-field password-field position-relative">
-          <div class="password-edit-wrapper">
-
-            <!-- Current Password (has eye icon that controls all fields) -->
-            <div class="position-relative password-input-wrapper mb-2" style="display: none;">
-              <input
-                type="password"
-                class="current-password-input"
-                placeholder="Current password"
-              />
-              <i class="fa-solid fa-eye eye-icon toggle-password" style="display: none;" title="Show/Hide Passwords"></i>
-            </div>
-
-            <!-- New Password -->
-            <div class="position-relative password-input-wrapper mb-2">
-              <input
-                type="password"
-                class="editable-field"
-                placeholder="New password"
-                readonly
-                data-field="password"
-              />
-            </div>
-
-            <!-- Confirm Password -->
-            <div class="position-relative password-input-wrapper mb-2" style="display: none;">
-              <input
-                type="password"
-                class="confirm-password-input"
-                placeholder="Confirm new password"
-              />
-            </div>
-
+        <div class="profile-card-body">
+          <!-- Username (non-editable) -->
+          <div class="profile-field">
+            <label><i class="fas fa-id-badge text-glow-icon me-2"></i>Username</label>
+            <input type="text" value="{{user.username}}" readonly />
           </div>
 
-          <!-- ✏️ Edit Icon -->
-          <i class="fa-solid fa-pen-to-square edit-icon" title="Edit Password"></i>
+          <!-- Password Update Section -->
+          <div class="profile-field password-field position-relative">
+            <label><i class="fas fa-key text-glow-icon me-2"></i>Password</label>
+            <div class="password-edit-wrapper">
+              <!-- Current Password -->
+              <div class="position-relative password-input-wrapper mb-2" style="display: none;">
+                <input
+                  type="password"
+                  class="current-password-input"
+                  placeholder="Current password"
+                />
+                <i class="fas fa-eye eye-icon toggle-password" style="display: none;" title="Show/Hide Passwords"></i>
+              </div>
+
+              <!-- New Password -->
+              <div class="position-relative password-input-wrapper mb-2">
+                <input
+                  type="password"
+                  class="editable-field"
+                  placeholder="New password"
+                  readonly
+                  data-field="password"
+                />
+                <i class="fas fa-pen-to-square edit-icon" title="Edit Password"></i>
+              </div>
+
+              <!-- Confirm Password -->
+              <div class="position-relative password-input-wrapper mb-2" style="display: none;">
+                <input
+                  type="password"
+                  class="confirm-password-input"
+                  placeholder="Confirm new password"
+                />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- Stats -->
+    <!-- Dynamic Stats -->
     <div class="col-md-4">
       <div class="profile-card">
-        <h4>Your Stats</h4>
-        <div class="profile-field">
-          <input type="text" value="You’ve visited __ countries!" readonly />
+        <div class="profile-card-header">
+          <i class="fas fa-chart-line me-2"></i>
+          <h4>Your Travel Stats</h4>
         </div>
-        <div class="profile-field">
-          <input type="text" value="You’ve visited __ states!" readonly />
-        </div>
-        <div class="profile-field">
-          <input type="text" value="You’ve a total of __ trips!" readonly />
+        <div class="profile-card-body">
+          <div class="stat-item">
+            <div class="stat-icon">
+              <i class="fas fa-globe-americas"></i>
+            </div>
+            <div class="stat-info">
+              <span class="stat-value">{{stats.uniqueCountries}}</span>
+              <span class="stat-label">Countries Visited</span>
+            </div>
+          </div>
+          
+          <div class="stat-item">
+            <div class="stat-icon">
+              <i class="fas fa-map"></i>
+            </div>
+            <div class="stat-info">
+              <span class="stat-value">{{stats.uniqueStates}}</span>
+              <span class="stat-label">States Explored</span>
+            </div>
+          </div>
+          
+          <div class="stat-item">
+            <div class="stat-icon">
+              <i class="fas fa-suitcase"></i>
+            </div>
+            <div class="stat-info">
+              <span class="stat-value">{{stats.totalTrips}}</span>
+              <span class="stat-label">Total Trips</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
 
     <!-- Most Recent Trip -->
     <div class="col-md-4">
-      <div class="profile-card text-center">
-        <h4>Your Most Recent Trip</h4>
-        <img src="/images/sample-trip.jpg" alt="Recent Trip" class="img-fluid rounded mb-3" />
-        <p class="fw-bold">Nashville, Tennessee</p>
-        <a href="/trips/new" class="btn login-btn">Post a new trip!</a>
+      <div class="profile-card">
+        <div class="profile-card-header">
+          <i class="fas fa-clock-rotate-left me-2"></i>
+          <h4>Recent Adventure</h4>
+        </div>
+        <div class="profile-card-body text-center">
+          {{#if recentTrip}}
+            <div class="recent-trip-image">
+              <img src="{{recentTrip.image_path}}" alt="Recent Trip" class="img-fluid rounded" />
+            </div>
+            <h5 class="recent-trip-title mt-3">{{recentTrip.title}}</h5>
+            <p class="recent-trip-location">
+              <i class="fas fa-map-marker-alt me-1"></i>{{recentTrip.location}}
+            </p>
+            <p class="recent-trip-date">
+              <i class="fas fa-calendar-alt me-1"></i>{{formatDate recentTrip.created_at 'MMMM D, YYYY'}} <span class="text-timeago">({{timeAgo recentTrip.created_at}})</span>
+            </p>
+          {{else}}
+            <div class="empty-trip-placeholder">
+              <i class="fas fa-plane"></i>
+              <p>No trips posted yet</p>
+            </div>
+          {{/if}}
+          <a href="/trips/new" class="btn btn-add-trip mt-3">
+            <i class="fas fa-plus-circle me-2"></i>Create New Trip
+          </a>
+        </div>
       </div>
     </div>
   </div>
 </div>
+
+<style>
+  body {
+    background: #0f0f0f;
+    color: #eaeaea;
+  }
+
+  .bg-video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    z-index: -1;
+    filter: blur(10px) brightness(0.4);
+    opacity: 0.85;
+    pointer-events: none;
+  }
+
+  .text-glow-green {
+    color: #eaffea;
+    text-shadow: 0 0 15px rgba(56, 239, 125, 0.6);
+  }
+
+  .text-glow-icon {
+    color: #38ef7d;
+    text-shadow: 0 0 10px rgba(56, 239, 125, 0.5);
+  }
+
+  .subtitle-highlight {
+    color: #e1e1e1;
+    font-size: 1.1rem;
+    text-shadow: 0 0 4px rgba(255, 255, 255, 0.1);
+  }
+
+  /* Profile Cards */
+  .profile-card {
+    background: rgba(31, 31, 31, 0.85);
+    border-radius: 1.5rem;
+    overflow: hidden;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(56, 239, 125, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .profile-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+    border-color: rgba(56, 239, 125, 0.2);
+  }
+
+  .profile-card-header {
+    background: linear-gradient(135deg, rgba(56, 239, 125, 0.2), rgba(17, 153, 142, 0.2));
+    padding: 1.25rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    align-items: center;
+    border-radius: 1.5rem 1.5rem 0 0;
+  }
+
+  .profile-card-header i {
+    font-size: 1.2rem;
+    color: #38ef7d;
+    margin-right: 0.5rem;
+  }
+
+  .profile-card-header h4 {
+    margin: 0;
+    font-weight: 600;
+    font-size: 1.2rem;
+    color: #eaffea;
+  }
+
+  .profile-card-body {
+    padding: 1.75rem;
+    flex: 1;
+  }
+
+  /* Profile Fields */
+  .profile-field {
+    margin-bottom: 1.5rem;
+  }
+
+  .profile-field:last-child {
+    margin-bottom: 0;
+  }
+
+  .profile-field label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    color: #d8f2e0;
+    font-weight: 500;
+  }
+
+  .profile-field input {
+    width: 100%;
+    background-color: #2a2a2a;
+    border: 1px solid #444;
+    color: #fff;
+    padding: 0.75rem 1rem;
+    border-radius: 0.7rem;
+    font-size: 1rem;
+  }
+
+  .profile-field input:focus {
+    outline: none;
+    border-color: #38ef7d;
+    box-shadow: 0 0 0 0.2rem rgba(56, 239, 125, 0.25);
+  }
+
+  .profile-field input[readonly] {
+    background-color: #252525;
+    cursor: default;
+  }
+
+  .edit-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #38ef7d;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+  }
+
+  .edit-icon:hover {
+    transform: translateY(-50%) scale(1.2);
+  }
+
+  /* Stats Styling */
+  .stat-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.2rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 1rem;
+    padding: 1rem;
+    border: 1px solid rgba(56, 239, 125, 0.1);
+    transition: transform 0.2s ease, background 0.2s ease;
+  }
+
+  .stat-item:hover {
+    transform: translateX(5px);
+    background: rgba(56, 239, 125, 0.05);
+  }
+
+  .stat-item:last-child {
+    margin-bottom: 0;
+  }
+
+  .stat-icon {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, #38ef7d, #11998e);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1rem;
+    flex-shrink: 0;
+  }
+
+  .stat-icon i {
+    color: #000;
+    font-size: 1.2rem;
+  }
+
+  .stat-info {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .stat-value {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1;
+    margin-bottom: 0.2rem;
+  }
+
+  .stat-label {
+    font-size: 0.85rem;
+    color: #a8d8c5;
+    font-weight: 500;
+  }
+
+  /* Recent Trip Styling */
+  .recent-trip-image {
+    position: relative;
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    height: 180px;
+  }
+
+  .recent-trip-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .recent-trip-title {
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 0.3rem;
+  }
+
+  .recent-trip-location {
+    color: #d8f2e0;
+    font-size: 0.9rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .recent-trip-date {
+    color: #a8d8c5;
+    font-size: 0.85rem;
+    margin-bottom: 0;
+  }
+  
+  .text-timeago {
+    color: #a8d8c5;
+    font-size: 0.85rem;
+    font-style: italic;
+  }
+
+  .empty-trip-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 0;
+    color: #666;
+  }
+
+  .empty-trip-placeholder i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: #444;
+  }
+
+  .empty-trip-placeholder p {
+    font-size: 1rem;
+    margin: 0;
+  }
+
+  /* Button */
+  .btn-add-trip {
+    background: linear-gradient(to right, #38ef7d, #11998e);
+    border: none;
+    color: #000000;
+    font-weight: 600;
+    padding: 0.6rem 1.2rem;
+    border-radius: 2rem;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 2px 8px rgba(56, 239, 125, 0.15);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .btn-add-trip:hover {
+    background: linear-gradient(to right, #11998e, #38ef7d);
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(56, 239, 125, 0.3);
+    color: #000000;
+  }
+
+  .btn-add-trip i {
+    font-size: 1rem;
+  }
+
+  /* Password Field */
+  .password-input-wrapper {
+    position: relative;
+  }
+
+  .eye-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #aaa;
+    cursor: pointer;
+    z-index: 2;
+  }
+
+  .eye-icon:hover {
+    color: #38ef7d;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Password editing logic
+    const editIcon = document.querySelector('.edit-icon');
+    const passwordInput = document.querySelector('.editable-field[data-field="password"]');
+    const currentPasswordWrapper = document.querySelector('.current-password-input').parentElement;
+    const confirmPasswordWrapper = document.querySelector('.confirm-password-input').parentElement;
+    const eyeIcon = document.querySelector('.eye-icon');
+    
+    editIcon.addEventListener('click', function() {
+      if (passwordInput.readOnly) {
+        // Enable editing
+        passwordInput.readOnly = false;
+        passwordInput.focus();
+        passwordInput.value = '';
+        passwordInput.placeholder = 'Enter new password';
+        editIcon.classList.remove('fa-pen-to-square');
+        editIcon.classList.add('fa-check');
+        currentPasswordWrapper.style.display = 'block';
+        confirmPasswordWrapper.style.display = 'block';
+        eyeIcon.style.display = 'block';
+      } else {
+        // Save changes logic would go here
+        passwordInput.readOnly = true;
+        passwordInput.value = '••••••••';
+        passwordInput.placeholder = 'New password';
+        editIcon.classList.remove('fa-check');
+        editIcon.classList.add('fa-pen-to-square');
+        currentPasswordWrapper.style.display = 'none';
+        confirmPasswordWrapper.style.display = 'none';
+        eyeIcon.style.display = 'none';
+      }
+    });
+    
+    // Password visibility toggle
+    eyeIcon.addEventListener('click', function() {
+      const passwordInputs = document.querySelectorAll('input[type="password"]');
+      passwordInputs.forEach(input => {
+        if (input.type === 'password') {
+          input.type = 'text';
+          eyeIcon.classList.remove('fa-eye');
+          eyeIcon.classList.add('fa-eye-slash');
+        } else {
+          input.type = 'password';
+          eyeIcon.classList.remove('fa-eye-slash');
+          eyeIcon.classList.add('fa-eye');
+        }
+      });
+    });
+  });
+</script>
