@@ -1,161 +1,170 @@
-{{> head}}
-{{> nav}}
-{{{body}}}
-{{> footer}}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {{> head}}
+  </head>
+  <body>
+    {{> nav}}
 
-<!-- ✅ Bootstrap JS for dropdowns (must come last) -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    {{{body}}}
 
-<!-- ✅ Editable profile field logic -->
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const editIcons = document.querySelectorAll(".edit-icon");
+    {{> footer}}
 
-    editIcons.forEach((icon) => {
-      icon.addEventListener("click", function () {
-        const wrapper = this.closest(".password-field");
-        const input = wrapper.querySelector(".editable-field");
-        const field = input.getAttribute("data-field");
+    <!-- ✅ Bootstrap Bundle (for modals, dropdowns, etc.) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-        const currentInput = wrapper.querySelector(".current-password-input");
-        const confirmInput = wrapper.querySelector(".confirm-password-input");
-        const eyeToggle = wrapper.querySelector(".eye-icon");
+    <!-- ✅ Font Awesome (if you're using icons) -->
+    <script src="https://kit.fontawesome.com/YOUR_KIT_ID.js" crossorigin="anonymous"></script>
 
-        input.removeAttribute("readonly");
-        input.focus();
-        input.select();
-        input.classList.add("editing");
+    <!-- ✅ Profile Field Logic or Custom Scripts -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const editIcons = document.querySelectorAll(".edit-icon");
 
-        if (field === "password") {
-          if (currentInput) currentInput.parentElement.style.display = "block";
-          if (confirmInput) confirmInput.parentElement.style.display = "block";
-          if (eyeToggle) eyeToggle.style.display = "block";
-        }
+        editIcons.forEach((icon) => {
+          icon.addEventListener("click", function () {
+            const wrapper = this.closest(".password-field");
+            const input = wrapper.querySelector(".editable-field");
+            const field = input.getAttribute("data-field");
 
-        const saveBtn = document.createElement("i");
-        saveBtn.className = "fa-solid fa-check save-icon ms-2";
+            const currentInput = wrapper.querySelector(".current-password-input");
+            const confirmInput = wrapper.querySelector(".confirm-password-input");
+            const eyeToggle = wrapper.querySelector(".eye-icon");
 
-        const cancelBtn = document.createElement("i");
-        cancelBtn.className = "fa-solid fa-xmark cancel-icon ms-2";
+            input.removeAttribute("readonly");
+            input.focus();
+            input.select();
+            input.classList.add("editing");
 
-        if (confirmInput?.parentElement) {
-          confirmInput.parentElement.appendChild(saveBtn);
-          confirmInput.parentElement.appendChild(cancelBtn);
-        } else {
-          wrapper.appendChild(saveBtn);
-          wrapper.appendChild(cancelBtn);
-        }
-
-        this.style.display = "none";
-
-        // Cancel logic
-        cancelBtn.addEventListener("click", () => {
-          input.value = "";
-          input.setAttribute("readonly", true);
-
-          [input, currentInput, confirmInput].forEach((f) => {
-            if (f) {
-              f.value = "";
-              f.type = "password";
-              if (f !== input) f.parentElement.style.display = "none";
+            if (field === "password") {
+              if (currentInput) currentInput.parentElement.style.display = "block";
+              if (confirmInput) confirmInput.parentElement.style.display = "block";
+              if (eyeToggle) eyeToggle.style.display = "block";
             }
-          });
 
-          if (eyeToggle) {
-            eyeToggle.style.display = "none";
-            eyeToggle.classList.add("fa-eye");
-            eyeToggle.classList.remove("fa-eye-slash");
-          }
+            const saveBtn = document.createElement("i");
+            saveBtn.className = "fa-solid fa-check save-icon ms-2";
 
-          resetUI();
-        });
+            const cancelBtn = document.createElement("i");
+            cancelBtn.className = "fa-solid fa-xmark cancel-icon ms-2";
 
-        // Save logic
-        saveBtn.addEventListener("click", () => {
-          const newPassword = input.value;
-          const confirmPassword = confirmInput ? confirmInput.value : newPassword;
-          const currentPassword = currentInput ? currentInput.value : null;
+            if (confirmInput?.parentElement) {
+              confirmInput.parentElement.appendChild(saveBtn);
+              confirmInput.parentElement.appendChild(cancelBtn);
+            } else {
+              wrapper.appendChild(saveBtn);
+              wrapper.appendChild(cancelBtn);
+            }
 
-          if (newPassword !== confirmPassword) {
-            showToast("New passwords do not match", true);
-            return;
-          }
+            this.style.display = "none";
 
-          if (!currentPassword || currentPassword.trim() === "") {
-            showToast("Current password is required", true);
-            return;
-          }
+            // Cancel logic
+            cancelBtn.addEventListener("click", () => {
+              input.value = "";
+              input.setAttribute("readonly", true);
 
-          fetch("/profile/update", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              field,
-              value: newPassword,
-              currentPassword,
-            }),
-          })
-            .then((res) => res.json())
-            .then((data) => {
-              if (data.success) {
-                showToast("Password updated!");
-                input.setAttribute("readonly", true);
-                [input, currentInput, confirmInput].forEach((f) => {
-                  if (f) {
-                    f.value = "";
-                    f.type = "password";
-                    if (f !== input) f.parentElement.style.display = "none";
+              [input, currentInput, confirmInput].forEach((f) => {
+                if (f) {
+                  f.value = "";
+                  f.type = "password";
+                  if (f !== input) f.parentElement.style.display = "none";
+                }
+              });
+
+              if (eyeToggle) {
+                eyeToggle.style.display = "none";
+                eyeToggle.classList.add("fa-eye");
+                eyeToggle.classList.remove("fa-eye-slash");
+              }
+
+              resetUI();
+            });
+
+            // Save logic
+            saveBtn.addEventListener("click", () => {
+              const newPassword = input.value;
+              const confirmPassword = confirmInput ? confirmInput.value : newPassword;
+              const currentPassword = currentInput ? currentInput.value : null;
+
+              if (newPassword !== confirmPassword) {
+                showToast("New passwords do not match", true);
+                return;
+              }
+
+              if (!currentPassword || currentPassword.trim() === "") {
+                showToast("Current password is required", true);
+                return;
+              }
+
+              fetch("/profile/update", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  field,
+                  value: newPassword,
+                  currentPassword,
+                }),
+              })
+                .then((res) => res.json())
+                .then((data) => {
+                  if (data.success) {
+                    showToast("Password updated!");
+                    input.setAttribute("readonly", true);
+                    [input, currentInput, confirmInput].forEach((f) => {
+                      if (f) {
+                        f.value = "";
+                        f.type = "password";
+                        if (f !== input) f.parentElement.style.display = "none";
+                      }
+                    });
+
+                    if (eyeToggle) {
+                      eyeToggle.style.display = "none";
+                      eyeToggle.classList.add("fa-eye");
+                      eyeToggle.classList.remove("fa-eye-slash");
+                    }
+                  } else {
+                    showToast(data.message || "Error saving.", true);
                   }
+                  resetUI();
+                })
+                .catch(() => {
+                  showToast("Server error.", true);
+                  resetUI();
+                });
+            });
+
+            if (eyeToggle) {
+              eyeToggle.addEventListener("click", () => {
+                const isVisible = input.type === "text";
+                const newType = isVisible ? "password" : "text";
+
+                [input, currentInput, confirmInput].forEach((f) => {
+                  if (f) f.type = newType;
                 });
 
-                if (eyeToggle) {
-                  eyeToggle.style.display = "none";
-                  eyeToggle.classList.add("fa-eye");
-                  eyeToggle.classList.remove("fa-eye-slash");
-                }
-              } else {
-                showToast(data.message || "Error saving.", true);
-              }
-              resetUI();
-            })
-            .catch(() => {
-              showToast("Server error.", true);
-              resetUI();
-            });
-        });
+                eyeToggle.classList.toggle("fa-eye");
+                eyeToggle.classList.toggle("fa-eye-slash");
+              });
+            }
 
-        // Eye toggle logic (only one icon)
-        if (eyeToggle) {
-          eyeToggle.addEventListener("click", () => {
-            const isVisible = input.type === "text";
-            const newType = isVisible ? "password" : "text";
+            function resetUI() {
+              saveBtn.remove();
+              cancelBtn.remove();
+              icon.style.display = "inline";
+              input.classList.remove("editing");
+            }
 
-            [input, currentInput, confirmInput].forEach((f) => {
-              if (f) f.type = newType;
-            });
-
-            eyeToggle.classList.toggle("fa-eye");
-            eyeToggle.classList.toggle("fa-eye-slash");
+            function showToast(msg, isError = false) {
+              const toast = document.createElement("div");
+              toast.textContent = msg;
+              toast.className = isError ? "toast-error" : "toast-success";
+              document.body.appendChild(toast);
+              setTimeout(() => toast.remove(), 2500);
+            }
           });
-        }
-
-        function resetUI() {
-          saveBtn.remove();
-          cancelBtn.remove();
-          icon.style.display = "inline";
-          input.classList.remove("editing");
-        }
-
-        function showToast(msg, isError = false) {
-          const toast = document.createElement("div");
-          toast.textContent = msg;
-          toast.className = isError ? "toast-error" : "toast-success";
-          document.body.appendChild(toast);
-          setTimeout(() => toast.remove(), 2500);
-        }
+        });
       });
-    });
-  });
-</script>
-</body>
+    </script>
+  </body>
 </html>
