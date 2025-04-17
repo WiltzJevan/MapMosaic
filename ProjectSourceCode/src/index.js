@@ -299,9 +299,6 @@ app.get('/logout', (req, res) => {
   });
 });
 
-app.get('/contact', (req, res) => {
-  res.render('pages/contact', { user: req.session.user });
-});
 
 // *****************************************************
 // <!-- Section 5 : Auth Middleware + Start Server -->
@@ -316,5 +313,5 @@ const auth = (req, res, next) => {
 
 app.use(auth);
 
-app.listen(3000);
+app.listen(5000);
 console.log('Server is listening on port 5000');
