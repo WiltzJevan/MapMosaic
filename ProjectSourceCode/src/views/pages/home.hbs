@@ -76,11 +76,44 @@
   .trip-marker {
     background-size: cover;
     border-radius: 50%;
-    width: 60px;
-    height: 60px;
+    width: 50px; /* Slightly smaller for better performance */
+    height: 50px;
     border: 2px solid white;
-    box-shadow: 0 0 6px rgba(0,0,0,0.5);
     cursor: pointer;
+    will-change: transform; /* Hardware acceleration hint */
+  }
+  
+  /* Remove hover animations for better performance */
+  .trip-marker:hover {
+    border-color: #38ef7d;
+  }
+
+  /* Simple popup styling */
+  .mapboxgl-popup {
+    max-width: 200px !important;
+  }
+
+  .mapboxgl-popup-content {
+    background: rgba(31, 31, 31, 0.95);
+    border-radius: 10px;
+    padding: 12px;
+    color: #eaeaea;
+    border: 1px solid rgba(56, 239, 125, 0.2);
+    font-weight: 600;
+    text-align: center;
+  }
+  
+  .mapboxgl-popup-close-button {
+    color: #fff;
+    font-size: 16px;
+    padding: 4px 8px;
+    background: none;
+    border: none;
+  }
+  
+  .mapboxgl-popup-close-button:hover {
+    color: #38ef7d;
+    background: none;
   }
 
   .styled-search-select {
@@ -236,39 +269,131 @@
     style: 'mapbox://styles/mapbox/dark-v10',
     projection: 'globe',
     center: [0, 20],
-    zoom: 1.3
+    zoom: 1.3,
+    maxZoom: 8, // Limit max zoom for better performance
+    minZoom: 0.8, // Set minimum zoom
+    fadeDuration: 0, // Disable fade animations
+    renderWorldCopies: false, // Don't render multiple world copies
+    attributionControl: false, // Remove attribution control for slight performance boost
+    preserveDrawingBuffer: false, // Better performance
+    antialias: false // Disable antialiasing for better performance
   });
 
+  // Cache for geocoding results to avoid redundant API calls
+  const geocodeCache = {};
+  
+  // Set up map performance optimizations
   map.on('style.load', () => {
-    map.setFog({});
-    renderTripMarkers();
+    // Use simplified fog settings for better performance
+    map.setFog({
+      color: 'rgb(20, 20, 30)', // Darker, less resource-intensive fog
+      'high-color': 'rgb(20, 20, 30)',
+      'horizon-blend': 0.1, // Reduced blend for better performance
+      'space-color': 'rgb(5, 5, 10)',
+      'star-intensity': 0.2 // Reduced star intensity
+    });
+    
+    // Reduce terrain detail for better performance
+    map.setTerrain(null);
+    
+    // Use a less intensive atmosphere
+    map.setLight({
+      intensity: 0.2,
+      color: "#ffffff",
+      anchor: "viewport"
+    });
+    
+    // Batch marker rendering for better performance
+    setTimeout(() => renderTripMarkers(), 500);
   });
 
   const geocodeCountry = async (country) => {
+    // Return from cache if available
+    if (geocodeCache[country]) return geocodeCache[country];
+    
     const url = `https://nominatim.openstreetmap.org/search?country=${encodeURIComponent(country)}&format=json&limit=1`;
     try {
       const res = await fetch(url);
       const data = await res.json();
-      if (data.length > 0) return [parseFloat(data[0].lon), parseFloat(data[0].lat)];
+      if (data.length > 0) {
+        const coords = [parseFloat(data[0].lon), parseFloat(data[0].lat)];
+        geocodeCache[country] = coords; // Save to cache
+        return coords;
+      }
     } catch (err) {
       console.error("Geocoding failed:", err);
     }
     return null;
   };
 
+  // Use a more efficient marker rendering approach
   async function renderTripMarkers() {
+    // Create all markers in a single batch to avoid reflows
+    const markers = [];
+    const fragment = document.createDocumentFragment();
+    
+    // Create all marker elements first without adding them to the map
     for (const trip of trips) {
-      const coords = await geocodeCountry(trip.country_name || trip.location);
-      if (coords && trip.image_path) {
+      if (!trip.image_path) continue; // Skip trips without images
+      
+      const locationName = trip.country_name || trip.location;
+      const coords = await geocodeCountry(locationName);
+      
+      if (coords) {
         const el = document.createElement('div');
         el.className = 'trip-marker';
+        el.setAttribute('data-title', trip.title || 'My Trip');
+        el.setAttribute('data-location', trip.location + (trip.country_name ? `, ${trip.country_name}` : ''));
+        el.setAttribute('data-lng', coords[0]);
+        el.setAttribute('data-lat', coords[1]);
+        
+        // Use a lower resolution image or consider using a data URI
         el.style.backgroundImage = `url('${trip.image_path}')`;
-        new mapboxgl.Marker(el)
-          .setLngLat(coords)
-          .setPopup(new mapboxgl.Popup({ offset: 25 }).setText(trip.title || trip.country_name))
-          .addTo(map);
+        
+        fragment.appendChild(el);
+        markers.push({
+          element: el,
+          coords: coords,
+          title: trip.title || 'My Trip',
+          location: trip.location + (trip.country_name ? `, ${trip.country_name}` : '')
+        });
       }
     }
+    
+    // Add markers to map in a single operation
+    markers.forEach(marker => {
+      const mapMarker = new mapboxgl.Marker(marker.element)
+        .setLngLat(marker.coords)
+        .addTo(map);
+      
+      // Use event delegation for better performance
+      marker.element.addEventListener('click', () => {
+        // Create popup only when clicked
+        const popup = new mapboxgl.Popup({ 
+          offset: 25,
+          closeButton: true,
+          closeOnClick: true, // Close on click outside for better performance
+          maxWidth: '180px' // Further reduce popup size
+        }).setHTML(`
+          <div>${marker.title}</div>
+          <div style="color: #38ef7d; font-size: 0.9rem; margin-top: 4px;">
+            ${marker.location}
+          </div>
+        `);
+        
+        mapMarker.setPopup(popup);
+        mapMarker.togglePopup();
+        
+        // Optimize the fly animation
+        map.flyTo({
+          center: marker.coords,
+          zoom: 4,
+          speed: 0.8, // Slightly slower for better performance
+          curve: 0.8, // Less aggressive curve
+          essential: true // Mark as essential for better performance
+        });
+      });
+    });
   }
 
   document.addEventListener("DOMContentLoaded", () => {

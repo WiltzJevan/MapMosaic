@@ -6,13 +6,16 @@
       <img src="/images/logo.png" alt="Map Mosaic Logo" class="logo-img" />
     </a>
 
-    <!-- 🔗 Navigation Links -->
-    <ul class="nav gap-4 mb-0 custom-nav-links">
+        <!-- 🔗 Navigation Links -->
+    <ul class="nav gap-4 mb-0 custom-nav-links flex-grow-1 justify-content-center">
       <li class="nav-item">
-        <a class="nav-link glow-link" href="/">Home</a>
+        <a class="nav-link" href="/"><i class="fas fa-home me-2"></i>Home</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link glow-link" href="/trips">Trips</a>
+        <a class="nav-link" href="/trips"><i class="fas fa-map-marked-alt me-2"></i>Trips</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/aboutus"><i class="fas fa-info-circle me-2"></i>About Us</a>
       </li>
     </ul>
 
@@ -20,18 +23,44 @@
     <div class="profile-icon-wrapper">
       {{#if user}}
         <div class="dropdown">
-          <a href="#" class="profile-icon-link" data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="fa-solid fa-user-circle fs-4 profile-icon"></i>
+          <a href="#" class="profile-icon-link d-flex align-items-center" data-bs-toggle="dropdown" aria-expanded="false">
+            <div class="avatar-container">
+              <i class="fas fa-user"></i>
+            </div>
+            <span class="username-preview ms-2 d-none d-md-inline">{{user.username}}</span>
+            <i class="fas fa-chevron-down ms-2 dropdown-arrow"></i>
           </a>
           <ul class="dropdown-menu dropdown-menu-end mt-2 custom-dropdown">
-            <li><a class="dropdown-item" href="/profile">Profile</a></li>
+            <li class="dropdown-username">
+              <div class="d-flex align-items-center justify-content-center">
+                <div class="dropdown-avatar me-2">
+                  <i class="fas fa-user"></i>
+                </div>
+                <span>Hi, {{user.username}}!</span>
+              </div>
+            </li>
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item text-danger" href="/logout">Logout</a></li>
+            <li>
+              <a class="dropdown-item" href="/profile">
+                <i class="fas fa-user me-2 text-glow-icon-sm"></i>Profile
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="/trips">
+                <i class="fas fa-map me-2 text-glow-icon-sm"></i>My Trips
+              </a>
+            </li>
+            <li><hr class="dropdown-divider"></li>
+            <li>
+              <a class="dropdown-item text-danger" href="/logout">
+                <i class="fas fa-sign-out-alt me-2"></i>Logout
+              </a>
+            </li>
           </ul>
         </div>
       {{else}}
-        <a href="/login" class="profile-icon-link" title="Login">
-          <i class="fa-solid fa-right-to-bracket fs-4 profile-icon"></i>
+        <a href="/login" class="btn-nav-login">
+          <i class="fas fa-sign-in-alt me-2"></i>Login
         </a>
       {{/if}}
     </div>
@@ -43,62 +72,178 @@
   .custom-navbar {
     background: rgba(20, 20, 20, 0.85);
     backdrop-filter: blur(6px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(56, 239, 125, 0.1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
   }
+
 
   .logo-img {
     height: 48px;
   }
 
+  /* Navigation Links */
   .custom-nav-links .nav-link {
     color: #eaffea;
     font-weight: 500;
     position: relative;
     text-decoration: none;
-    transition: color 0.3s ease;
+    transition: all 0.3s ease;
+    padding: 0.5rem 0.75rem;
+    border-radius: 2rem;
   }
 
   .custom-nav-links .nav-link:hover {
     color: #38ef7d;
+    background: rgba(56, 239, 125, 0.1);
   }
 
-  .custom-nav-links .nav-link::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: -3px;
-    width: 0%;
-    height: 2px;
-    background-color: #38ef7d;
-    transition: width 0.3s ease-in-out;
-  }
+  /* Make the navbar a positioning context */
+.custom-navbar {
+  position: relative;
+}
 
-  .custom-nav-links .nav-link:hover::after {
-    width: 100%;
-  }
+/* Absolutely center the <ul> horizontally */
+.custom-nav-links {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;          /* reset any default margins */
+  padding-left: 0;    /* reset bullet padding */
+  display: flex;      /* keep the links in a row */
+  gap: 1rem;          /* same as gap-4 */
+}
 
+  /* Profile Menu */
   .profile-icon-link {
     color: #eaffea;
-    transition: color 0.3s ease;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    padding: 6px 12px;
+    border-radius: 30px;
+    border: 1px solid transparent;
   }
 
   .profile-icon-link:hover {
     color: #38ef7d;
+    background: rgba(56, 239, 125, 0.08);
+    border-color: rgba(56, 239, 125, 0.2);
+  }
+  
+  .avatar-container {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(56, 239, 125, 0.2), rgba(17, 153, 142, 0.2));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(56, 239, 125, 0.3);
+    box-shadow: 0 0 8px rgba(56, 239, 125, 0.15);
+  }
+  
+  .username-preview {
+    font-weight: 500;
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  
+  .dropdown-arrow {
+    font-size: 12px;
+    opacity: 0.7;
+  }
+  
+  .dropdown-avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(56, 239, 125, 0.2), rgba(17, 153, 142, 0.2));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(56, 239, 125, 0.3);
+    font-size: 12px;
   }
 
   .custom-dropdown {
-    background-color: #222;
-    border: 1px solid #444;
-    color: #fff;
+    background-color: rgba(25, 25, 25, 0.95);
+    border: 1px solid rgba(56, 239, 125, 0.1);
+    border-radius: 12px;
+    overflow: hidden;
+    min-width: 220px;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(56, 239, 125, 0.1);
+    padding: 0.75rem 0 0.5rem;
+    backdrop-filter: blur(5px);
+  }
+  
+  .dropdown-username {
+    padding: 0.5rem 1rem 0.75rem;
+    color: #eaffea;
+    font-weight: 600;
+    text-align: center;
   }
 
   .custom-dropdown .dropdown-item {
     color: #eaeaea;
     font-weight: 500;
+    padding: 0.6rem 1rem;
+    display: flex;
+    align-items: center;
+    transition: all 0.2s ease;
   }
 
   .custom-dropdown .dropdown-item:hover {
-    background-color: #333;
+    background-color: rgba(56, 239, 125, 0.1);
     color: #38ef7d;
+  }
+  
+  .custom-dropdown .dropdown-divider {
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    margin: 0.35rem 0;
+  }
+  
+  .text-glow-icon-sm {
+    color: #38ef7d;
+    text-shadow: 0 0 5px rgba(56, 239, 125, 0.3);
+  }
+  
+  /* Login Button */
+  .btn-nav-login {
+    background: linear-gradient(to right, #38ef7d, #11998e);
+    border: none;
+    color: #000000;
+    font-weight: 600;
+    padding: 0.45rem 1.2rem;
+    border-radius: 2rem;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 2px 8px rgba(56, 239, 125, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+  }
+
+  .btn-nav-login:hover {
+    background: linear-gradient(to right, #11998e, #38ef7d);
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(56, 239, 125, 0.3);
+    color: #000000;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 767.98px) {
+    .profile-icon-link {
+      padding: 4px;
+    }
+    
+    .avatar-container {
+      width: 40px;
+      height: 40px;
+    }
   }
 </style>

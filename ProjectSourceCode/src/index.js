@@ -47,11 +47,11 @@ hbs.handlebars.registerHelper('json', function (context) {
 });
 
 const dbConfig = {
-  host: process.env.POSTGRES_HOST,
-  port: process.env.POSTGRES_PORT,
-  database: process.env.POSTGRES_DB,
-  user: process.env.POSTGRES_USER,
-  password: process.env.POSTGRES_PASSWORD,
+  host: process.env.DB_HOST || 'db',
+  port: parseInt(process.env.DB_PORT || '5432'),
+  database: process.env.POSTGRES_DB || 'map_mosaic',
+  user: process.env.POSTGRES_USER || 'group6',
+  password: process.env.POSTGRES_PASSWORD || 'MapMosaic',
 };
 
 const db = pgp(dbConfig);
@@ -277,6 +277,10 @@ app.get('/profile', async (req, res) => {
     console.error("Profile route error:", err);
     res.render("pages/profile", { user: req.session.user, stats: {}, recentTrip: null });
   }
+});
+
+app.get('/aboutus', (req, res) => {
+  res.render('pages/aboutus', { user: req.session.user });
 });
 
 app.post('/profile/update', async (req, res) => {
