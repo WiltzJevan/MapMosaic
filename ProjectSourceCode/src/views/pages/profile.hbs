@@ -6,134 +6,144 @@
   Your browser does not support the video tag.
 </video>
 
-<div class="container my-5 pb-5 position-relative z-2">
-  <h1 class="text-center fw-bold text-glow-green mb-4">Your Profile</h1>
-  <p class="text-center subtitle-highlight mb-5">Manage your account and review your travel stats</p>
+<!-- Profile content wrapped in content-wrapper div -->
+<div class="content-wrapper">
+  <div class="container my-5 pb-5 position-relative z-2">
+    <h1 class="text-center fw-bold text-glow-green mb-4">Your Profile</h1>
+    <p class="text-center subtitle-highlight mb-5">Manage your account and review your travel stats</p>
 
-  <div class="row g-4 mb-5">
-    <!-- Account Info -->
-    <div class="col-md-4">
-      <div class="profile-card">
-        <div class="profile-card-header">
-          <i class="fas fa-user-circle me-2"></i>
-          <h4>Account Information</h4>
-        </div>
-        <div class="profile-card-body">
-          <!-- Username (non-editable) -->
-          <div class="profile-field">
-            <label><i class="fas fa-id-badge text-glow-icon me-2"></i>Username</label>
-            <input type="text" value="{{user.username}}" readonly />
+    <div class="row g-4 mb-5">
+      <!-- Account Info -->
+      <div class="col-md-4">
+        <div class="profile-card">
+          <div class="profile-card-header">
+            <i class="fas fa-user-circle me-2"></i>
+            <h4>Account Information</h4>
           </div>
+          <div class="profile-card-body">
+            <!-- Username (non-editable) -->
+            <div class="profile-field">
+              <label><i class="fas fa-id-badge text-glow-icon me-2"></i>Username</label>
+              <input type="text" value="{{user.username}}" readonly />
+            </div>
 
-          <!-- Password Update Section -->
-          <div class="profile-field password-field position-relative">
-            <label><i class="fas fa-key text-glow-icon me-2"></i>Password</label>
-            <div class="password-edit-wrapper">
-              <!-- Current Password -->
-              <div class="position-relative password-input-wrapper mb-2" style="display: none;">
-                <input
-                  type="password"
-                  class="current-password-input"
-                  placeholder="Current password"
-                />
-                <i class="fas fa-eye eye-icon toggle-password" style="display: none;" title="Show/Hide Passwords"></i>
-              </div>
+            <!-- Password Update Section -->
+            <div class="profile-field password-field position-relative">
+              <label><i class="fas fa-key text-glow-icon me-2"></i>Password</label>
+              <div class="password-edit-wrapper">
+                <!-- Current Password -->
+                <div class="position-relative password-input-wrapper mb-2 current-password-container" style="display: none;">
+                  <input
+                    type="password"
+                    class="current-password-input password-input"
+                    placeholder="Current password"
+                  />
+                </div>
 
-              <!-- New Password -->
-              <div class="position-relative password-input-wrapper mb-2">
-                <input
-                  type="password"
-                  class="editable-field"
-                  placeholder="New password"
-                  readonly
-                  data-field="password"
-                />
-                <i class="fas fa-pen-to-square edit-icon" title="Edit Password"></i>
-              </div>
+                <!-- New Password -->
+                <div class="position-relative password-input-wrapper mb-2">
+                  <input
+                    type="password"
+                    class="editable-field password-input"
+                    placeholder="New password"
+                    readonly
+                    data-field="password"
+                  />
+                  <i class="fas fa-pen-to-square edit-icon" title="Edit Password"></i>
+                </div>
 
-              <!-- Confirm Password -->
-              <div class="position-relative password-input-wrapper mb-2" style="display: none;">
-                <input
-                  type="password"
-                  class="confirm-password-input"
-                  placeholder="Confirm new password"
-                />
+                <!-- Confirm Password -->
+                <div class="position-relative password-input-wrapper mb-2 confirm-password-container" style="display: none;">
+                  <input
+                    type="password"
+                    class="confirm-password-input password-input"
+                    placeholder="Confirm new password"
+                  />
+                </div>
+                
+                <!-- Password visibility toggle (separate from the inputs) -->
+                <div class="password-toggle-container" style="display: none;">
+                  <button type="button" class="btn-password-toggle">
+                    <i class="fas fa-eye toggle-password-icon"></i>
+                    <span>Show passwords</span>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- Dynamic Stats -->
-    <div class="col-md-4">
-      <div class="profile-card">
-        <div class="profile-card-header">
-          <i class="fas fa-chart-line me-2"></i>
-          <h4>Your Travel Stats</h4>
-        </div>
-        <div class="profile-card-body">
-          <div class="stat-item">
-            <div class="stat-icon">
-              <i class="fas fa-globe-americas"></i>
-            </div>
-            <div class="stat-info">
-              <span class="stat-value">{{stats.uniqueCountries}}</span>
-              <span class="stat-label">Countries Visited</span>
-            </div>
+      <!-- Dynamic Stats -->
+      <div class="col-md-4">
+        <div class="profile-card">
+          <div class="profile-card-header">
+            <i class="fas fa-chart-line me-2"></i>
+            <h4>Your Travel Stats</h4>
           </div>
-          
-          <div class="stat-item">
-            <div class="stat-icon">
-              <i class="fas fa-map"></i>
+          <div class="profile-card-body">
+            <div class="stat-item">
+              <div class="stat-icon">
+                <i class="fas fa-globe-americas"></i>
+              </div>
+              <div class="stat-info">
+                <span class="stat-value">{{stats.uniqueCountries}}</span>
+                <span class="stat-label">Countries Visited</span>
+              </div>
             </div>
-            <div class="stat-info">
-              <span class="stat-value">{{stats.uniqueStates}}</span>
-              <span class="stat-label">States Explored</span>
+            
+            <div class="stat-item">
+              <div class="stat-icon">
+                <i class="fas fa-map"></i>
+              </div>
+              <div class="stat-info">
+                <span class="stat-value">{{stats.uniqueStates}}</span>
+                <span class="stat-label">States Explored</span>
+              </div>
             </div>
-          </div>
-          
-          <div class="stat-item">
-            <div class="stat-icon">
-              <i class="fas fa-suitcase"></i>
-            </div>
-            <div class="stat-info">
-              <span class="stat-value">{{stats.totalTrips}}</span>
-              <span class="stat-label">Total Trips</span>
+            
+            <div class="stat-item">
+              <div class="stat-icon">
+                <i class="fas fa-suitcase"></i>
+              </div>
+              <div class="stat-info">
+                <span class="stat-value">{{stats.totalTrips}}</span>
+                <span class="stat-label">Total Trips</span>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- Most Recent Trip -->
-    <div class="col-md-4">
-      <div class="profile-card">
-        <div class="profile-card-header">
-          <i class="fas fa-clock-rotate-left me-2"></i>
-          <h4>Recent Adventure</h4>
-        </div>
-        <div class="profile-card-body text-center">
-          {{#if recentTrip}}
-            <div class="recent-trip-image">
-              <img src="{{recentTrip.image_path}}" alt="Recent Trip" class="img-fluid rounded" />
-            </div>
-            <h5 class="recent-trip-title mt-3">{{recentTrip.title}}</h5>
-            <p class="recent-trip-location">
-              <i class="fas fa-map-marker-alt me-1"></i>{{recentTrip.location}}
-            </p>
-            <p class="recent-trip-date">
-              <i class="fas fa-calendar-alt me-1"></i>{{formatDate recentTrip.created_at 'MMMM D, YYYY'}} <span class="text-timeago">({{timeAgo recentTrip.created_at}})</span>
-            </p>
-          {{else}}
-            <div class="empty-trip-placeholder">
-              <i class="fas fa-plane"></i>
-              <p>No trips posted yet</p>
-            </div>
-          {{/if}}
-          <a href="/trips/new" class="btn btn-add-trip mt-3">
-            <i class="fas fa-plus-circle me-2"></i>Create New Trip
-          </a>
+      <!-- Most Recent Trip -->
+      <div class="col-md-4">
+        <div class="profile-card">
+          <div class="profile-card-header">
+            <i class="fas fa-clock-rotate-left me-2"></i>
+            <h4>Recent Adventure</h4>
+          </div>
+          <div class="profile-card-body text-center">
+            {{#if recentTrip}}
+              <div class="recent-trip-image">
+                <img src="{{recentTrip.image_path}}" alt="Recent Trip" class="img-fluid rounded" />
+              </div>
+              <h5 class="recent-trip-title mt-3">{{recentTrip.title}}</h5>
+              <p class="recent-trip-location">
+                <i class="fas fa-map-marker-alt me-1"></i>{{recentTrip.location}}
+              </p>
+              <p class="recent-trip-date">
+                <i class="fas fa-calendar-alt me-1"></i>{{formatDate recentTrip.created_at 'MMMM D, YYYY'}} <span class="text-timeago">({{timeAgo recentTrip.created_at}})</span>
+              </p>
+            {{else}}
+              <div class="empty-trip-placeholder">
+                <i class="fas fa-plane"></i>
+                <p>No trips posted yet</p>
+              </div>
+            {{/if}}
+            <a href="/trips/new" class="btn btn-add-trip mt-3">
+              <i class="fas fa-plus-circle me-2"></i>Create New Trip
+            </a>
+          </div>
         </div>
       </div>
     </div>
@@ -141,9 +151,24 @@
 </div>
 
 <style>
+  html, body {
+    height: 100%;
+    margin: 0;
+  }
+  
   body {
     background: #0f0f0f;
     color: #eaeaea;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  
+  /* This will make the content area grow and push footer down */
+  .content-wrapper {
+    flex: 1 0 auto;
+    display: flex;
+    flex-direction: column;
   }
 
   .bg-video {
@@ -157,6 +182,12 @@
     filter: blur(10px) brightness(0.4);
     opacity: 0.85;
     pointer-events: none;
+  }
+
+  /* Make the footer stay at the bottom */
+  footer.site-footer {
+    flex-shrink: 0;
+    margin-top: auto;
   }
 
   .text-glow-green {
@@ -422,18 +453,34 @@
     position: relative;
   }
 
-  .eye-icon {
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #aaa;
+  /* Password visibility button */
+  .btn-password-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(56, 239, 125, 0.05);
+    border: 1px solid rgba(56, 239, 125, 0.1);
+    color: #a8d8c5;
+    padding: 0.4rem 0.8rem;
+    border-radius: 0.5rem;
+    font-size: 0.85rem;
     cursor: pointer;
-    z-index: 2;
+    transition: all 0.2s ease;
+    margin-top: 8px;
+    width: auto;
+  }
+  
+  .btn-password-toggle:hover {
+    background: rgba(56, 239, 125, 0.1);
+    color: #38ef7d;
+  }
+  
+  .toggle-password-icon {
+    color: #38ef7d;
   }
 
-  .eye-icon:hover {
-    color: #38ef7d;
+  .password-toggle-container {
+    margin-top: 10px;
   }
 </style>
 
@@ -442,9 +489,14 @@
     // Password editing logic
     const editIcon = document.querySelector('.edit-icon');
     const passwordInput = document.querySelector('.editable-field[data-field="password"]');
-    const currentPasswordWrapper = document.querySelector('.current-password-input').parentElement;
-    const confirmPasswordWrapper = document.querySelector('.confirm-password-input').parentElement;
-    const eyeIcon = document.querySelector('.eye-icon');
+    const currentPasswordContainer = document.querySelector('.current-password-container');
+    const confirmPasswordContainer = document.querySelector('.confirm-password-container');
+    const passwordToggleContainer = document.querySelector('.password-toggle-container');
+    const toggleButton = document.querySelector('.btn-password-toggle');
+    const toggleIcon = document.querySelector('.toggle-password-icon');
+    
+    // Set initial state
+    passwordInput.value = '••••••••';
     
     editIcon.addEventListener('click', function() {
       if (passwordInput.readOnly) {
@@ -455,9 +507,9 @@
         passwordInput.placeholder = 'Enter new password';
         editIcon.classList.remove('fa-pen-to-square');
         editIcon.classList.add('fa-check');
-        currentPasswordWrapper.style.display = 'block';
-        confirmPasswordWrapper.style.display = 'block';
-        eyeIcon.style.display = 'block';
+        currentPasswordContainer.style.display = 'block';
+        confirmPasswordContainer.style.display = 'block';
+        passwordToggleContainer.style.display = 'block';
       } else {
         // Save changes logic would go here
         passwordInput.readOnly = true;
@@ -465,26 +517,39 @@
         passwordInput.placeholder = 'New password';
         editIcon.classList.remove('fa-check');
         editIcon.classList.add('fa-pen-to-square');
-        currentPasswordWrapper.style.display = 'none';
-        confirmPasswordWrapper.style.display = 'none';
-        eyeIcon.style.display = 'none';
+        currentPasswordContainer.style.display = 'none';
+        confirmPasswordContainer.style.display = 'none';
+        passwordToggleContainer.style.display = 'none';
+        
+        // Reset password fields to type="password"
+        const passwordInputs = document.querySelectorAll('.password-input');
+        passwordInputs.forEach(input => {
+          input.type = 'password';
+        });
+        toggleIcon.classList.remove('fa-eye-slash');
+        toggleIcon.classList.add('fa-eye');
       }
     });
     
     // Password visibility toggle
-    eyeIcon.addEventListener('click', function() {
-      const passwordInputs = document.querySelectorAll('input[type="password"]');
+    toggleButton.addEventListener('click', function() {
+      const passwordInputs = document.querySelectorAll('.password-input');
+      const isVisible = passwordInputs[0].type === 'text';
+      
       passwordInputs.forEach(input => {
-        if (input.type === 'password') {
-          input.type = 'text';
-          eyeIcon.classList.remove('fa-eye');
-          eyeIcon.classList.add('fa-eye-slash');
-        } else {
-          input.type = 'password';
-          eyeIcon.classList.remove('fa-eye-slash');
-          eyeIcon.classList.add('fa-eye');
-        }
+        input.type = isVisible ? 'password' : 'text';
       });
+      
+      // Update icon and text
+      if (isVisible) {
+        toggleIcon.classList.remove('fa-eye-slash');
+        toggleIcon.classList.add('fa-eye');
+        toggleButton.querySelector('span').textContent = 'Show passwords';
+      } else {
+        toggleIcon.classList.remove('fa-eye');
+        toggleIcon.classList.add('fa-eye-slash');
+        toggleButton.querySelector('span').textContent = 'Hide passwords';
+      }
     });
   });
 </script>
