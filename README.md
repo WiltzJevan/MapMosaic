@@ -9,7 +9,7 @@ For travelers who wish to capture their experiences and access useful informatio
 The project will feature:
   - Graphical User Interface (GUI)
   - Database to store user data
-  - Google Maps & AllTrails API data sources for state information and rendering
+  - Google Maps & MapboxGL API data sources for country information and rendering
   - Middle layer connecting the UI and the data
   - Docker containers for portability
 
