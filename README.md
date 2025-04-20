@@ -23,15 +23,15 @@ The project will feature:
 - Ben Grumbles - GitHub: *bengrumbles* - Email: begr5146@colorado.edu
 - Juliana Garcia-Gallo - GitHub: *Julianag10* - Email: juga2381@colorado.edu
 
-### Technology Stack (WIP)
+### Technology Stack 
 
-  - Frontend: HTML, CSS, JavaScript, Google Maps API
-  - Backend: Python (Flask/Django)
+  - Frontend: HTML, CSS, JavaScript, MapboxGL (API)
+  - Backend: Python (Flask/Django), Nodemailer
   - Database: PostgreSQL
   - Containerization: Docker
   - Version Control: Git/GitHub
 
-### Prerequisites (WIP)
+### Prerequisites 
 
 Before running the application, ensure you have the following installed:
   - Docker
