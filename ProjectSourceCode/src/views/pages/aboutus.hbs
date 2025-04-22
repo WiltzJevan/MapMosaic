@@ -433,4 +433,102 @@
     font-weight: 600;
   }
 
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.7);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.modal-content {
+  background: #1f1f1f;
+  padding: 2rem;
+  border-radius: 1rem;
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+  color: #eaffea;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+.modal-content h3 {
+  margin-bottom: 1rem;
+}
+
+.modal-content input {
+  width: 100%;
+  padding: 0.5rem;
+  margin: 0.5rem 0;
+  border-radius: 0.5rem;
+  border: 1px solid #38ef7d;
+  background: #2a2a2a;
+  color: #eaffea;
+}
+
+.modal-content button {
+  background: linear-gradient(to right, #38ef7d, #11998e);
+  border: none;
+  color: #000;
+  padding: 0.5rem 1rem;
+  border-radius: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: all 0.3s ease;
+}
+
+.modal-content button:hover {
+  background: linear-gradient(to right, #11998e, #38ef7d);
+  transform: scale(1.05);
+}
 </style>
+
+<!-- Thank You Message -->
+<div id="thankYouMessage" style="display: none; color: #38ef7d; font-weight: bold; text-align: center; margin-top: 1rem;">
+  Thank you for your donation!
+</div>
+
+<!-- Donation Modal -->
+<div class="modal-overlay" id="donationModal">
+  <div class="modal-content">
+    <h3>We Appreciate Your Support!</h3>
+    <p>Thank you for considering a donation of <span id="donationAmountDisplay">$1</span>!</p>
+    <input type="text" id="customAmountInput" placeholder="Enter Amount" style="display: none;">
+    <input type="text" placeholder="Card Number">
+    <input type="text" placeholder="MM/YY">
+    <input type="text" placeholder="CVC">
+    <button onclick="completeDonation()">Donate Now</button>
+  </div>
+</div>
+
+<script>
+
+function openModal(amount) {
+  document.getElementById('donationAmountDisplay').innerText = '$' + amount;
+  document.getElementById('donationModal').style.display = 'flex';
+}
+function completeDonation() {
+  document.getElementById('donationModal').style.display = 'none';
+  document.getElementById('thankYouMessage').style.display = 'block';
+  setTimeout(() => {
+    document.getElementById('thankYouMessage').style.display = 'none';
+  }, 4000);
+}
+
+document.querySelectorAll('.btn-add-trip').forEach((btn) => {
+  btn.addEventListener('click', (e) => {
+    const amountText = e.target.innerText;
+    if (amountText === '$1' || amountText === '$5' || amountText === 'Custom Amount') {
+      openModal(amountText.replace('$', ''));
+    }
+  });
+});
+
+</script>
