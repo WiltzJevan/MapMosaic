@@ -1,87 +1,370 @@
-{{!-- {{> header}} --}}
+<!-- 🎥 Fullscreen Video Background -->
+<video autoplay muted loop playsinline class="bg-video">
+  <source src="/videos/background.mp4" type="video/mp4" />
+  Your browser does not support the video tag.
+</video>
 
-<div class="container mt-5">
-  <h1 class="mb-4">About Us</h1>
-  <p>
-    Welcome to Map Mosaic! We're a team of travelers, developers, 
-    passionate about making your adventures memorable and organized.
-  </p>
+<div class="container my-5 position-relative z-3">
+  <!-- Header Section -->
+  <div class="text-center mb-5">
+    <h1 class="fw-bold text-glow-green mb-3">About Map Mosaic</h1>
+    <div class="subtitle-divider">
+      <span><i class="fas fa-globe-americas"></i></span>
+    </div>
+    <p class="subtitle-highlight mt-4 mx-auto" style="max-width: 800px;">
+      We're a team of travelers, developers, and dreamers passionate about making your adventures memorable and organized.
+    </p>
+  </div>
+  
+  <!-- Mission Statement Card -->
+  <div class="mission-card mb-5">
+    <div class="mission-content">
+      <h3 class="mission-title"><i class="fas fa-compass mission-icon"></i>Our Mission</h3>
+      <p class="mission-text">
+        Our mission is to give users a seamless way to plan, share, and revisit their trips.
+        Whether you're a solo explorer or a group adventurer, Map Mosaic is here to map your story.
+      </p>
+      <p class="mission-tagline">
+        Built by students, designed for explorers.
+      </p>
+    </div>
+  </div>
 
-  <p>
-    Our mission is to give users a seamless way to plan, share, and revisit their trips.
-    Whether you're a solo explorer or a group adventurer, Map Mosaic is here to map your story.
-  </p>
-
-  <p>
-    Built by students, designed for explorers.
-  </p>
-</div>
-
-<!-- CARDS 1-6 -->
-<div class="row row-cols-1 row-cols-md-3 g-4 mt-4">
-  {{!-- Member 1 --}}
+  <!-- Team Section -->
+<h2 class="text-glow-green text-center mb-4">Meet Our Team</h2>
+<div class="row row-cols-1 row-cols-md-3 g-4 mb-5">
+  <!-- Member 1 -->
   <div class="col">
-    <div class="card h-100">
-        <img src="/images/doodles/Chandler.jpg" class="card-img-top rounded-circle mx-auto mt-3" alt="Member 1" style="width: 150px; height: 150px; object-fit: cover;">
-      <div class="card-body">
-        <h5 class="card-title">Chandler</h5>
-        <p class="card-text"> description ...</p>
+    <div class="team-card">
+      <div class="team-card-header">
+        <img src="/images/doodles/Chandler.jpg" class="team-img" alt="Chandler">
+      </div>
+      <div class="team-card-body">
+        <h4 class="team-name">Chandler</h4>
+        <p class="team-role">Lead Developer</p>
+        <p class="team-description">Driven by a love for clean design and smart functionality, Chandler brought the vision of Map Mosaic to life—blending intuitive interfaces with powerful interactive features like globe mapping and trip creation.</p>
       </div>
     </div>
   </div>
 
-  {{!-- Member 2 --}}
+  <!-- Member 2 -->
   <div class="col">
-    <div class="card h-100">
-        <img src="/images/doodles/Ben.jpg" class="card-img-top rounded-circle mx-auto mt-3" alt="Member 1" style="width: 150px; height: 150px; object-fit: cover;">
-      <div class="card-body">
-        <h5 class="card-title">Ben</h5>
-        <p class="card-text">description ...</p>
+    <div class="team-card">
+      <div class="team-card-header">
+        <img src="/images/doodles/Ben.jpg" class="team-img" alt="Ben">
+      </div>
+      <div class="team-card-body">
+        <h4 class="team-name">Ben</h4>
+        <p class="team-role">Backend Engineer</p>
+        <p class="team-description">Passionate about building solid infrastructures, Ben laid the foundation for Map Mosaic’s backend—ensuring data flows smoothly and functionality scales effortlessly.</p>
       </div>
     </div>
   </div>
 
   <!-- Member 3 -->
   <div class="col">
-    <div class="card h-100">
-      <img src="/images/doodles/Javon.jpg" class="card-img-top rounded-circle mx-auto mt-3" alt="Member 1" style="width: 150px; height: 150px; object-fit: cover;">
-      <div class="card-body">
-        <h5 class="card-title">Jevan</h5>
-        <p class="card-text">description ...</p>
+    <div class="team-card">
+      <div class="team-card-header">
+        <img src="/images/doodles/Javon.jpg" class="team-img" alt="Jevan">
+      </div>
+      <div class="team-card-body">
+        <h4 class="team-name">Jevan</h4>
+        <p class="team-role">Creative Developer</p>
+        <p class="team-description">Always ready to explore new technologies, Jevan brought curiosity and precision to the team—pushing boundaries with 3D integration and helping refine our codebase through persistent problem-solving.</p>
       </div>
     </div>
   </div>
 
   <!-- Member 4 -->
   <div class="col">
-    <div class="card h-100">
-<img src="/images/doodles/Treyanna.jpg" class="card-img-top rounded-circle mx-auto mt-3" alt="Member 1" style="width: 150px; height: 150px; object-fit: cover;">     
- <div class="card-body">
-        <h5 class="card-title">Treyanna</h5>
-        <p class="card-text">description ...</p>
+    <div class="team-card">
+      <div class="team-card-header">
+        <img src="/images/doodles/Treyanna.jpg" class="team-img" alt="Treyanna">
+      </div>
+      <div class="team-card-body">
+        <h4 class="team-name">Treyanna</h4>
+        <p class="team-role">UI Contributor</p>
+        <p class="team-description">Collaborative and detail-oriented, Treyanna helped shape the site’s structure with thoughtful page designs that ensured users had a cohesive and welcoming experience.</p>
       </div>
     </div>
   </div>
 
   <!-- Member 5 -->
   <div class="col">
-    <div class="card h-100">
-    <img src="/images/doodles/Johnny.jpg" class="card-img-top rounded-circle mx-auto mt-3" alt="Member 1" style="width: 150px; height: 150px; object-fit: cover;">     
-     <div class="card-body">
-        <h5 class="card-title">Jonny</h5>
-        <p class="card-text">description ...</p>
+    <div class="team-card">
+      <div class="team-card-header">
+        <img src="/images/doodles/Johnny.jpg" class="team-img" alt="Jonny">
+      </div>
+      <div class="team-card-body">
+        <h4 class="team-name">Johnny</h4>
+        <p class="team-role">DevOps & Integration Specialist</p>
+        <p class="team-description">Jonny bridges design and delivery—creating smart user-facing features like the contact page, while also handling deployment and bringing Map Mosaic into the real world.</p>
       </div>
     </div>
   </div>
 
   <!-- Member 6 -->
   <div class="col">
-    <div class="card h-100">
-      <img src="/images/doodles/Juliana.jpg" class="card-img-top rounded-circle mx-auto mt-3" alt="Member 1" style="width: 150px; height: 150px; object-fit: cover;">
-      <div class="card-body">
-        <h5 class="card-title">Juliana</h5>
-        <p class="card-text">description ...</p>
+    <div class="team-card">
+      <div class="team-card-header">
+        <img src="/images/doodles/Juliana.jpg" class="team-img" alt="Juliana">
+      </div>
+      <div class="team-card-body">
+        <h4 class="team-name">Juliana</h4>
+        <p class="team-role">UI Designer</p>
+        <p class="team-description">With an eye for layout and flow, Juliana helped map out the user journey through early wireframes that guided the look and feel of the platform.</p>
       </div>
     </div>
   </div>
 </div>
+  
+  <!-- Contact Section -->
+  <div class="contact-section text-center">
+    <h3 class="fw-bold mb-3">Start Your Journey Today</h3>
+    <p class="mb-4">Join the growing community of explorers using Map Mosaic to document their adventures.</p>
+    <a href="/register" class="btn btn-add-trip">
+      <i class="fas fa-user-plus me-2"></i>Sign Up Now
+    </a>
+  </div>
+</div>
+
+<!-- Fundraiser Section -->
+<div class="fundraiser-section text-center my-5">
+  <h2 class="text-glow-green mb-4">Support Map Mosaic</h2>
+  <p class="subtitle-highlight mb-4 mx-auto" style="max-width: 600px;">
+    Support the next generation of developers—help us grow this project beyond the classroom.
+
+    Help us reach our goal to improve features and keep Map Mosaic free for all adventurers.
+  </p>
+
+
+<style>
+  body {
+    background: #0f0f0f;
+    color: #eaeaea;
+  }
+  
+  .bg-video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    z-index: -1;
+    filter: blur(10px) brightness(0.4);
+    opacity: 0.85;
+    pointer-events: none;
+  }
+  
+  .text-glow-green {
+    color: #eaffea;
+    text-shadow: 0 0 15px rgba(56, 239, 125, 0.6);
+  }
+  
+  .subtitle-highlight {
+    color: #e1e1e1;
+    font-size: 1.2rem;
+    line-height: 1.6;
+    text-shadow: 0 0 4px rgba(255, 255, 255, 0.1);
+  }
+  
+  /* Subtitle Divider */
+  .subtitle-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin: 1rem auto;
+    width: 100%;
+    max-width: 500px;
+  }
+  
+  .subtitle-divider::before,
+  .subtitle-divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid rgba(56, 239, 125, 0.3);
+  }
+  
+  .subtitle-divider span {
+    background: linear-gradient(to right, #38ef7d, #11998e);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 1rem;
+    color: #000;
+    font-size: 1.2rem;
+    box-shadow: 0 0 15px rgba(56, 239, 125, 0.4);
+  }
+  
+  /* Mission Card */
+  .mission-card {
+    background: rgba(31, 31, 31, 0.85);
+    border-radius: 1.5rem;
+    overflow: hidden;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(56, 239, 125, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  
+  .mission-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+    border-color: rgba(56, 239, 125, 0.2);
+  }
+  
+  .mission-content {
+    padding: 2.5rem;
+    text-align: center;
+  }
+  
+  .mission-title {
+    color: #eaffea;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+  }
+  
+  .mission-icon {
+    background: linear-gradient(to right, #38ef7d, #11998e);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-right: 0.75rem;
+    font-size: 1.8rem;
+  }
+  
+  .mission-text {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    color: #e0e0e0;
+  }
+  
+  .mission-tagline {
+    font-style: italic;
+    color: #a8d8c5;
+    font-size: 1.1rem;
+    margin-bottom: 0;
+  }
+  
+  /* Team Cards */
+  .team-card {
+    background: rgba(31, 31, 31, 0.85);
+    border-radius: 1.5rem;
+    overflow: hidden;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(56, 239, 125, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%;
+  }
+  
+  .team-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+    border-color: rgba(56, 239, 125, 0.2);
+  }
+  
+  .team-card-header {
+    padding: 1.5rem;
+    text-align: center;
+    position: relative;
+  }
+  
+  .team-img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid transparent;
+    background: linear-gradient(#2a2a2a, #2a2a2a) padding-box,
+                linear-gradient(to right, #38ef7d, #11998e) border-box;
+    box-shadow: 0 0 20px rgba(56, 239, 125, 0.2);
+    transition: transform 0.3s ease;
+  }
+  
+  .team-card:hover .team-img {
+    transform: scale(1.05);
+  }
+  
+  .team-card-body {
+    padding: 1.5rem;
+    text-align: center;
+  }
+  
+  .team-name {
+    color: #eaffea;
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+    font-size: 1.3rem;
+  }
+  
+  .team-role {
+    color: #38ef7d;
+    font-weight: 500;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+  }
+  
+  .team-description {
+    color: #d8d8d8;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin-bottom: 0;
+  }
+  
+  /* Contact Section */
+  .contact-section {
+    margin: 5rem auto 2rem;
+    padding: 3rem;
+    background: rgba(31, 31, 31, 0.85);
+    border-radius: 1.5rem;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(56, 239, 125, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    max-width: 700px;
+  }
+  
+  .contact-section h3 {
+    color: #eaffea;
+    text-shadow: 0 0 15px rgba(56, 239, 125, 0.4);
+  }
+  
+  .contact-section p {
+    color: #d8d8d8;
+    font-size: 1.1rem;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+  
+  /* Button */
+  .btn-add-trip {
+    background: linear-gradient(to right, #38ef7d, #11998e);
+    border: none;
+    color: #000000;
+    font-weight: 600;
+    padding: 0.7rem 1.5rem;
+    border-radius: 2rem;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 2px 8px rgba(56, 239, 125, 0.15);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .btn-add-trip:hover {
+    background: linear-gradient(to right, #11998e, #38ef7d);
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(56, 239, 125, 0.3);
+    color: #000000;
+  }
+</style>
