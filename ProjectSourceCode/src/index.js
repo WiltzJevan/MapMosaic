@@ -47,11 +47,11 @@ hbs.handlebars.registerHelper('json', function (context) {
 });
 
 const dbConfig = {
-  host: process.env.DB_HOST || 'db',
-  port: parseInt(process.env.DB_PORT || '5432'),
-  database: process.env.POSTGRES_DB || 'map_mosaic',
-  user: process.env.POSTGRES_USER || 'group6',
-  password: process.env.POSTGRES_PASSWORD || 'MapMosaic',
+  host: process.env.POSTGRES_HOST,
+  port: process.env.POSTGRES_PORT,
+  database: process.env.POSTGRES_DB,
+  user: process.env.POSTGRES_USER,
+  password: process.env.POSTGRES_PASSWORD,
 };
 
 const db = pgp(dbConfig);
