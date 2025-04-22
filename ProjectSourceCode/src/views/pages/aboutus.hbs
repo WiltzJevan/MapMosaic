@@ -128,15 +128,37 @@
   </div>
 </div>
 
-<!-- Fundraiser Section -->
+<!-- Fundraiser Title (above the box) -->
+<h1 class="fw-bold text-glow-green text-center mb-3">Support Map Mosaic</h1>
+<div class="subtitle-divider">
+      <span><i class="fas fa-globe-americas"></i></span>
+</div>
+
+<!-- Fundraiser Section Box-->
 <div class="fundraiser-section text-center my-5">
-  <h2 class="text-glow-green mb-4">Support Map Mosaic</h2>
+  <h2 class="text-glow-green text-center mb-4">Donate</h2>
   <p class="subtitle-highlight mb-4 mx-auto" style="max-width: 600px;">
     Support the next generation of developers—help us grow this project beyond the classroom.
 
     Help us reach our goal to improve features and keep Map Mosaic free for all adventurers.
   </p>
 
+<!-- Thermometer -->
+  <div class="thermometer-container-horizontal mx-auto mb-3">
+      <div class="thermometer-fill-horizontal" style="width: 60%;"></div>
+  </div>
+
+    <p class="fundraiser-amount mt-3">$600 raised of $1,000 goal</p>
+
+
+<!-- Donation Buttons -->
+  <div class="donation-buttons d-flex justify-content-center gap-3 mt-4">
+    <button class="btn btn-add-trip">$1</button>
+    <button class="btn btn-add-trip">$5</button>
+    <button class="btn btn-add-trip">Custom Amount</button>
+  </div>
+</div>
+  
 
 <style>
   body {
@@ -367,4 +389,48 @@
     box-shadow: 0 4px 12px rgba(56, 239, 125, 0.3);
     color: #000000;
   }
+
+.fundraiser-section {
+  background: rgba(31, 31, 31, 0.85);
+  padding: 2rem;
+  border-radius: 1.5rem;
+  border: 1px solid rgba(56, 239, 125, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  width: 90%;
+  max-width: 1000px;
+
+  margin: 0 auto; /* Center horizontally */
+  text-align: center;
+}
+
+
+.thermometer-container-horizontal {
+  width: 100%;
+  height: 30px;
+  background: #222;
+  border-radius: 15px;
+  border: 2px solid rgba(56, 239, 125, 0.3);
+  overflow: hidden;
+  position: relative;
+}
+
+  .thermometer-horizontal {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+  }
+
+  .thermometer-fill-horizontal {
+    background: linear-gradient(to right, #38ef7d, #11998e);
+    height: 100%;
+    transition: width 0.5s ease-in-out;
+  }
+
+  .fundraiser-amount {
+    color: #eaffea;
+    font-weight: 600;
+  }
+
 </style>
