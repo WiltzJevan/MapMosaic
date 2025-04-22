@@ -1,17 +1,17 @@
 {{> message}}
 
-<!-- 🎥 Fullscreen Video Background -->
+<!-- Background video that plays in fullscreen -->
 <video autoplay muted loop playsinline class="bg-video">
   <source src="/videos/background.mp4" type="video/mp4" />
   Your browser does not support the video tag.
 </video>
 
-<!-- 🏷️ Title Overlay -->
+<!-- Page title text overlayed on top of the video -->
 <div class="text-center position-relative z-2 py-5">
   <h1 class="display-5 fw-bold mb-4 text-glow-green">Welcome to Map Mosaic</h1>
 </div>
 
-<!-- 🌍 Globe Tools -->
+<!-- Container for the country search dropdown and 'New Trip' button -->
 <div class="container mb-5 d-flex justify-content-center align-items-center gap-3 flex-wrap">
   <div class="position-relative d-flex align-items-center" style="min-width: 320px;">
     <i class="fa-solid fa-magnifying-glass search-icon-inside"></i>
@@ -25,12 +25,12 @@
   </a>
 </div>
 
-<!-- 🗺 Map Container -->
+<!-- Map container that will display the globe -->
 <div class="container mb-5">
   <div id="map" class="globe-container"></div>
 </div>
 
-<!-- 🌍 Dependencies -->
+<!-- External CSS and JS libraries -->
 <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet" />
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
@@ -39,11 +39,13 @@
 <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
 
 <style>
+  /* Basic dark theme background and text color */
   body {
     background: #0f0f0f;
     color: #eaeaea;
   }
 
+  /* Fullscreen blurred background video */
   .bg-video {
     position: fixed;
     top: 0;
@@ -57,11 +59,13 @@
     pointer-events: none;
   }
 
+  /* Glowing green header text */
   .text-glow-green {
     color: #eaffea;
     text-shadow: 0 0 15px rgba(56, 239, 125, 0.6);
   }
 
+  /* Map container styling */
   .globe-container {
     height: 600px;
     width: 100%;
@@ -73,22 +77,23 @@
     z-index: 1;
   }
 
+  /* Trip marker styling */
   .trip-marker {
     background-size: cover;
     border-radius: 50%;
-    width: 50px; /* Slightly smaller for better performance */
+    width: 50px;
     height: 50px;
     border: 2px solid white;
     cursor: pointer;
-    will-change: transform; /* Hardware acceleration hint */
+    will-change: transform;
   }
   
-  /* Remove hover animations for better performance */
+  /* Highlight marker on hover */
   .trip-marker:hover {
     border-color: #38ef7d;
   }
 
-  /* Simple popup styling */
+  /* Popup appearnace */
   .mapboxgl-popup {
     max-width: 200px !important;
   }
@@ -103,6 +108,7 @@
     text-align: center;
   }
   
+  /* Close button in popup */
   .mapboxgl-popup-close-button {
     color: #fff;
     font-size: 16px;
@@ -116,6 +122,7 @@
     background: none;
   }
 
+  /* Custom dropdown styling */
   .styled-search-select {
     background-color: #1e1e1e;
     border: 1px solid #555;
@@ -128,6 +135,7 @@
     box-shadow: 0 0 8px rgba(56, 239, 125, 0.15);
   }
 
+  /* Search icon inside the input */
   .search-icon-inside {
     position: absolute;
     top: 50%;
@@ -139,6 +147,7 @@
     z-index: 10;
   }
 
+  /* Add Trip button styling */
   .select2-container--default .select2-selection--single {
     background-color: #1e1e1e;
     border: 1px solid #555;
@@ -220,95 +229,213 @@
 </style>
 
 <script>
+  // Setup Mapbox access token
   mapboxgl.accessToken = 'pk.eyJ1IjoiY2hhbmRsZXJmYXJuc3dvcnRoIiwiYSI6ImNtOTlxYzlvZzBncXgydnBvNTNidDQ4ZjEifQ.eS8dzvYBlDFE8WJhgGR3Xg';
 
+  // parse trips data from backend
   const trips = {{{json trips}}};
 
+  // list of UN recognized countries
   const countries = [
-    { name: "United States", code: "🇺🇸" },
-    { name: "Canada", code: "🇨🇦" },
-    { name: "Mexico", code: "🇲🇽" },
-    { name: "France", code: "🇫🇷" },
-    { name: "Germany", code: "🇩🇪" },
-    { name: "United Kingdom", code: "🇬🇧" },
-    { name: "Italy", code: "🇮🇹" },
-    { name: "Spain", code: "🇪🇸" },
-    { name: "Portugal", code: "🇵🇹" },
-    { name: "Australia", code: "🇦🇺" },
-    { name: "New Zealand", code: "🇳🇿" },
-    { name: "Japan", code: "🇯🇵" },
-    { name: "South Korea", code: "🇰🇷" },
-    { name: "China", code: "🇨🇳" },
-    { name: "India", code: "🇮🇳" },
-    { name: "Brazil", code: "🇧🇷" },
-    { name: "Argentina", code: "🇦🇷" },
-    { name: "South Africa", code: "🇿🇦" },
-    { name: "Egypt", code: "🇪🇬" },
-    { name: "Morocco", code: "🇲🇦" },
-    { name: "Thailand", code: "🇹🇭" },
-    { name: "Vietnam", code: "🇻🇳" },
-    { name: "Indonesia", code: "🇮🇩" },
-    { name: "Russia", code: "🇷🇺" },
-    { name: "Norway", code: "🇳🇴" },
-    { name: "Sweden", code: "🇸🇪" },
-    { name: "Finland", code: "🇫🇮" },
-    { name: "Netherlands", code: "🇳🇱" },
-    { name: "Belgium", code: "🇧🇪" },
-    { name: "Switzerland", code: "🇨🇭" },
-    { name: "Austria", code: "🇦🇹" },
-    { name: "Poland", code: "🇵🇱" },
-    { name: "Czech Republic", code: "🇨🇿" },
-    { name: "Greece", code: "🇬🇷" },
-    { name: "Turkey", code: "🇹🇷" },
-    { name: "UAE", code: "🇦🇪" },
-    { name: "Saudi Arabia", code: "🇸🇦" }
-  ];
+  { name: "Afghanistan", code: "🇦🇫" },
+  { name: "Albania", code: "🇦🇱" },
+  { name: "Algeria", code: "🇩🇿" },
+  { name: "Andorra", code: "🇦🇩" },
+  { name: "Angola", code: "🇦🇴" },
+  { name: "Argentina", code: "🇦🇷" },
+  { name: "Armenia", code: "🇦🇲" },
+  { name: "Australia", code: "🇦🇺" },
+  { name: "Austria", code: "🇦🇹" },
+  { name: "Azerbaijan", code: "🇦🇿" },
+  { name: "Bahamas", code: "🇧🇸" },
+  { name: "Bahrain", code: "🇧🇭" },
+  { name: "Bangladesh", code: "🇧🇩" },
+  { name: "Barbados", code: "🇧🇧" },
+  { name: "Belarus", code: "🇧🇾" },
+  { name: "Belgium", code: "🇧🇪" },
+  { name: "Belize", code: "🇧🇿" },
+  { name: "Benin", code: "🇧🇯" },
+  { name: "Bhutan", code: "🇧🇹" },
+  { name: "Bolivia", code: "🇧🇴" },
+  { name: "Bosnia and Herzegovina", code: "🇧🇦" },
+  { name: "Botswana", code: "🇧🇼" },
+  { name: "Brazil", code: "🇧🇷" },
+  { name: "Brunei", code: "🇧🇳" },
+  { name: "Bulgaria", code: "🇧🇬" },
+  { name: "Burkina Faso", code: "🇧🇫" },
+  { name: "Burundi", code: "🇧🇮" },
+  { name: "Cambodia", code: "🇰🇭" },
+  { name: "Cameroon", code: "🇨🇲" },
+  { name: "Canada", code: "🇨🇦" },
+  { name: "Cape Verde", code: "🇨🇻" },
+  { name: "Central African Republic", code: "🇨🇫" },
+  { name: "Chad", code: "🇹🇩" },
+  { name: "Chile", code: "🇨🇱" },
+  { name: "China", code: "🇨🇳" },
+  { name: "Colombia", code: "🇨🇴" },
+  { name: "Comoros", code: "🇰🇲" },
+  { name: "Costa Rica", code: "🇨🇷" },
+  { name: "Croatia", code: "🇭🇷" },
+  { name: "Cuba", code: "🇨🇺" },
+  { name: "Cyprus", code: "🇨🇾" },
+  { name: "Czech Republic", code: "🇨🇿" },
+  { name: "Denmark", code: "🇩🇰" },
+  { name: "Dominican Republic", code: "🇩🇴" },
+  { name: "Ecuador", code: "🇪🇨" },
+  { name: "Egypt", code: "🇪🇬" },
+  { name: "El Salvador", code: "🇸🇻" },
+  { name: "Estonia", code: "🇪🇪" },
+  { name: "Ethiopia", code: "🇪🇹" },
+  { name: "Fiji", code: "🇫🇯" },
+  { name: "Finland", code: "🇫🇮" },
+  { name: "France", code: "🇫🇷" },
+  { name: "Gabon", code: "🇬🇦" },
+  { name: "Gambia", code: "🇬🇲" },
+  { name: "Georgia", code: "🇬🇪" },
+  { name: "Germany", code: "🇩🇪" },
+  { name: "Ghana", code: "🇬🇭" },
+  { name: "Greece", code: "🇬🇷" },
+  { name: "Guatemala", code: "🇬🇹" },
+  { name: "Honduras", code: "🇭🇳" },
+  { name: "Hungary", code: "🇭🇺" },
+  { name: "Iceland", code: "🇮🇸" },
+  { name: "India", code: "🇮🇳" },
+  { name: "Indonesia", code: "🇮🇩" },
+  { name: "Iran", code: "🇮🇷" },
+  { name: "Iraq", code: "🇮🇶" },
+  { name: "Ireland", code: "🇮🇪" },
+  { name: "Israel", code: "🇮🇱" },
+  { name: "Italy", code: "🇮🇹" },
+  { name: "Jamaica", code: "🇯🇲" },
+  { name: "Japan", code: "🇯🇵" },
+  { name: "Jordan", code: "🇯🇴" },
+  { name: "Kazakhstan", code: "🇰🇿" },
+  { name: "Kenya", code: "🇰🇪" },
+  { name: "Kuwait", code: "🇰🇼" },
+  { name: "Kyrgyzstan", code: "🇰🇬" },
+  { name: "Laos", code: "🇱🇦" },
+  { name: "Latvia", code: "🇱🇻" },
+  { name: "Lebanon", code: "🇱🇧" },
+  { name: "Liberia", code: "🇱🇷" },
+  { name: "Libya", code: "🇱🇾" },
+  { name: "Lithuania", code: "🇱🇹" },
+  { name: "Luxembourg", code: "🇱🇺" },
+  { name: "Madagascar", code: "🇲🇬" },
+  { name: "Malawi", code: "🇲🇼" },
+  { name: "Malaysia", code: "🇲🇾" },
+  { name: "Maldives", code: "🇲🇻" },
+  { name: "Mali", code: "🇲🇱" },
+  { name: "Malta", code: "🇲🇹" },
+  { name: "Mauritania", code: "🇲🇷" },
+  { name: "Mexico", code: "🇲🇽" },
+  { name: "Moldova", code: "🇲🇩" },
+  { name: "Monaco", code: "🇲🇨" },
+  { name: "Mongolia", code: "🇲🇳" },
+  { name: "Montenegro", code: "🇲🇪" },
+  { name: "Morocco", code: "🇲🇦" },
+  { name: "Mozambique", code: "🇲🇿" },
+  { name: "Myanmar", code: "🇲🇲" },
+  { name: "Namibia", code: "🇳🇦" },
+  { name: "Nepal", code: "🇳🇵" },
+  { name: "Netherlands", code: "🇳🇱" },
+  { name: "New Zealand", code: "🇳🇿" },
+  { name: "Nicaragua", code: "🇳🇮" },
+  { name: "Niger", code: "🇳🇪" },
+  { name: "Nigeria", code: "🇳🇬" },
+  { name: "North Korea", code: "🇰🇵" },
+  { name: "North Macedonia", code: "🇲🇰" },
+  { name: "Norway", code: "🇳🇴" },
+  { name: "Oman", code: "🇴🇲" },
+  { name: "Pakistan", code: "🇵🇰" },
+  { name: "Palestine", code: "🇵🇸" },
+  { name: "Panama", code: "🇵🇦" },
+  { name: "Paraguay", code: "🇵🇾" },
+  { name: "Peru", code: "🇵🇪" },
+  { name: "Philippines", code: "🇵🇭" },
+  { name: "Poland", code: "🇵🇱" },
+  { name: "Portugal", code: "🇵🇹" },
+  { name: "Qatar", code: "🇶🇦" },
+  { name: "Romania", code: "🇷🇴" },
+  { name: "Russia", code: "🇷🇺" },
+  { name: "Rwanda", code: "🇷🇼" },
+  { name: "Saudi Arabia", code: "🇸🇦" },
+  { name: "Senegal", code: "🇸🇳" },
+  { name: "Serbia", code: "🇷🇸" },
+  { name: "Singapore", code: "🇸🇬" },
+  { name: "Slovakia", code: "🇸🇰" },
+  { name: "Slovenia", code: "🇸🇮" },
+  { name: "Somalia", code: "🇸🇴" },
+  { name: "South Africa", code: "🇿🇦" },
+  { name: "South Korea", code: "🇰🇷" },
+  { name: "South Sudan", code: "🇸🇸" },
+  { name: "Sri Lanka", code: "🇱🇰" },
+  { name: "Sudan", code: "🇸🇩" },
+  { name: "Sweden", code: "🇸🇪" },
+  { name: "Switzerland", code: "🇨🇭" },
+  { name: "Syria", code: "🇸🇾" },
+  { name: "Taiwan", code: "🇹🇼" },
+  { name: "Tajikistan", code: "🇹🇯" },
+  { name: "Tanzania", code: "🇹🇿" },
+  { name: "Thailand", code: "🇹🇭" },
+  { name: "Tunisia", code: "🇹🇳" },
+  { name: "Turkey", code: "🇹🇷" },
+  { name: "Turkmenistan", code: "🇹🇲" },
+  { name: "Uganda", code: "🇺🇬" },
+  { name: "Ukraine", code: "🇺🇦" },
+  { name: "United Arab Emirates", code: "🇦🇪" },
+  { name: "United Kingdom", code: "🇬🇧" },
+  { name: "United States", code: "🇺🇸" },
+  { name: "Uruguay", code: "🇺🇾" },
+  { name: "Uzbekistan", code: "🇺🇿" },
+  { name: "Venezuela", code: "🇻🇪" },
+  { name: "Vietnam", code: "🇻🇳" },
+  { name: "Yemen", code: "🇾🇪" },
+  { name: "Zambia", code: "🇿🇲" },
+  { name: "Zimbabwe", code: "🇿🇼" }
+];
 
+  // Create the Mapbox map
   const map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/mapbox/dark-v10',
     projection: 'globe',
     center: [0, 20],
     zoom: 1.3,
-    maxZoom: 8, // Limit max zoom for better performance
-    minZoom: 0.8, // Set minimum zoom
-    fadeDuration: 0, // Disable fade animations
-    renderWorldCopies: false, // Don't render multiple world copies
-    attributionControl: false, // Remove attribution control for slight performance boost
-    preserveDrawingBuffer: false, // Better performance
-    antialias: false // Disable antialiasing for better performance
+    maxZoom: 8,
+    minZoom: 0.8,
+    fadeDuration: 0,
+    renderWorldCopies: false,
+    attributionControl: false,
+    preserveDrawingBuffer: false,
+    antialias: false
   });
 
-  // Cache for geocoding results to avoid redundant API calls
+  // Cache to store country geolocation
   const geocodeCache = {};
   
-  // Set up map performance optimizations
+  // Set map fog and light for better performance
   map.on('style.load', () => {
-    // Use simplified fog settings for better performance
     map.setFog({
-      color: 'rgb(20, 20, 30)', // Darker, less resource-intensive fog
+      color: 'rgb(20, 20, 30)', 
       'high-color': 'rgb(20, 20, 30)',
-      'horizon-blend': 0.1, // Reduced blend for better performance
+      'horizon-blend': 0.1,
       'space-color': 'rgb(5, 5, 10)',
-      'star-intensity': 0.2 // Reduced star intensity
+      'star-intensity': 0.2
     });
     
-    // Reduce terrain detail for better performance
     map.setTerrain(null);
     
-    // Use a less intensive atmosphere
     map.setLight({
       intensity: 0.2,
       color: "#ffffff",
       anchor: "viewport"
     });
     
-    // Batch marker rendering for better performance
     setTimeout(() => renderTripMarkers(), 500);
   });
 
+  // Get coordinates for a country
   const geocodeCountry = async (country) => {
-    // Return from cache if available
     if (geocodeCache[country]) return geocodeCache[country];
     
     const url = `https://nominatim.openstreetmap.org/search?country=${encodeURIComponent(country)}&format=json&limit=1`;
@@ -326,15 +453,13 @@
     return null;
   };
 
-  // Use a more efficient marker rendering approach
+  // Render markers for each trip
   async function renderTripMarkers() {
-    // Create all markers in a single batch to avoid reflows
     const markers = [];
     const fragment = document.createDocumentFragment();
     
-    // Create all marker elements first without adding them to the map
     for (const trip of trips) {
-      if (!trip.image_path) continue; // Skip trips without images
+      if (!trip.image_path) continue;
       
       const locationName = trip.country_name || trip.location;
       const coords = await geocodeCountry(locationName);
@@ -347,7 +472,6 @@
         el.setAttribute('data-lng', coords[0]);
         el.setAttribute('data-lat', coords[1]);
         
-        // Use a lower resolution image or consider using a data URI
         el.style.backgroundImage = `url('${trip.image_path}')`;
         
         fragment.appendChild(el);
@@ -360,20 +484,18 @@
       }
     }
     
-    // Add markers to map in a single operation
+    // Add markers to map and setup popup on click
     markers.forEach(marker => {
       const mapMarker = new mapboxgl.Marker(marker.element)
         .setLngLat(marker.coords)
         .addTo(map);
       
-      // Use event delegation for better performance
       marker.element.addEventListener('click', () => {
-        // Create popup only when clicked
         const popup = new mapboxgl.Popup({ 
           offset: 25,
           closeButton: true,
-          closeOnClick: true, // Close on click outside for better performance
-          maxWidth: '180px' // Further reduce popup size
+          closeOnClick: true,
+          maxWidth: '180px'
         }).setHTML(`
           <div>${marker.title}</div>
           <div style="color: #38ef7d; font-size: 0.9rem; margin-top: 4px;">
@@ -384,18 +506,18 @@
         mapMarker.setPopup(popup);
         mapMarker.togglePopup();
         
-        // Optimize the fly animation
         map.flyTo({
           center: marker.coords,
           zoom: 4,
-          speed: 0.8, // Slightly slower for better performance
-          curve: 0.8, // Less aggressive curve
-          essential: true // Mark as essential for better performance
+          speed: 0.8,
+          curve: 0.8,
+          essential: true
         });
       });
     });
   }
 
+  // Setup country dropdown using Select2
   document.addEventListener("DOMContentLoaded", () => {
     const $select = $('#countrySelect');
     countries.forEach(c => {
@@ -417,7 +539,7 @@
       }
     });
 
-    // 🧭 Move map to selected country
+    // Fly to selected country
     $select.on('change', async function () {
       const selected = $(this).val();
       if (selected) {
